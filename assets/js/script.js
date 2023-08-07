@@ -67,6 +67,11 @@ logButton2.addEventListener("click", function() {
 
 //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
 
+//create module that pulls from user's initial starting point and creates driving route
+
+//pull in input for user's home address
+
+//pull in input for airport based on user's flight ingo
 
 
 // input field variables
@@ -90,11 +95,4 @@ inputArea.addEventListener("click", function(e){
     }
 
 })
-
-
-//create module that pulls from user's initial starting point and creates driving route
-
-//pull in input for user's home address
-
-//pull in input for airport based on user's flight ingo
 
