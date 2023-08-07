@@ -3,20 +3,25 @@
 }
 
 body {
+    background-image: url('../images/backgroundplaceholder.JPG');
     background-color: #eeeeee;
+    background-size: cover;
+    background-position: center;
 }
 
+/* used to hide elements */
 .hidden {
     display: none;
 }
 
-/* address and flight ID user input */
 #input-area {
     padding: 80px 0 0 80px;
 }
 
+/* address and flight ID user input */
 #input-area input {
     padding: 10px;
+    font-size: 2rem;
     margin: 20px;
     border-radius: 20px;
     border: 0;
@@ -26,12 +31,13 @@ body {
         inset -10px -10px 10px #0000002f;
     text-align: center;
     transition: var(--globalTransition);
-    background-color: #0000008c;
+    background-color: #00000050;
+    backdrop-filter: blur(3px);
 }
 
 #input-area input:focus {
     outline: 0;
-    background-color: aqua;
+    background-color: #ffffff50;
     scale: 110%;
 }
 
