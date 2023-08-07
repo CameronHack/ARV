@@ -1,8 +1,9 @@
 let flightDataArray = [];
 let drivingDataArray = [];
 let tempVar1 = document.querySelector('#temp-var-1');
-let tempVar2 = document.querySelector('#flight-info')
-let tempVar3 = document.querySelector('#flight-info-items');
+let tempVar2 = document.querySelector('#flight-number')
+let tempVar3 = document.querySelector('#flight-status')
+let tempVar4 = document.querySelector('#flight-info-items');
 
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
@@ -31,7 +32,26 @@ function fetchFlightData() {
             console.log(flightDataArray[0].response.arr_terminal)
             console.log(flightDataArray[0].response.arr_gate)
             console.log(flightDataArray[0].response.arr_time)
-            tempVar2.textContent = `${flightDataArray[0].response.airline_name}`
+            tempVar2.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
+            tempVar3.textContent = `Status: ${flightDataArray[0].response.status}`
+            let depLi = document.createElement('li')
+            depLi.textContent = `${flightDataArray[0].response.dep_iata}
+            ${flightDataArray[0].response.dep_city}
+            Terminal: ${flightDataArray[0].response.dep_terminal}
+            left from gate: ${flightDataArray[0].response.dep_gate}
+            at ${flightDataArray[0].response.dep_time}
+            `
+            let arrLi = document.createElement('li')
+            arrLi.textContent = `${flightDataArray[0].response.arr_iata}
+            ${flightDataArray[0].response.arr_city}
+            Terminal: ${flightDataArray[0].response.arr_terminal}
+            left from gate: ${flightDataArray[0].response.arr_gate}
+            at ${flightDataArray[0].response.arr_time}
+            `
+            tempVar4.appendChild(depLi)
+            tempVar4.appendChild(arrLi)
+
+
         })
         };
 
@@ -85,8 +105,6 @@ logButton2.addEventListener("click", function() {
 ///array for driving data
 
 //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
-
-
 
 // input field variables
 const inputArea = document.querySelector('#input-area');
