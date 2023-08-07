@@ -1,6 +1,8 @@
 let flightDataArray = [];
 let drivingDataArray = [];
-let tempVar1 = document.querySelector('#temp-var-1')
+let tempVar1 = document.querySelector('#temp-var-1');
+let tempVar2 = document.querySelector('#flight-info')
+let tempVar3 = document.querySelector('#flight-info-items');
 
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
@@ -29,6 +31,7 @@ function fetchFlightData() {
             console.log(flightDataArray[0].response.arr_terminal)
             console.log(flightDataArray[0].response.arr_gate)
             console.log(flightDataArray[0].response.arr_time)
+            tempVar2.textContent = `${flightDataArray[0].response.airline_name}`
         })
         };
 
