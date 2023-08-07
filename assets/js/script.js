@@ -42,6 +42,7 @@ function fetchDrivingData() {
         .then(function (drivingData) {
                 drivingDataArray = [drivingData];
                 localStorage.setItem("drivingDataArray", JSON.stringify(drivingDataArray));
+                renderDirections();
         })
         };
 
@@ -51,7 +52,7 @@ submitButton2.addEventListener("click", function() {
     fetchDrivingData();
     
     
-});
+})
 
 
 
@@ -71,7 +72,34 @@ logButton2.addEventListener("click", function() {
 
 //pull in input for user's home address
 
-//pull in input for airport based on user's flight ingo
+//pull in input for airport based on user's flight ICAO #
+
+
+function renderDirections() {
+    let directionsContainer = document.querySelector("#directions");
+    //create element
+    let drivingList = document.createElement("ol");     //ordered list needs styling with numbers
+    drivingList.className = "container-class"
+    //add text value
+    drivingList.value = 'test';
+    //append to page
+    directionsContainer.appendChild(drivingList); 
+    let test = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
+
+    for (let i = 0; i < test; i++) {
+        
+        //create element
+        let newListItem = document.createElement("li");
+        //add text value
+        newListItem.className = "list-class"
+        newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
+        //append to page
+        drivingList.appendChild(newListItem); 
+        
+    }
+}
+
+//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
 
 
 // input field variables
