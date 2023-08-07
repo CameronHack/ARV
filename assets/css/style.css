@@ -14,6 +14,15 @@ body {
     display: none;
 }
 
+header {
+    background-color: #292933;
+}
+
+header img {
+    display: block;
+    margin: 0 auto;
+}
+
 #input-area {
     display: flex;
     align-items: center;
@@ -33,7 +42,7 @@ body {
         inset -5px -5px 5px #0000000e;
     text-align: center;
     transition: var(--globalTransition);
-    background-color: #0000004b;
+    background-color: #00000044;
     backdrop-filter: blur(3px);
 }
 
