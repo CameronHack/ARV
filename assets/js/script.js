@@ -6,7 +6,7 @@ let drivingDataArray = [];
 //click any plain to be taken to the flight specific info and use the icao # in the parameter below. ICAO # is 3 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
 
 function fetchFlightData() {
-    fetch('https://airlabs.co/api/v9/flight?flight_icao=RPA3560&api_key=d8da3920-43a6-4206-b47b-26ea2c037a69') 
+    fetch('https://airlabs.co/api/v9/flight?flight_iata=SY1776&api_key=d8da3920-43a6-4206-b47b-26ea2c037a69') 
         .then(function (response) {
             return response.json();
         })
