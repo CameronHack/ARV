@@ -76,3 +76,17 @@ const flightIdInput = document.querySelector('#flight-id');
 let userAddress;
 let userFlightId;
 
+// input area event listener to grab address and flight id values
+inputArea.addEventListener("click", function(e){
+
+    if(e.target.matches("button")) {
+
+        console.log(yourAddressInput.value)
+        console.log(flightIdInput.value)
+
+        userAddress = yourAddressInput.value
+        userFlightId = flightIdInput.value
+
+    }
+
+})
