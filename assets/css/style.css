@@ -1,7 +1,37 @@
+
+
 body {
     background-color: #eeeeee;
 }
 
 .hidden {
     display: none;
+}
+
+/* address and flight ID user input */
+#input-area {
+    padding: 80px 0 0 80px;
+}
+
+#input-area input {
+    padding: 10px;
+    margin: 20px;
+    border-radius: 20px;
+    border: 0;
+    /* fake depth */
+    box-shadow: 
+        inset 10px 10px 10px #ffffff2f,
+        inset -10px -10px 10px #0000002f;
+    text-align: center;
+    transition: 100ms ease-out;
+    background-color: #0000008c;
+}
+
+#input-area input:focus {
+    outline: 0;
+    background-color: aqua;
+    scale: 110%;
+}
+
+#input-area input:hover {
 }
