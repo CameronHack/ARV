@@ -66,23 +66,6 @@ logButton2.addEventListener("click", function() {
 ///array for driving data
 
 
-drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
-for (let i = 0; i < drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length; i++) {
-    
-    //create element
-    let newDiv = document.createElement("div");
-    //add text value
-    newDiv.value = 'test';
-    //append to page
-    classCardBody.appendChild(iconFiveDay[i]); 
-    
-
-
-    
-}
-
-//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
-
 
 
 // input field variables
