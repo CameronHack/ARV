@@ -35,18 +35,24 @@ function fetchFlightData() {
             tempVar2.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
             tempVar3.textContent = `Status: ${flightDataArray[0].response.status}`
             let depLi = document.createElement('li')
-            depLi.textContent = `${flightDataArray[0].response.dep_iata}
-            ${flightDataArray[0].response.dep_city}
-            Terminal: ${flightDataArray[0].response.dep_terminal}
-            left from gate: ${flightDataArray[0].response.dep_gate}
-            at ${flightDataArray[0].response.dep_time}
+            if (flightDataArray[0].response.dep_terminal === null) {
+                flightDataArray[0].response.dep_terminal = 'Not available'
+            }
+            depLi.innerHTML = `${flightDataArray[0].response.dep_iata} <br>
+            ${flightDataArray[0].response.dep_city} <br>
+            Terminal: ${flightDataArray[0].response.dep_terminal} <br>
+            left from gate: ${flightDataArray[0].response.dep_gate} <br>
+            at ${moment(flightDataArray[0].response.dep_time).format('hh:mma')}
             `
             let arrLi = document.createElement('li')
-            arrLi.textContent = `${flightDataArray[0].response.arr_iata}
-            ${flightDataArray[0].response.arr_city}
-            Terminal: ${flightDataArray[0].response.arr_terminal}
-            left from gate: ${flightDataArray[0].response.arr_gate}
-            at ${flightDataArray[0].response.arr_time}
+            if (flightDataArray[0].response.arr_terminal === null) {
+                flightDataArray[0].response.arr_terminal = 'Not available'
+            }
+            arrLi.innerHTML = `${flightDataArray[0].response.arr_iata}<br>
+            ${flightDataArray[0].response.arr_city}<br>
+            Terminal: ${flightDataArray[0].response.arr_terminal}<br>
+            arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
+            at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
             `
             tempVar4.appendChild(depLi)
             tempVar4.appendChild(arrLi)
