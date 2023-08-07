@@ -12,6 +12,7 @@ function fetchFlightData() {
         })
         .then(function (flightData) {
                 flightDataArray = [flightData];
+                localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
         })
         };
 
@@ -22,16 +23,25 @@ submitButton.addEventListener("click", function() {
 });
 
 
+
+let logButton = document.querySelector("#log-button");
+logButton.addEventListener("click", function() {
+    let loggedData = JSON.parse(localStorage.getItem("flightDataArray"))
+    console.log(loggedData);
+});
+
+
 //you can enter 2 locations under the wp.0 and wp.1 parameters below. Acceptable location type are available at: 
 //https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/location-and-area-types
 
 function fetchDrivingData() {
-    fetch('http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=Bothell,WA&optmz=timeWithTraffic&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2') 
+    fetch('http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=1407_Edgewood_Ave,Roslyn,PA19001&optmz=timeWithTraffic&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2') 
         .then(function (response) {
             return response.json();
         })
         .then(function (drivingData) {
                 drivingDataArray = [drivingData];
+                localStorage.setItem("drivingDataArray", JSON.stringify(drivingDataArray));
         })
         };
 
@@ -39,4 +49,20 @@ function fetchDrivingData() {
 let submitButton2 = document.querySelector("#submit-button-two");
 submitButton2.addEventListener("click", function() {
     fetchDrivingData();
+    
+    
 });
+
+
+
+let logButton2 = document.querySelector("#log-button-two");
+logButton2.addEventListener("click", function() {
+    let loggedData2 = JSON.parse(localStorage.getItem("drivingDataArray"))
+    console.log(loggedData2);
+});
+
+
+
+///array for driving data
+
+//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
