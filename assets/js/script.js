@@ -66,3 +66,13 @@ logButton2.addEventListener("click", function() {
 ///array for driving data
 
 //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
+
+
+
+// input field variables
+const inputArea = document.querySelector('#input-area');
+const yourAddressInput = document.querySelector('#your-address');
+const flightIdInput = document.querySelector('#flight-id');
+let userAddress;
+let userFlightId;
+
