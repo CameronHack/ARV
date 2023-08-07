@@ -67,6 +67,31 @@ logButton2.addEventListener("click", function() {
 
 //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
 
+
+
+// input field variables
+const inputArea = document.querySelector('#input-area');
+const yourAddressInput = document.querySelector('#your-address');
+const flightIdInput = document.querySelector('#flight-id');
+let userAddress;
+let userFlightId;
+
+// input area event listener to grab address and flight id values
+inputArea.addEventListener("click", function(e){
+
+    if(e.target.matches("button")) {
+
+        console.log(yourAddressInput.value)
+        console.log(flightIdInput.value)
+
+        userAddress = yourAddressInput.value
+        userFlightId = flightIdInput.value
+
+    }
+
+})
+
+
 //create module that pulls from user's initial starting point and creates driving route
 
 //pull in input for user's home address
