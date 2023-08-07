@@ -36,7 +36,16 @@
 
     <section id="input-area">
         <input type="text" placeholder="your address" id="your-address">
-        <input type="text" placeholder="ex. aa1234" id="flight-id">
+
+        <div class="dropdown">
+            <input type="text" placeholder="ex. aa1234" id="flight-id" data-bs-toggle="dropdown" aria-expanded="false">
+            <ul class="dropdown-menu" aria-labelledby="flight-id">
+                <li class="dropdown-item">Placeholder 1</li>
+                <li class="dropdown-item">Placeholder 2</li>
+                <li class="dropdown-item">Placeholder 3</li>
+            </ul>
+        </div>
+
         <button id="Search">Search</button>
     </section>
 
