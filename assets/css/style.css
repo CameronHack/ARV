@@ -1,4 +1,6 @@
-
+:root {
+    --globalTransition: 100ms ease-out;
+}
 
 body {
     background-color: #eeeeee;
@@ -23,7 +25,7 @@ body {
         inset 10px 10px 10px #ffffff2f,
         inset -10px -10px 10px #0000002f;
     text-align: center;
-    transition: 100ms ease-out;
+    transition: var(--globalTransition);
     background-color: #0000008c;
 }
 
