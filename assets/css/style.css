@@ -31,13 +31,14 @@ body {
         inset -5px -5px 5px #0000000e;
     text-align: center;
     transition: var(--globalTransition);
-    background-color: #00000050;
-    backdrop-filter: blur(3px) grayscale();
+    background-color: #0000001a;
+    backdrop-filter: blur(5px);
 }
 
 #input-area input:focus {
+    border-radius: 20px;
     outline: 0;
-    background-color: #ffffff50;
+    background-color: #ffffff1a;
     scale: 110%;
 }
 
