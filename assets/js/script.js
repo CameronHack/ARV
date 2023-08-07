@@ -57,7 +57,7 @@ submitButton2.addEventListener("click", function() {
 
 let logButton2 = document.querySelector("#log-button-two");
 logButton2.addEventListener("click", function() {
-    let loggedData2 = JSON.parse(localStorage.getItem("drivingDataArray"))
+    let loggedData2 = JSON.parse(localStorage.getItem("drivingDataArray"));
     console.log(loggedData2);
 });
 
@@ -65,4 +65,17 @@ logButton2.addEventListener("click", function() {
 
 ///array for driving data
 
-//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
+drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
+for (let i = 0; i < drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length; i++) {
+    
+    //create element
+    let newDiv = document.createElement("div");
+    //add text value
+    newDiv.value = 'test';
+    //append to page
+    classCardBody.appendChild(iconFiveDay[i]); 
+    
+
+
+    
+}
