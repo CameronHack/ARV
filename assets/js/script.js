@@ -65,6 +65,7 @@ logButton2.addEventListener("click", function() {
 
 ///array for driving data
 
+
 drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
 for (let i = 0; i < drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length; i++) {
     
@@ -79,3 +80,30 @@ for (let i = 0; i < drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0
 
     
 }
+
+//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
+
+
+
+// input field variables
+const inputArea = document.querySelector('#input-area');
+const yourAddressInput = document.querySelector('#your-address');
+const flightIdInput = document.querySelector('#flight-id');
+let userAddress;
+let userFlightId;
+
+// input area event listener to grab address and flight id values
+inputArea.addEventListener("click", function(e){
+
+    if(e.target.matches("button")) {
+
+        console.log(yourAddressInput.value)
+        console.log(flightIdInput.value)
+
+        userAddress = yourAddressInput.value
+        userFlightId = flightIdInput.value
+
+    }
+
+})
+
