@@ -190,7 +190,7 @@ function renderDirections() {
     let newHideButton = document.createElement("p");
     newHideButton.textContent = "Click Here to Expand";
     drivingList.appendChild(newHideButton); 
-    
+
 
     for (let i = 3; i < drivingArrayLength; i++) {
         
