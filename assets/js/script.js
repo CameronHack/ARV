@@ -10,8 +10,27 @@ let yourAddressInput = document.querySelector('#your-address');
 let flightIdInput = document.querySelector('#flight-id');
 let userAddress;
 let userFlightId;
-
+let arrivalAirport = '';
 let drivingOptions = '';
+let drivingArrayLength = '';
+
+
+
+// input field variables
+
+// input area event listener to grab address and flight id values
+inputArea.addEventListener("click", function(e){
+
+    if(e.target.matches("button")) {
+
+        userAddress = yourAddressInput.value;
+        userFlightId = flightIdInput.value;
+
+        fetchFlightData();
+    }
+
+})
+
 
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
@@ -28,20 +47,21 @@ function fetchFlightData() {
                 flightDataArray = [flightData];
 
                 localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
-                console.log(flightDataArray)
-                console.log(flightDataArray[0].response.airline_name)
-            console.log(flightDataArray[0].response.flight_iata)
-            console.log(flightDataArray[0].response.status)
-            console.log(flightDataArray[0].response.dep_name)
-            console.log(flightDataArray[0].response.dep_iata)
-            console.log(flightDataArray[0].response.dep_terminal)
-            console.log(flightDataArray[0].response.dep_gate)
-            console.log(flightDataArray[0].response.dep_time)
-            console.log(flightDataArray[0].response.arr_name)
-            console.log(flightDataArray[0].response.arr_iata)
-            console.log(flightDataArray[0].response.arr_terminal)
-            console.log(flightDataArray[0].response.arr_gate)
-            console.log(flightDataArray[0].response.arr_time)
+            //     console.log(flightDataArray)
+            //     console.log(flightDataArray[0].response.airline_name)
+            // console.log(flightDataArray[0].response.flight_iata)
+            // console.log(flightDataArray[0].response.status)
+            // console.log(flightDataArray[0].response.dep_city)
+            // console.log(flightDataArray[0].response.dep_iata)
+            // console.log(flightDataArray[0].response.dep_terminal)
+            // console.log(flightDataArray[0].response.dep_gate)
+            // console.log(flightDataArray[0].response.dep_time)
+            // console.log(flightDataArray[0].response.arr_city)
+            // console.log(flightDataArray[0].response.arr_iata)
+            // console.log(flightDataArray[0].response.arr_terminal)
+            // console.log(flightDataArray[0].response.arr_gate)
+            // console.log(flightDataArray[0].response.arr_time)
+            arrivalAirport = flightDataArray[0].response.arr_name;
             flightNumber.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
             flightStatus.textContent = `Status: ${flightDataArray[0].response.status}`
             let depLi = document.createElement('li')
@@ -78,6 +98,25 @@ function fetchFlightData() {
             mapImg.setAttribute('src', mapImageUrl)
 
 
+    
+            let drivingListObjs = document.getElementsByClassName("list-class");
+            let drivingListContainer = document.querySelector("#list-container");
+            console.log(drivingListContainer);
+            if (drivingListObjs.length > 0) {
+                drivingListContainer.remove();
+                for (let i = 0; i < drivingListObjs.length; i++) {
+                    drivingListObjs[i].remove();
+                }
+            }
+            
+            fetch(`http://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (drivingData) {
+                drivingDataArray = [drivingData];
+                renderDirections();
+            })
 
         })
         };
@@ -93,27 +132,7 @@ submitButton.addEventListener("click", function() {
 //you can enter 2 locations under the wp.0 and wp.1 parameters below. Acceptable location type are available at: 
 //https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/location-and-area-types
 
-function fetchDrivingData() {
-    let drivingListObjs = document.getElementsByClassName("list-class");
-    
-    if (drivingListObjs.length > 0) {
-        drivingListObjs[0].parentElement().remove();
-        for (let i = 0; i < drivingListObjs.length; i++) {
-            drivingListObjs[i].remove();
-        }
-    }
 
-
-
-    fetch('http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=OceanCity,MD&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2' + drivingOptions) 
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (drivingData) {
-                drivingDataArray = [drivingData];
-                renderDirections();
-        })
-        };
 
         
 let submitButton2 = document.querySelector("#submit-button-two");
@@ -134,7 +153,7 @@ drivingOptionsListener = addEventListener("change", function() {
         drivingOptions = '';
     }
     if (document.getElementsByClassName("list-class").length != 0) {
-        fetchDrivingData(); 
+        fetchFlightData(); 
     }
 } );
 
@@ -149,14 +168,15 @@ function renderDirections() {
     let directionsContainer = document.querySelector(".driving-directions");
     //create element
     let drivingList = document.createElement("ol");     //ordered list needs styling with numbers
-    drivingList.className = "container-class"
+    drivingList.className = "container-class";
+    drivingList.id = "list-container";
     //add text value
     drivingList.value = 'test';
     //append to page
     directionsContainer.appendChild(drivingList); 
-    let test = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
+    let drivingArrayLength = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
 
-    for (let i = 0; i < test; i++) {
+    for (let i = 0; i < drivingArrayLength; i++) {
         
         //create element
         let newListItem = document.createElement("li");
@@ -177,7 +197,7 @@ function renderDirections() {
 
     //calculate the amount of time it takes to drive to airport
     let drivingSeconds = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].travelDuration
-    let drivingHours = Math.round(drivingSeconds / 3600);
+    let drivingHours = Math.floor(drivingSeconds / 3600);
     let drivingMinutes = Math.round(drivingSeconds - drivingHours * 3600);
     drivingMinutes = Math.round(drivingMinutes / 60);
 
@@ -194,23 +214,4 @@ function renderDirections() {
 }
 
 
-
-// input field variables
-
-// input area event listener to grab address and flight id values
-inputArea.addEventListener("click", function(e){
-
-    if(e.target.matches("button")) {
-
-        console.log(yourAddressInput.value)
-        console.log(flightIdInput.value)
-
-        userAddress = yourAddressInput.value
-        userFlightId = flightIdInput.value
-
-        fetchFlightData()
-
-    }
-
-})
 
