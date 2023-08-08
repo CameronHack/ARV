@@ -27,6 +27,6 @@
   }
 
   ol, ul {
-    list-style: none;
+    /* list-style: none;  */ /*prevents numbers from appearing on driving directions*/
   }
   
