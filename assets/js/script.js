@@ -92,8 +92,13 @@ function fetchFlightData() {
             arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
             at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
             `
+
+            // let driverDepLi = document.createElement('li')
+            // driverDepLi.innerHTML = `Leave at: ${moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()-(10*60)-drivingSeconds}`
+
             flightInfo.appendChild(depLi)
             flightInfo.appendChild(arrLi)
+            // flightInfo.appendChild(driverDepLi)
 
             let mapImageUrl = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wp.0=${userAddress}&wp.1=${flightDataArray[0].response.arr_name}&key=AgNEk5oYYzQYl6k6bvwoGLzdqkug8ktcmPJ-7bd6iL91pXD4jYGm7Ai0omus7BET`;
             console.log(mapImageUrl)
@@ -124,10 +129,10 @@ function fetchFlightData() {
         };
     
         
-let submitButton = document.querySelector("#submit-button");
-submitButton.addEventListener("click", function() {
-    fetchFlightData();
-});
+// let submitButton = document.querySelector("#submit-button");
+// submitButton.addEventListener("click", function() {
+//     fetchFlightData();
+// });
 
 
 
@@ -137,10 +142,10 @@ submitButton.addEventListener("click", function() {
 
 
         
-let submitButton2 = document.querySelector("#submit-button-two");
-submitButton2.addEventListener("click", function() {
-    fetchDrivingData();
-});
+// let submitButton2 = document.querySelector("#submit-button-two");
+// submitButton2.addEventListener("click", function() {
+//     fetchDrivingData();
+// });
 
 
 drivingOptionsListener = addEventListener("change", function() {
@@ -202,6 +207,12 @@ function renderDirections() {
     let drivingHours = Math.floor(drivingSeconds / 3600);
     let drivingMinutes = Math.round(drivingSeconds - drivingHours * 3600);
     drivingMinutes = Math.round(drivingMinutes / 60);
+    
+    let driverDepLi = document.createElement('li')         
+    driverDepLi.innerHTML = `Leave at: ${moment((moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()+(10*60)-drivingSeconds)*1000).format('hh:mma')} <br>
+            Total driving time: ${drivingHours} hours, ${drivingMinutes} minutes <br>
+            Arriving at ${moment((moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()+(10*60))*1000).format('hh:mma')} (~10 minutes after flight lands)`              
+    flightInfo.appendChild(driverDepLi)
 
     //display time spent driving
     let drivingDuration = document.createElement("p");
