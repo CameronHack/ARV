@@ -16,21 +16,6 @@ let drivingArrayLength = '';
 
 
 
-// input field variables
-
-// input area event listener to grab address and flight id values
-inputArea.addEventListener("click", function(e){
-
-    if(e.target.matches("button")) {
-
-        userAddress = yourAddressInput.value;
-        userFlightId = flightIdInput.value;
-
-        fetchFlightData();
-    }
-
-})
-
 
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
@@ -182,9 +167,9 @@ function renderDirections() {
         newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
         newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
         //append to page
-        if ((drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined)) {
+        if (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined) {
             let newHintItem = document.createElement("p");
-            newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
+            // newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
             newSubheading.appendChild(newHintItem);
         };
         newListItem.appendChild(newSubheading); 
@@ -197,33 +182,31 @@ function renderDirections() {
     drivingList.appendChild(newHideButton); 
 
 
-    for (let i = 3; i < drivingArrayLength; i++) {
-        
-        //create element
-        let newListItem = document.createElement("li");
-        let newSubheading = document.createElement("div");
-        //add text value
-        newListItem.className = "list-class hidden-text"
-        newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
-        newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
-        //append to page
-        if ((drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined)) {
-            let newHintItem = document.createElement("p");
-            newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
-            newSubheading.appendChild(newHintItem);
-        };
-        newListItem.appendChild(newSubheading); 
-        drivingList.appendChild(newListItem); 
+    
 
-        newHideButton.addEventListener("click", function() {
-            let unhideText = document.getElementsByClassName("hidden-text")
-            for (let i = 0; i < unhideText.length; i++) {
-                unhideText[i].style.visibility = "visible";
-            }
-            newHideButton.remove();
+    newHideButton.addEventListener("click", function() {
+
+
+        newHideButton.remove();
+        for (let i = 3; i < drivingArrayLength; i++) {
         
-        });
-    }
+            //create element
+            let newListItem = document.createElement("li");
+            let newSubheading = document.createElement("div");
+            //add text value
+            newListItem.className = "list-class hidden-text"
+            newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
+            newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
+            //append to page
+            if ((drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined)) {
+                let newHintItem = document.createElement("p");
+                // newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
+                newSubheading.appendChild(newHintItem);
+            };
+            newListItem.appendChild(newSubheading); 
+            drivingList.appendChild(newListItem); 
+        }
+    });
 
     //calculate the amount of time it takes to drive to airport
     let drivingSeconds = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].travelDuration
@@ -237,7 +220,7 @@ function renderDirections() {
             Arriving at ${moment((moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()+(10*60))*1000).format('hh:mma')} (~10 minutes after flight lands)`              
     flightInfo.appendChild(driverDepLi)
 
-    //display time spent driving
+    // display time spent driving
     let drivingDuration = document.createElement("p");
     drivingDuration.textContent = "Total Driving Time: " + drivingHours + " hours, " + drivingMinutes + " minutes"
     directionsContainer.appendChild(drivingDuration);
