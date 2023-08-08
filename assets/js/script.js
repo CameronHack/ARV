@@ -12,6 +12,28 @@ let userFlightId;
 
 let drivingOptions = '';
 
+
+
+// input field variables
+
+// input area event listener to grab address and flight id values
+inputArea.addEventListener("click", function(e){
+
+    if(e.target.matches("button")) {
+
+        console.log(yourAddressInput.value)
+        console.log(flightIdInput.value)
+
+        userAddress = yourAddressInput.value
+        userFlightId = flightIdInput.value
+
+        fetchFlightData()
+
+    }
+
+})
+
+
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
 //click any plane to be taken to the flight specific info and use the icao # in the parameter below. IATA # is 2 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
@@ -27,20 +49,20 @@ function fetchFlightData() {
                 flightDataArray = [flightData];
 
                 localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
-                console.log(flightDataArray)
-                console.log(flightDataArray[0].response.airline_name)
-            console.log(flightDataArray[0].response.flight_iata)
-            console.log(flightDataArray[0].response.status)
-            console.log(flightDataArray[0].response.dep_city)
-            console.log(flightDataArray[0].response.dep_iata)
-            console.log(flightDataArray[0].response.dep_terminal)
-            console.log(flightDataArray[0].response.dep_gate)
-            console.log(flightDataArray[0].response.dep_time)
-            console.log(flightDataArray[0].response.arr_city)
-            console.log(flightDataArray[0].response.arr_iata)
-            console.log(flightDataArray[0].response.arr_terminal)
-            console.log(flightDataArray[0].response.arr_gate)
-            console.log(flightDataArray[0].response.arr_time)
+            //     console.log(flightDataArray)
+            //     console.log(flightDataArray[0].response.airline_name)
+            // console.log(flightDataArray[0].response.flight_iata)
+            // console.log(flightDataArray[0].response.status)
+            // console.log(flightDataArray[0].response.dep_city)
+            // console.log(flightDataArray[0].response.dep_iata)
+            // console.log(flightDataArray[0].response.dep_terminal)
+            // console.log(flightDataArray[0].response.dep_gate)
+            // console.log(flightDataArray[0].response.dep_time)
+            // console.log(flightDataArray[0].response.arr_city)
+            // console.log(flightDataArray[0].response.arr_iata)
+            // console.log(flightDataArray[0].response.arr_terminal)
+            // console.log(flightDataArray[0].response.arr_gate)
+            // console.log(flightDataArray[0].response.arr_time)
             flightNumber.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
             flightStatus.textContent = `Status: ${flightDataArray[0].response.status}`
             let depLi = document.createElement('li')
@@ -97,10 +119,8 @@ function fetchDrivingData() {
             drivingListObjs[i].remove();
         }
     }
-
-
-
-    fetch('http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=OceanCity,MD&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2' + drivingOptions) 
+    let arrivalAirport = flightDataArray[0].response.arr_city;
+    fetch(`http://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
         .then(function (response) {
             return response.json();
         })
@@ -172,7 +192,7 @@ function renderDirections() {
 
     //calculate the amount of time it takes to drive to airport
     let drivingSeconds = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].travelDuration
-    let drivingHours = Math.round(drivingSeconds / 3600);
+    let drivingHours = Math.floor(drivingSeconds / 3600);
     let drivingMinutes = Math.round(drivingSeconds - drivingHours * 3600);
     drivingMinutes = Math.round(drivingMinutes / 60);
 
@@ -189,23 +209,4 @@ function renderDirections() {
 }
 
 
-
-// input field variables
-
-// input area event listener to grab address and flight id values
-inputArea.addEventListener("click", function(e){
-
-    if(e.target.matches("button")) {
-
-        console.log(yourAddressInput.value)
-        console.log(flightIdInput.value)
-
-        userAddress = yourAddressInput.value
-        userFlightId = flightIdInput.value
-
-        fetchFlightData()
-
-    }
-
-})
 
