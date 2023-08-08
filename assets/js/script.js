@@ -1,10 +1,9 @@
 let flightDataArray = [];
 let drivingDataArray = [];
-let tempVar1 = document.querySelector('#temp-var-1');
 let flightNumber = document.querySelector('#flight-number')
 let flightStatus = document.querySelector('#flight-status')
 let flightInfo = document.querySelector('#flight-info-items');
-let inputArea = document.querySelector('#input-area');
+const inputArea = document.querySelector('#input-area');
 let yourAddressInput = document.querySelector('#your-address');
 let flightIdInput = document.querySelector('#flight-id');
 let userAddress;
@@ -76,11 +75,7 @@ function fetchFlightData() {
         })
         };
 
-        
-let submitButton = document.querySelector("#submit-button");
-submitButton.addEventListener("click", function() {
-    fetchFlightData();
-});
+
 
 
 
@@ -108,12 +103,6 @@ function fetchDrivingData() {
                 renderDirections();
         })
         };
-
-        
-let submitButton2 = document.querySelector("#submit-button-two");
-submitButton2.addEventListener("click", function() {
-    fetchDrivingData();
-});
 
 
 drivingOptionsListener = addEventListener("change", function() {
@@ -214,19 +203,20 @@ inputArea.addEventListener("click", function(e){
 let previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || []
 let previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || []
 const flightIdDropdown = document.querySelector('#flight-id-dropdown')
+const yourAddressDropdown = document.querySelector('#your-address-dropdown')
 
 function inputToLocal() {
 
     console.log('USER ADDRESS: ' + userAddress)
     console.log('USER FLIGHT ID: ' + userFlightId)
     
-    if (previousUserFlightId.every(e => e !== userFlightId)){
+    if (previousUserFlightId.every(e => e !== userFlightId) && userFlightId !== ''){
         previousUserFlightId.push(userFlightId)
         localStorage.setItem('previousUserFlightId', JSON.stringify(previousUserFlightId))
         updatePreviousSearch()
     };
 
-    if (previousUserAddress.every(e => e !== userAddress)){
+    if (previousUserAddress.every(e => e !== userAddress) && userAddress !== ''){
         previousUserAddress.push(userAddress)
         localStorage.setItem('previousUserAddress', JSON.stringify(previousUserAddress))
         updatePreviousSearch()
@@ -236,6 +226,19 @@ function inputToLocal() {
 updatePreviousSearch()
 
 function updatePreviousSearch() {
+
+    yourAddressDropdown.innerHTML = '';
+
+    for (let i = 0; i < previousUserAddress.length; i++) {
+    
+        const previousSearchLi = document.createElement('li')
+    
+        previousSearchLi.textContent = previousUserAddress[i]
+        previousSearchLi.setAttribute('class', "dropdown-item")
+    
+        yourAddressDropdown.append(previousSearchLi)
+    
+    }
 
     flightIdDropdown.innerHTML = '';
 
@@ -248,16 +251,6 @@ function updatePreviousSearch() {
     
         flightIdDropdown.append(previousSearchLi)
     
-    };
+    }
 
-    // for (let i = 0; i < previousUserFlightId.length; i++) {
-    
-    //     const previousSearchLi = document.createElement('li')
-    
-    //     previousSearchLi.textContent = previousUserFlightId[i]
-    //     previousSearchLi.setAttribute('class', "dropdown-item")
-    
-    //     flightIdDropdown.append(previousSearchLi)
-    
-    // };
 }
