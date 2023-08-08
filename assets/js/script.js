@@ -73,7 +73,7 @@ function fetchFlightData() {
             flightInfo.appendChild(depLi)
             flightInfo.appendChild(arrLi)
 
-            let mapImageUrl = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wp.0=1%20Microsoft%20Way%20Redmond,%20WA&wp.1=${flightDataArray[0].response.arr_name}&key=AgNEk5oYYzQYl6k6bvwoGLzdqkug8ktcmPJ-7bd6iL91pXD4jYGm7Ai0omus7BET`;
+            let mapImageUrl = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wp.0=${userAddress}&wp.1=${flightDataArray[0].response.arr_name}&key=AgNEk5oYYzQYl6k6bvwoGLzdqkug8ktcmPJ-7bd6iL91pXD4jYGm7Ai0omus7BET`;
             console.log(mapImageUrl)
             mapImg.setAttribute('src', mapImageUrl)
 
