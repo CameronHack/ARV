@@ -121,11 +121,7 @@ function fetchFlightData() {
         })
         };
     
-        
-let submitButton = document.querySelector("#submit-button");
-submitButton.addEventListener("click", function() {
-    fetchFlightData();
-});
+
 
 
 
@@ -134,11 +130,7 @@ submitButton.addEventListener("click", function() {
 
 
 
-        
-let submitButton2 = document.querySelector("#submit-button-two");
-submitButton2.addEventListener("click", function() {
-    fetchDrivingData();
-});
+
 
 
 drivingOptionsListener = addEventListener("change", function() {
@@ -176,13 +168,38 @@ function renderDirections() {
     directionsContainer.appendChild(drivingList); 
     let drivingArrayLength = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
 
-    for (let i = 0; i < drivingArrayLength; i++) {
+    for (let i = 0; i < 3; i++) {
         
         //create element
         let newListItem = document.createElement("li");
         let newSubheading = document.createElement("div");
         //add text value
         newListItem.className = "list-class"
+        newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
+        newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
+        //append to page
+        if ((drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined)) {
+            let newHintItem = document.createElement("p");
+            newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
+            newSubheading.appendChild(newHintItem);
+        };
+        newListItem.appendChild(newSubheading); 
+        drivingList.appendChild(newListItem); 
+    }
+
+    let newHideButton = document.createElement("p");
+    newHideButton.textContent = "Click Here to Expand";
+    drivingList.appendChild(newHideButton); 
+    
+
+    for (let i = 3; i < drivingArrayLength; i++) {
+        
+        //create element
+        let newListItem = document.createElement("li");
+        let newSubheading = document.createElement("div");
+        //add text value
+        newListItem.className = "list-class"
+        newListItem.id = "hidden-text";
         newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
         newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
         //append to page
@@ -215,3 +232,4 @@ function renderDirections() {
 
 
 
+//click on link to set css visibility
