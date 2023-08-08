@@ -26,15 +26,11 @@
     </header>
 
     <section id="input-area">
-        <input type="text" placeholder="your address" id="your-address">
+        <input type="text" placeholder="Address" id="your-address">
 
-        <div class="dropdown dropend">
-            <input type="text" placeholder="ex. aa1234" id="flight-id" data-bs-toggle="dropdown" aria-expanded="false">
-            <ul class="dropdown-menu">
-                <li class="dropdown-item">Placeholder 1</li>
-                <li class="dropdown-item">Placeholder 2</li>
-                <li class="dropdown-item">Placeholder 3</li>
-            </ul>
+        <div class="dropdown">
+            <input type="text" placeholder="Flight ID ex. aa1234" id="flight-id" data-bs-toggle="dropdown" aria-expanded="false">
+            <ul id="flight-id-dropdown" class="dropdown-menu"></ul>
         </div>
 
         <button id="Search">Search</button>
@@ -65,10 +61,10 @@
 
     </section>
 
+    <!-- dynamic map background -->
     <div style="position: absolute; z-index: -1; top: 0;">
-        <div class="filter"></div>
-        <img id="" src="./assets/images/backgroundplaceholder.JPG" alt="">
-
+        <div class="bg-filter"></div>
+        <div id="bg-img" style="background-image: url('./assets/images/backgroundplaceholder.JPG');"></div>
     </div>
 
 

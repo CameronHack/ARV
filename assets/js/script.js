@@ -46,6 +46,7 @@ function fetchFlightData() {
         .then(function (flightData) {
                 flightDataArray = [flightData];
 
+
                 localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
             //     console.log(flightDataArray)
             //     console.log(flightDataArray[0].response.airline_name)
@@ -62,6 +63,7 @@ function fetchFlightData() {
             // console.log(flightDataArray[0].response.arr_gate)
             // console.log(flightDataArray[0].response.arr_time)
             arrivalAirport = flightDataArray[0].response.arr_name;
+
             flightNumber.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
             flightStatus.textContent = `Status: ${flightDataArray[0].response.status}`
             let depLi = document.createElement('li')
@@ -90,8 +92,13 @@ function fetchFlightData() {
             arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
             at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
             `
+
+            // let driverDepLi = document.createElement('li')
+            // driverDepLi.innerHTML = `Leave at: ${moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()-(10*60)-drivingSeconds}`
+
             flightInfo.appendChild(depLi)
             flightInfo.appendChild(arrLi)
+            // flightInfo.appendChild(driverDepLi)
 
             let mapImageUrl = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wp.0=${userAddress}&wp.1=${flightDataArray[0].response.arr_name}&key=AgNEk5oYYzQYl6k6bvwoGLzdqkug8ktcmPJ-7bd6iL91pXD4jYGm7Ai0omus7BET`;
             console.log(mapImageUrl)
@@ -119,14 +126,12 @@ function fetchFlightData() {
 
         })
         };
-    
 
 
 
 
 //you can enter 2 locations under the wp.0 and wp.1 parameters below. Acceptable location type are available at: 
 //https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/location-and-area-types
-
 
 
 
@@ -225,6 +230,12 @@ function renderDirections() {
     let drivingHours = Math.floor(drivingSeconds / 3600);
     let drivingMinutes = Math.round(drivingSeconds - drivingHours * 3600);
     drivingMinutes = Math.round(drivingMinutes / 60);
+    
+    let driverDepLi = document.createElement('li')         
+    driverDepLi.innerHTML = `Leave at: ${moment((moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()+(10*60)-drivingSeconds)*1000).format('hh:mma')} <br>
+            Total driving time: ${drivingHours} hours, ${drivingMinutes} minutes <br>
+            Arriving at ${moment((moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()+(10*60))*1000).format('hh:mma')} (~10 minutes after flight lands)`              
+    flightInfo.appendChild(driverDepLi)
 
     //display time spent driving
     let drivingDuration = document.createElement("p");
@@ -241,4 +252,79 @@ function renderDirections() {
 
 
 
+
 //click on link to set css visibility
+
+// input field variables
+
+// input area event listener to grab address and flight id values
+inputArea.addEventListener("click", function(e){
+
+    if(e.target.matches("button")) {
+
+        console.log(yourAddressInput.value)
+        console.log(flightIdInput.value)
+
+        userAddress = yourAddressInput.value
+        userFlightId = flightIdInput.value
+
+        fetchFlightData()
+
+        inputToLocal()
+        
+    }
+    
+})
+
+
+let previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || []
+let previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || []
+const flightIdDropdown = document.querySelector('#flight-id-dropdown')
+
+function inputToLocal() {
+
+    console.log('USER ADDRESS: ' + userAddress)
+    console.log('USER FLIGHT ID: ' + userFlightId)
+    
+    if (previousUserFlightId.every(e => e !== userFlightId)){
+        previousUserFlightId.push(userFlightId)
+        localStorage.setItem('previousUserFlightId', JSON.stringify(previousUserFlightId))
+        updatePreviousSearch()
+    };
+
+    if (previousUserAddress.every(e => e !== userAddress)){
+        previousUserAddress.push(userAddress)
+        localStorage.setItem('previousUserAddress', JSON.stringify(previousUserAddress))
+        updatePreviousSearch()
+    };
+}
+
+updatePreviousSearch()
+
+function updatePreviousSearch() {
+
+    flightIdDropdown.innerHTML = '';
+
+    for (let i = 0; i < previousUserFlightId.length; i++) {
+    
+        const previousSearchLi = document.createElement('li')
+    
+        previousSearchLi.textContent = previousUserFlightId[i]
+        previousSearchLi.setAttribute('class', "dropdown-item")
+    
+        flightIdDropdown.append(previousSearchLi)
+    
+    };
+
+    // for (let i = 0; i < previousUserFlightId.length; i++) {
+    
+    //     const previousSearchLi = document.createElement('li')
+    
+    //     previousSearchLi.textContent = previousUserFlightId[i]
+    //     previousSearchLi.setAttribute('class', "dropdown-item")
+    
+    //     flightIdDropdown.append(previousSearchLi)
+    
+    // };
+}
+
