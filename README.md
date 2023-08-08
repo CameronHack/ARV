@@ -1,4 +1,4 @@
-# <Your-Project-Title>
+# ARV - Know Exactly When to Pick Up Your Loved Ones
 
 ## Description
 
@@ -8,6 +8,8 @@ Provide a short description explaining the what, why, and how of your project. U
 - Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
 - What problem does it solve?
 - What did you learn?
+
+Have you ever struggled to figure out when to leave your house to pick up someone from the airport? We certainly have, and that is why we created ARV, a web application that tells you the exact right time to get in your car. ARV takes into account current flight data and traffic conditions and determines when to show up, which terminal to go to, and how long it will take to get there. Simply type in your address and the flight number you are tracking, and the rest is done for you!
 
 ## Table of Contents (Optional)
 
@@ -20,15 +22,22 @@ If your README is long, add a table of contents to make it easy for users to fin
 
 ## Installation
 
-What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.
+N/A
 
 ## Usage
 
-Provide instructions and examples for use. Include screenshots as needed.
+(insert screenshot/s)
 
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README using the following syntax:
+Fill in the sections with your address and your passenger's flight number, and click the search button to see: 
 
-![alt text](assets/images/screenshot.png)
+- Flight status
+- Flight departure information
+- Flight arrival information
+- Recommended time to depart to head to the airport
+- An image showing the suggested route
+- Step-by-step driving directions
+
+Previous searches are saved for easy reference and updated tracking and traffic information.
 
 ## Credits
 
