@@ -9,8 +9,9 @@ let yourAddressInput = document.querySelector('#your-address');
 let flightIdInput = document.querySelector('#flight-id');
 let userAddress;
 let userFlightId;
-
+let arrivalAirport = '';
 let drivingOptions = '';
+let drivingArrayLength = '';
 
 
 
@@ -21,14 +22,10 @@ inputArea.addEventListener("click", function(e){
 
     if(e.target.matches("button")) {
 
-        console.log(yourAddressInput.value)
-        console.log(flightIdInput.value)
+        userAddress = yourAddressInput.value;
+        userFlightId = flightIdInput.value;
 
-        userAddress = yourAddressInput.value
-        userFlightId = flightIdInput.value
-
-        fetchFlightData()
-
+        fetchFlightData();
     }
 
 })
@@ -63,6 +60,7 @@ function fetchFlightData() {
             // console.log(flightDataArray[0].response.arr_terminal)
             // console.log(flightDataArray[0].response.arr_gate)
             // console.log(flightDataArray[0].response.arr_time)
+            arrivalAirport = flightDataArray[0].response.arr_name;
             flightNumber.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
             flightStatus.textContent = `Status: ${flightDataArray[0].response.status}`
             let depLi = document.createElement('li')
@@ -95,6 +93,25 @@ function fetchFlightData() {
             flightInfo.appendChild(arrLi)
 
 
+    
+            let drivingListObjs = document.getElementsByClassName("list-class");
+            let drivingListContainer = document.querySelector("#list-container");
+            console.log(drivingListContainer);
+            if (drivingListObjs.length > 0) {
+                drivingListContainer.remove();
+                for (let i = 0; i < drivingListObjs.length; i++) {
+                    drivingListObjs[i].remove();
+                }
+            }
+            
+            fetch(`http://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (drivingData) {
+                drivingDataArray = [drivingData];
+                renderDirections();
+            })
 
         })
         };
@@ -110,25 +127,7 @@ submitButton.addEventListener("click", function() {
 //you can enter 2 locations under the wp.0 and wp.1 parameters below. Acceptable location type are available at: 
 //https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/location-and-area-types
 
-function fetchDrivingData() {
-    let drivingListObjs = document.getElementsByClassName("list-class");
-    
-    if (drivingListObjs.length > 0) {
-        drivingListObjs[0].parentElement().remove();
-        for (let i = 0; i < drivingListObjs.length; i++) {
-            drivingListObjs[i].remove();
-        }
-    }
-    let arrivalAirport = flightDataArray[0].response.arr_city;
-    fetch(`http://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (drivingData) {
-                drivingDataArray = [drivingData];
-                renderDirections();
-        })
-        };
+
 
         
 let submitButton2 = document.querySelector("#submit-button-two");
@@ -149,7 +148,7 @@ drivingOptionsListener = addEventListener("change", function() {
         drivingOptions = '';
     }
     if (document.getElementsByClassName("list-class").length != 0) {
-        fetchDrivingData(); 
+        fetchFlightData(); 
     }
 } );
 
@@ -164,14 +163,15 @@ function renderDirections() {
     let directionsContainer = document.querySelector(".driving-directions");
     //create element
     let drivingList = document.createElement("ol");     //ordered list needs styling with numbers
-    drivingList.className = "container-class"
+    drivingList.className = "container-class";
+    drivingList.id = "list-container";
     //add text value
     drivingList.value = 'test';
     //append to page
     directionsContainer.appendChild(drivingList); 
-    let test = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
+    let drivingArrayLength = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
 
-    for (let i = 0; i < test; i++) {
+    for (let i = 0; i < drivingArrayLength; i++) {
         
         //create element
         let newListItem = document.createElement("li");
