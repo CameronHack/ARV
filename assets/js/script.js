@@ -1,6 +1,5 @@
 let flightDataArray = [];
 let drivingDataArray = [];
-let tempVar1 = document.querySelector('#temp-var-1');
 let flightNumber = document.querySelector('#flight-number')
 let flightStatus = document.querySelector('#flight-status')
 let flightInfo = document.querySelector('#flight-info-items');
@@ -13,6 +12,10 @@ let userFlightId;
 let arrivalAirport = '';
 let drivingOptions = '';
 let drivingArrayLength = '';
+const previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || []
+const previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || []
+const flightIdDropdown = document.querySelector('#flight-id-dropdown')
+const yourAddressDropdown = document.querySelector('#your-address-dropdown')
 
 
 
@@ -126,16 +129,6 @@ function fetchFlightData() {
 
         })
         };
-
-
-
-
-//you can enter 2 locations under the wp.0 and wp.1 parameters below. Acceptable location type are available at: 
-//https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/location-and-area-types
-
-
-
-
 
 drivingOptionsListener = addEventListener("change", function() {
 
@@ -277,31 +270,44 @@ inputArea.addEventListener("click", function(e){
 })
 
 
-let previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || []
-let previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || []
-const flightIdDropdown = document.querySelector('#flight-id-dropdown')
 
+
+
+
+// push user inout to local storage
 function inputToLocal() {
-
-    console.log('USER ADDRESS: ' + userAddress)
-    console.log('USER FLIGHT ID: ' + userFlightId)
     
-    if (previousUserFlightId.every(e => e !== userFlightId)){
+    if (previousUserFlightId.every(e => e !== userFlightId) && userFlightId !== ''){
         previousUserFlightId.push(userFlightId)
         localStorage.setItem('previousUserFlightId', JSON.stringify(previousUserFlightId))
         updatePreviousSearch()
     };
 
-    if (previousUserAddress.every(e => e !== userAddress)){
+    if (previousUserAddress.every(e => e !== userAddress) && userAddress !== ''){
         previousUserAddress.push(userAddress)
         localStorage.setItem('previousUserAddress', JSON.stringify(previousUserAddress))
         updatePreviousSearch()
     };
 }
 
+// for appending on page start
 updatePreviousSearch()
 
+// appends li from local storage
 function updatePreviousSearch() {
+
+    yourAddressDropdown.innerHTML = '';
+
+    for (let i = 0; i < previousUserAddress.length; i++) {
+    
+        const previousSearchLi = document.createElement('li')
+    
+        previousSearchLi.textContent = previousUserAddress[i]
+        previousSearchLi.setAttribute('class', "dropdown-item")
+    
+        yourAddressDropdown.append(previousSearchLi)
+    
+    }
 
     flightIdDropdown.innerHTML = '';
 
@@ -314,17 +320,22 @@ function updatePreviousSearch() {
     
         flightIdDropdown.append(previousSearchLi)
     
-    };
+    }
 
-    // for (let i = 0; i < previousUserFlightId.length; i++) {
-    
-    //     const previousSearchLi = document.createElement('li')
-    
-    //     previousSearchLi.textContent = previousUserFlightId[i]
-    //     previousSearchLi.setAttribute('class', "dropdown-item")
-    
-    //     flightIdDropdown.append(previousSearchLi)
-    
-    // };
 }
 
+// dropdown listeners for the li text
+flightIdDropdown.addEventListener("click", function(e){
+
+    if(e.target.matches("li")) {
+        flightIdInput.value = e.target.textContent
+    }
+
+})
+yourAddressDropdown.addEventListener("click", function(e){
+
+    if(e.target.matches("li")) {
+        yourAddressInput.value = e.target.textContent
+    }
+
+})
