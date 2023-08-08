@@ -2,6 +2,11 @@
     --globalTransition: 100ms ease-out;
 }
 
+/* used to hide elements */
+.hidden {
+    display: none;
+}
+
 /* background filter */
 .bg-filter {
     position: absolute;
@@ -18,11 +23,6 @@
     background-position: center;
     width: 100vw;
     height: 100vh;
-}
-
-/* used to hide elements */
-.hidden {
-    display: none;
 }
 
 /* header */
@@ -68,6 +68,12 @@ header img {
 
 input::placeholder {
     color: #d2d9f0;
+}
+
+#flight-id-dropdown {
+    width: 93%;
+    text-align: center;
+    background-color: aqua;
 }
 
 @media screen and (max-width: 992px) {
