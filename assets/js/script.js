@@ -254,3 +254,15 @@ function updatePreviousSearch() {
     }
 
 }
+
+flightIdDropdown.addEventListener("click", function(e){
+    if(e.target.matches("li")) {
+        flightIdInput.value = e.target.textContent
+    }
+})
+
+yourAddressDropdown.addEventListener("click", function(e){
+    if(e.target.matches("li")) {
+        yourAddressInput.value = e.target.textContent
+    }
+})

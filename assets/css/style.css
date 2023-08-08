@@ -74,12 +74,16 @@ input::placeholder {
 #flight-id-dropdown {
     width: 93%;
     background-color: #00000000;
+    transition: var(--globalTransition);
+    border: 0;
 }
 
 #your-address-dropdown li,
 #flight-id-dropdown li {
     text-align: center;
-    background-color: aqua;
+    color: aqua;
+    overflow: hidden;
+    background: radial-gradient(circle, #0000009a, #00000000);
 }
 
 @media screen and (max-width: 992px) {
