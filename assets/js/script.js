@@ -1,9 +1,14 @@
 let flightDataArray = [];
 let drivingDataArray = [];
 let tempVar1 = document.querySelector('#temp-var-1');
-let tempVar2 = document.querySelector('#flight-number')
-let tempVar3 = document.querySelector('#flight-status')
-let tempVar4 = document.querySelector('#flight-info-items');
+let flightNumber = document.querySelector('#flight-number')
+let flightStatus = document.querySelector('#flight-status')
+let flightInfo = document.querySelector('#flight-info-items');
+let inputArea = document.querySelector('#input-area');
+let yourAddressInput = document.querySelector('#your-address');
+let flightIdInput = document.querySelector('#flight-id');
+let userAddress;
+let userFlightId;
 
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
@@ -12,7 +17,7 @@ let tempVar4 = document.querySelector('#flight-info-items');
 // airline name, iata number, status, dep city, dep airport code, dep terminal, dep gate, dep time, arr city, arr airport code, arr terminal, arr gate, arr time
 
 function fetchFlightData() {
-    fetch(`https://airlabs.co/api/v9/flight?flight_iata=${tempVar1.value}&api_key=d8da3920-43a6-4206-b47b-26ea2c037a69`) 
+    fetch(`https://airlabs.co/api/v9/flight?flight_iata=${userFlightId}&api_key=d8da3920-43a6-4206-b47b-26ea2c037a69`) 
         .then(function (response) {
             return response.json();
         })
@@ -32,11 +37,14 @@ function fetchFlightData() {
             console.log(flightDataArray[0].response.arr_terminal)
             console.log(flightDataArray[0].response.arr_gate)
             console.log(flightDataArray[0].response.arr_time)
-            tempVar2.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
-            tempVar3.textContent = `Status: ${flightDataArray[0].response.status}`
+            flightNumber.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
+            flightStatus.textContent = `Status: ${flightDataArray[0].response.status}`
             let depLi = document.createElement('li')
             if (flightDataArray[0].response.dep_terminal === null) {
                 flightDataArray[0].response.dep_terminal = 'Not available'
+            }
+            if (flightDataArray[0].response.dep_gate === null) {
+                flightDataArray[0].response.dep_gate = 'Not available'
             }
             depLi.innerHTML = `${flightDataArray[0].response.dep_iata} <br>
             ${flightDataArray[0].response.dep_city} <br>
@@ -48,14 +56,17 @@ function fetchFlightData() {
             if (flightDataArray[0].response.arr_terminal === null) {
                 flightDataArray[0].response.arr_terminal = 'Not available'
             }
+            if (flightDataArray[0].response.arr_gate === null) {
+                flightDataArray[0].response.arr_gate = 'Not available'
+            }
             arrLi.innerHTML = `${flightDataArray[0].response.arr_iata}<br>
             ${flightDataArray[0].response.arr_city}<br>
             Terminal: ${flightDataArray[0].response.arr_terminal}<br>
             arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
             at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
             `
-            tempVar4.appendChild(depLi)
-            tempVar4.appendChild(arrLi)
+            flightInfo.appendChild(depLi)
+            flightInfo.appendChild(arrLi)
 
 
         })
@@ -113,11 +124,6 @@ logButton2.addEventListener("click", function() {
 //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
 
 // input field variables
-const inputArea = document.querySelector('#input-area');
-const yourAddressInput = document.querySelector('#your-address');
-const flightIdInput = document.querySelector('#flight-id');
-let userAddress;
-let userFlightId;
 
 // input area event listener to grab address and flight id values
 inputArea.addEventListener("click", function(e){
@@ -129,6 +135,8 @@ inputArea.addEventListener("click", function(e){
 
         userAddress = yourAddressInput.value
         userFlightId = flightIdInput.value
+
+        fetchFlightData()
 
     }
 
