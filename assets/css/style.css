@@ -96,3 +96,13 @@ input::placeholder {
 @media screen and (max-width: 768px) {
 
 }
+
+
+
+.hidden-text {
+    visibility: hidden;
+}
+
+#hide-button {
+    cursor: pointer;
+}

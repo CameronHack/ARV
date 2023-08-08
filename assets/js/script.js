@@ -95,8 +95,13 @@ function fetchFlightData() {
             arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
             at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
             `
+
+            // let driverDepLi = document.createElement('li')
+            // driverDepLi.innerHTML = `Leave at: ${moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()-(10*60)-drivingSeconds}`
+
             flightInfo.appendChild(depLi)
             flightInfo.appendChild(arrLi)
+            // flightInfo.appendChild(driverDepLi)
 
             let mapImageUrl = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wp.0=${userAddress}&wp.1=${flightDataArray[0].response.arr_name}&key=AgNEk5oYYzQYl6k6bvwoGLzdqkug8ktcmPJ-7bd6iL91pXD4jYGm7Ai0omus7BET`;
             console.log(mapImageUrl)
@@ -106,7 +111,6 @@ function fetchFlightData() {
     
             let drivingListObjs = document.getElementsByClassName("list-class");
             let drivingListContainer = document.querySelector("#list-container");
-            console.log(drivingListContainer);
             if (drivingListObjs.length > 0) {
                 drivingListContainer.remove();
                 for (let i = 0; i < drivingListObjs.length; i++) {
@@ -125,8 +129,6 @@ function fetchFlightData() {
 
         })
         };
-
-
 
 drivingOptionsListener = addEventListener("change", function() {
 
@@ -163,7 +165,7 @@ function renderDirections() {
     directionsContainer.appendChild(drivingList); 
     let drivingArrayLength = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
 
-    for (let i = 0; i < drivingArrayLength; i++) {
+    for (let i = 0; i < 3; i++) {
         
         //create element
         let newListItem = document.createElement("li");
@@ -182,11 +184,51 @@ function renderDirections() {
         drivingList.appendChild(newListItem); 
     }
 
+    let newHideButton = document.createElement("p");
+    newHideButton.id = "hide-button";
+    newHideButton.textContent = "Click Here to Expand";
+    drivingList.appendChild(newHideButton); 
+
+
+    for (let i = 3; i < drivingArrayLength; i++) {
+        
+        //create element
+        let newListItem = document.createElement("li");
+        let newSubheading = document.createElement("div");
+        //add text value
+        newListItem.className = "list-class hidden-text"
+        newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
+        newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
+        //append to page
+        if ((drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined)) {
+            let newHintItem = document.createElement("p");
+            newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
+            newSubheading.appendChild(newHintItem);
+        };
+        newListItem.appendChild(newSubheading); 
+        drivingList.appendChild(newListItem); 
+
+        newHideButton.addEventListener("click", function() {
+            let unhideText = document.getElementsByClassName("hidden-text")
+            for (let i = 0; i < unhideText.length; i++) {
+                unhideText[i].style.visibility = "visible";
+            }
+            newHideButton.remove();
+        
+        });
+    }
+
     //calculate the amount of time it takes to drive to airport
     let drivingSeconds = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].travelDuration
     let drivingHours = Math.floor(drivingSeconds / 3600);
     let drivingMinutes = Math.round(drivingSeconds - drivingHours * 3600);
     drivingMinutes = Math.round(drivingMinutes / 60);
+    
+    let driverDepLi = document.createElement('li')         
+    driverDepLi.innerHTML = `Leave at: ${moment((moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()+(10*60)-drivingSeconds)*1000).format('hh:mma')} <br>
+            Total driving time: ${drivingHours} hours, ${drivingMinutes} minutes <br>
+            Arriving at ${moment((moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()+(10*60))*1000).format('hh:mma')} (~10 minutes after flight lands)`              
+    flightInfo.appendChild(driverDepLi)
 
     //display time spent driving
     let drivingDuration = document.createElement("p");
@@ -202,6 +244,9 @@ function renderDirections() {
 
 
 
+
+
+//click on link to set css visibility
 
 // input field variables
 
