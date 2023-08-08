@@ -101,7 +101,6 @@ function fetchFlightData() {
     
             let drivingListObjs = document.getElementsByClassName("list-class");
             let drivingListContainer = document.querySelector("#list-container");
-            console.log(drivingListContainer);
             if (drivingListObjs.length > 0) {
                 drivingListContainer.remove();
                 for (let i = 0; i < drivingListObjs.length; i++) {
@@ -198,8 +197,7 @@ function renderDirections() {
         let newListItem = document.createElement("li");
         let newSubheading = document.createElement("div");
         //add text value
-        newListItem.className = "list-class"
-        newListItem.id = "hidden-text";
+        newListItem.className = "list-class hidden-text"
         newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
         newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
         //append to page
@@ -210,6 +208,15 @@ function renderDirections() {
         };
         newListItem.appendChild(newSubheading); 
         drivingList.appendChild(newListItem); 
+
+        newHideButton.addEventListener("click", function() {
+            let unhideText = document.getElementsByClassName("hidden-text")
+            for (let i = 0; i < unhideText.length; i++) {
+                unhideText[i].style.visibility = "visible";
+            }
+            newHideButton.remove();
+        
+        });
     }
 
     //calculate the amount of time it takes to drive to airport
@@ -229,6 +236,7 @@ function renderDirections() {
 
 //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]
 }
+
 
 
 
