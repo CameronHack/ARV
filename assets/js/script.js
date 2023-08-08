@@ -1,18 +1,75 @@
 let flightDataArray = [];
 let drivingDataArray = [];
+let tempVar1 = document.querySelector('#temp-var-1');
+let flightNumber = document.querySelector('#flight-number')
+let flightStatus = document.querySelector('#flight-status')
+let flightInfo = document.querySelector('#flight-info-items');
+let inputArea = document.querySelector('#input-area');
+let yourAddressInput = document.querySelector('#your-address');
+let flightIdInput = document.querySelector('#flight-id');
+let userAddress;
+let userFlightId;
 
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
 //click any plain to be taken to the flight specific info and use the icao # in the parameter below. ICAO # is 3 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
 
+// airline name, iata number, status, dep city, dep airport code, dep terminal, dep gate, dep time, arr city, arr airport code, arr terminal, arr gate, arr time
+
 function fetchFlightData() {
-    fetch('https://airlabs.co/api/v9/flight?flight_iata=SY1776&api_key=d8da3920-43a6-4206-b47b-26ea2c037a69') 
+    fetch(`https://airlabs.co/api/v9/flight?flight_iata=${userFlightId}&api_key=d8da3920-43a6-4206-b47b-26ea2c037a69`) 
         .then(function (response) {
             return response.json();
         })
         .then(function (flightData) {
                 flightDataArray = [flightData];
                 localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
+                console.log(flightDataArray)
+                console.log(flightDataArray[0].response.airline_name)
+            console.log(flightDataArray[0].response.flight_iata)
+            console.log(flightDataArray[0].response.status)
+            console.log(flightDataArray[0].response.dep_city)
+            console.log(flightDataArray[0].response.dep_iata)
+            console.log(flightDataArray[0].response.dep_terminal)
+            console.log(flightDataArray[0].response.dep_gate)
+            console.log(flightDataArray[0].response.dep_time)
+            console.log(flightDataArray[0].response.arr_city)
+            console.log(flightDataArray[0].response.arr_iata)
+            console.log(flightDataArray[0].response.arr_terminal)
+            console.log(flightDataArray[0].response.arr_gate)
+            console.log(flightDataArray[0].response.arr_time)
+            flightNumber.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
+            flightStatus.textContent = `Status: ${flightDataArray[0].response.status}`
+            let depLi = document.createElement('li')
+            if (flightDataArray[0].response.dep_terminal === null) {
+                flightDataArray[0].response.dep_terminal = 'Not available'
+            }
+            if (flightDataArray[0].response.dep_gate === null) {
+                flightDataArray[0].response.dep_gate = 'Not available'
+            }
+            depLi.innerHTML = `${flightDataArray[0].response.dep_iata} <br>
+            ${flightDataArray[0].response.dep_city} <br>
+            Terminal: ${flightDataArray[0].response.dep_terminal} <br>
+            left from gate: ${flightDataArray[0].response.dep_gate} <br>
+            at ${moment(flightDataArray[0].response.dep_time).format('hh:mma')}
+            `
+            let arrLi = document.createElement('li')
+            if (flightDataArray[0].response.arr_terminal === null) {
+                flightDataArray[0].response.arr_terminal = 'Not available'
+            }
+            if (flightDataArray[0].response.arr_gate === null) {
+                flightDataArray[0].response.arr_gate = 'Not available'
+            }
+            arrLi.innerHTML = `${flightDataArray[0].response.arr_iata}<br>
+            ${flightDataArray[0].response.arr_city}<br>
+            Terminal: ${flightDataArray[0].response.arr_terminal}<br>
+            arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
+            at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
+            `
+            flightInfo.appendChild(depLi)
+            flightInfo.appendChild(arrLi)
+
+
         })
         };
 
@@ -66,14 +123,7 @@ logButton2.addEventListener("click", function() {
 ///array for driving data
 
 
-
-
 // input field variables
-const inputArea = document.querySelector('#input-area');
-const yourAddressInput = document.querySelector('#your-address');
-const flightIdInput = document.querySelector('#flight-id');
-let userAddress;
-let userFlightId;
 
 // input area event listener to grab address and flight id values
 inputArea.addEventListener("click", function(e){
@@ -85,6 +135,8 @@ inputArea.addEventListener("click", function(e){
 
         userAddress = yourAddressInput.value
         userFlightId = flightIdInput.value
+
+        fetchFlightData()
 
     }
 
