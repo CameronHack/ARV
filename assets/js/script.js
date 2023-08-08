@@ -129,10 +129,10 @@ function fetchFlightData() {
         };
     
         
-let submitButton = document.querySelector("#submit-button");
-submitButton.addEventListener("click", function() {
-    fetchFlightData();
-});
+// let submitButton = document.querySelector("#submit-button");
+// submitButton.addEventListener("click", function() {
+//     fetchFlightData();
+// });
 
 
 
@@ -142,10 +142,10 @@ submitButton.addEventListener("click", function() {
 
 
         
-let submitButton2 = document.querySelector("#submit-button-two");
-submitButton2.addEventListener("click", function() {
-    fetchDrivingData();
-});
+// let submitButton2 = document.querySelector("#submit-button-two");
+// submitButton2.addEventListener("click", function() {
+//     fetchDrivingData();
+// });
 
 
 drivingOptionsListener = addEventListener("change", function() {
