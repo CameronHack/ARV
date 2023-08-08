@@ -4,6 +4,7 @@ let tempVar1 = document.querySelector('#temp-var-1');
 let flightNumber = document.querySelector('#flight-number')
 let flightStatus = document.querySelector('#flight-status')
 let flightInfo = document.querySelector('#flight-info-items');
+let mapImg = document.querySelector('#map')
 let inputArea = document.querySelector('#input-area');
 let yourAddressInput = document.querySelector('#your-address');
 let flightIdInput = document.querySelector('#flight-id');
@@ -31,12 +32,12 @@ function fetchFlightData() {
                 console.log(flightDataArray[0].response.airline_name)
             console.log(flightDataArray[0].response.flight_iata)
             console.log(flightDataArray[0].response.status)
-            console.log(flightDataArray[0].response.dep_city)
+            console.log(flightDataArray[0].response.dep_name)
             console.log(flightDataArray[0].response.dep_iata)
             console.log(flightDataArray[0].response.dep_terminal)
             console.log(flightDataArray[0].response.dep_gate)
             console.log(flightDataArray[0].response.dep_time)
-            console.log(flightDataArray[0].response.arr_city)
+            console.log(flightDataArray[0].response.arr_name)
             console.log(flightDataArray[0].response.arr_iata)
             console.log(flightDataArray[0].response.arr_terminal)
             console.log(flightDataArray[0].response.arr_gate)
@@ -51,7 +52,7 @@ function fetchFlightData() {
                 flightDataArray[0].response.dep_gate = 'Not available'
             }
             depLi.innerHTML = `${flightDataArray[0].response.dep_iata} <br>
-            ${flightDataArray[0].response.dep_city} <br>
+            ${flightDataArray[0].response.dep_name} <br>
             Terminal: ${flightDataArray[0].response.dep_terminal} <br>
             left from gate: ${flightDataArray[0].response.dep_gate} <br>
             at ${moment(flightDataArray[0].response.dep_time).format('hh:mma')}
@@ -64,7 +65,7 @@ function fetchFlightData() {
                 flightDataArray[0].response.arr_gate = 'Not available'
             }
             arrLi.innerHTML = `${flightDataArray[0].response.arr_iata}<br>
-            ${flightDataArray[0].response.arr_city}<br>
+            ${flightDataArray[0].response.arr_name}<br>
             Terminal: ${flightDataArray[0].response.arr_terminal}<br>
             arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
             at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
@@ -72,11 +73,15 @@ function fetchFlightData() {
             flightInfo.appendChild(depLi)
             flightInfo.appendChild(arrLi)
 
+            let mapImageUrl = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wp.0=1%20Microsoft%20Way%20Redmond,%20WA&wp.1=${flightDataArray[0].response.arr_name}&key=AgNEk5oYYzQYl6k6bvwoGLzdqkug8ktcmPJ-7bd6iL91pXD4jYGm7Ai0omus7BET`;
+            console.log(mapImageUrl)
+            mapImg.setAttribute('src', mapImageUrl)
+
 
 
         })
         };
-
+    
         
 let submitButton = document.querySelector("#submit-button");
 submitButton.addEventListener("click", function() {
