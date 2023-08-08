@@ -18,7 +18,7 @@
 
 /* background */
 #bg-img {
-    background-color: #eeeeee;
+    background-color: #1d1d1d;
     background-size: cover;
     background-position: center;
     width: 100vw;
@@ -41,7 +41,7 @@ header img {
     align-items: center;
 }
 
-/* address and flight ID user input */
+/* address and flight ID user input & search button */
 #input-area input,
 #input-area button {
     padding: 8px;
@@ -81,9 +81,17 @@ input::placeholder {
 #your-address-dropdown li,
 #flight-id-dropdown li {
     text-align: center;
-    color: aqua;
+    color: #e7e7e7;
     overflow: hidden;
     background: radial-gradient(circle, #0000009a, #00000000);
+    padding: 10px;
+    margin: 3px -2px;
+}
+
+#your-address-dropdown li:hover,
+#flight-id-dropdown li:hover {
+    cursor: pointer;
+    background: radial-gradient(circle, #1b1b259a, #00000000);
 }
 
 @media screen and (max-width: 992px) {
