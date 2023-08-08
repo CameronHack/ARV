@@ -16,7 +16,7 @@
 
 <body>
 
-    <input type="text">
+    <input type="text" id="temp-var-1">
     <button id="submit-button">Submit</button>
     <button id="log-button">Console Log Data</button>
 <hr>
@@ -27,16 +27,25 @@
 
 
     <header>
-        <nav class="navbar navbar-dark bg-dark">
+        <nav class="navbar d-flex justify-content-center">
               <a class="navbar-brand" href="./index.html">
-                <img src="./assets/images/placeholder.JPG" alt="">
+                <img src="./assets/images/arvgray.png" style="width: 40%;" alt="">
               </a>
         </nav>
     </header>
 
     <section id="input-area">
         <input type="text" placeholder="your address" id="your-address">
-        <input type="text" placeholder="ex. aa1234" id="flight-id">
+
+        <div class="dropdown dropend">
+            <input type="text" placeholder="ex. aa1234" id="flight-id" data-bs-toggle="dropdown" aria-expanded="false">
+            <ul class="dropdown-menu">
+                <li class="dropdown-item">Placeholder 1</li>
+                <li class="dropdown-item">Placeholder 2</li>
+                <li class="dropdown-item">Placeholder 3</li>
+            </ul>
+        </div>
+
         <button id="Search">Search</button>
     </section>
 
@@ -49,6 +58,9 @@
     <section class="">
 
         <section id="flight-info"></section>
+            <h2 id="flight-number"></h2>
+            <h3 id="flight-status"></h3>
+            <ul id="flight-info-items"></ul>
 
         <section id="map"></section>
 
@@ -63,9 +75,15 @@
 
     </section>
 
+    <div style="position: absolute; z-index: -1; top: 0;">
+        <div class="filter"></div>
+        <img id="" src="./assets/images/backgroundplaceholder.JPG" alt="">
+
+    </div>
 
 
 
+    <script type = "text/JavaScript" src = " https://MomentJS.com/downloads/moment.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="./assets/js/script.js"></script>
 </body>
