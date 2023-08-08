@@ -4,7 +4,7 @@ let flightNumber = document.querySelector('#flight-number')
 let flightStatus = document.querySelector('#flight-status')
 let flightInfo = document.querySelector('#flight-info-items');
 let mapImg = document.querySelector('#map')
-const inputArea = document.querySelector('#input-area');
+let inputArea = document.querySelector('#input-area');
 let yourAddressInput = document.querySelector('#your-address');
 let flightIdInput = document.querySelector('#flight-id');
 let userAddress;
@@ -12,6 +12,10 @@ let userFlightId;
 let arrivalAirport = '';
 let drivingOptions = '';
 let drivingArrayLength = '';
+const previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || []
+const previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || []
+const flightIdDropdown = document.querySelector('#flight-id-dropdown')
+const yourAddressDropdown = document.querySelector('#your-address-dropdown')
 
 
 
@@ -221,15 +225,12 @@ inputArea.addEventListener("click", function(e){
 })
 
 
-let previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || []
-let previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || []
-const flightIdDropdown = document.querySelector('#flight-id-dropdown')
-const yourAddressDropdown = document.querySelector('#your-address-dropdown')
 
+
+
+
+// push user inout to local storage
 function inputToLocal() {
-
-    console.log('USER ADDRESS: ' + userAddress)
-    console.log('USER FLIGHT ID: ' + userFlightId)
     
     if (previousUserFlightId.every(e => e !== userFlightId) && userFlightId !== ''){
         previousUserFlightId.push(userFlightId)
@@ -244,8 +245,10 @@ function inputToLocal() {
     };
 }
 
+// for appending on page start
 updatePreviousSearch()
 
+// appends li from local storage
 function updatePreviousSearch() {
 
     yourAddressDropdown.innerHTML = '';
@@ -276,4 +279,18 @@ function updatePreviousSearch() {
 
 }
 
+// dropdown listeners for the li text
+flightIdDropdown.addEventListener("click", function(e){
 
+    if(e.target.matches("li")) {
+        flightIdInput.value = e.target.textContent
+    }
+
+})
+yourAddressDropdown.addEventListener("click", function(e){
+
+    if(e.target.matches("li")) {
+        yourAddressInput.value = e.target.textContent
+    }
+
+})
