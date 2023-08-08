@@ -24,6 +24,7 @@ function fetchFlightData() {
         .then(function (flightData) {
                 flightDataArray = [flightData];
                 localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
+                console.log(flightDataArray)
                 console.log(flightDataArray[0].response.airline_name)
             console.log(flightDataArray[0].response.flight_iata)
             console.log(flightDataArray[0].response.status)
