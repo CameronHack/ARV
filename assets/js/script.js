@@ -5,7 +5,7 @@ let drivingOptions = '';
 
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
-//click any plain to be taken to the flight specific info and use the icao # in the parameter below. ICAO # is 3 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
+//click any plane to be taken to the flight specific info and use the icao # in the parameter below. IATA # is 2 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
 
 function fetchFlightData() {
     fetch('https://airlabs.co/api/v9/flight?flight_iata=SY1776&api_key=d8da3920-43a6-4206-b47b-26ea2c037a69') 
@@ -40,7 +40,7 @@ function fetchDrivingData() {
 
 
 
-    fetch('http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=1407_Edgewood_Ave,Roslyn,PA19001&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2' + drivingOptions) 
+    fetch('http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=OceanCity,MD&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2' + drivingOptions) 
         .then(function (response) {
             return response.json();
         })
@@ -75,25 +75,9 @@ drivingOptionsListener = addEventListener("change", function() {
 
 
 
-
-// 'http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=1407_Edgewood_Ave,Roslyn,PA19001&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2'
-
-
-
-
-///array for driving data
-
-//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
-
-//create module that pulls from user's initial starting point and creates driving route
-
 //pull in input for user's home address
 
-//pull in input for airport based on user's flight ICAO #
-
 //options for driving directions
-
-
 
 
 function renderDirections() {
@@ -117,21 +101,30 @@ function renderDirections() {
         newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
         newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
         //append to page
-        
-        console.log(test);
         if ((drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined)) {
-            console.log('yes');
             let newHintItem = document.createElement("p");
             newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
             newSubheading.appendChild(newHintItem);
         };
         newListItem.appendChild(newSubheading); 
         drivingList.appendChild(newListItem); 
-        
-        //add 
-        
-//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]
     }
+
+    //calculate the amount of time it takes to drive to airport
+    let drivingSeconds = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].travelDuration
+    let drivingHours = Math.round(drivingSeconds / 3600);
+    let drivingMinutes = Math.round(drivingSeconds - drivingHours * 3600);
+    drivingMinutes = Math.round(drivingMinutes / 60);
+
+    //display time spent driving
+    let drivingDuration = document.createElement("p");
+    drivingDuration.textContent = "Total Driving Time: " + drivingHours + " hours, " + drivingMinutes + " minutes"
+    directionsContainer.appendChild(drivingDuration);
+
+    //add departure and arrival time and beginning and end of list
+
+
+//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]
 }
 
 
