@@ -51,19 +51,23 @@ header img {
     border: 0;
     text-align: center;
     transition: var(--globalTransition);
-    background-color: #00000044;
-    backdrop-filter: blur(3px);
+    background-color: #00000080;
+    color: #eeeeee;
 }
 
 #input-area input:focus,
 #input-area button:hover {
     outline: 0;
-    background-color: #ffffff6e;
+    background-color: #0000003f;
     scale: 104%;
     /* fake depth */
     box-shadow: 
-        inset 5px 5px 5px #ffffff36,
+        inset 5px 5px 5px #ffffff0e,
         inset -5px -5px 5px #0000000e;
+}
+
+input::placeholder {
+    color: #d2d9f0;
 }
 
 @media screen and (max-width: 992px) {
