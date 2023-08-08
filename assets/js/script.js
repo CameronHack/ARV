@@ -26,7 +26,6 @@ function fetchFlightData() {
         .then(function (flightData) {
                 flightDataArray = [flightData];
 
-                localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
                 console.log(flightDataArray)
                 console.log(flightDataArray[0].response.airline_name)
             console.log(flightDataArray[0].response.flight_iata)
@@ -205,7 +204,49 @@ inputArea.addEventListener("click", function(e){
 
         fetchFlightData()
 
+        inputToLocal()
+        
     }
-
+    
 })
 
+
+let previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || []
+let previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || []
+const flightIdDropdown = document.querySelector('#flight-id-dropdown')
+
+function inputToLocal() {
+
+    console.log('USER ADDRESS: ' + userAddress)
+    console.log('USER FLIGHT ID: ' + userFlightId)
+    
+    if (previousUserFlightId.every(e => e !== userFlightId)){
+        previousUserFlightId.push(userFlightId)
+        localStorage.setItem('previousUserFlightId', JSON.stringify(previousUserFlightId))
+        updatePreviousSearch()
+    }
+
+    // if (previousSearch.every(e => e !== userAddress)){
+    //     previousSearch.push('userAddress', userAddress)
+    //     localStorage.setItem('previousSearch', JSON.stringify(previousSearch))
+    //     updatePreviousSearch()
+    // }
+}
+
+updatePreviousSearch()
+
+function updatePreviousSearch() {
+
+    flightIdDropdown.innerHTML = ''
+
+    for (let i = 0; i < previousUserFlightId.length; i++) {
+    
+        const previousSearchLi = document.createElement('li')
+    
+        previousSearchLi.textContent = previousUserFlightId[i]
+        previousSearchLi.setAttribute('class', "dropdown-item")
+    
+        flightIdDropdown.append(previousSearchLi)
+    
+    }
+}
