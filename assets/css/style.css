@@ -2,12 +2,22 @@
     --globalTransition: 100ms ease-out;
 }
 
+/* background filter */
+.bg-filter {
+    position: absolute;
+    /* background-color: #00000069; */
+    backdrop-filter: blur(3px) grayscale() brightness(20%);
+    width: 100vw;
+    height: 100vh;
+}
+
 /* background */
 #bg-img {
     background-color: #eeeeee;
     background-size: cover;
     background-position: center;
-    width: 100vw; height: 100vh;
+    width: 100vw;
+    height: 100vh;
 }
 
 /* used to hide elements */
@@ -17,7 +27,7 @@
 
 /* header */
 header {
-    background-color: #292933;
+    background-color: #1b1b25;
 }
 
 /* logo */
