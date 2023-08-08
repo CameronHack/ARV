@@ -14,7 +14,6 @@ function fetchFlightData() {
         })
         .then(function (flightData) {
                 flightDataArray = [flightData];
-                localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
         })
         };
 
@@ -24,13 +23,6 @@ submitButton.addEventListener("click", function() {
     fetchFlightData();
 });
 
-
-
-let logButton = document.querySelector("#log-button");
-logButton.addEventListener("click", function() {
-    let loggedData = JSON.parse(localStorage.getItem("flightDataArray"))
-    console.log(loggedData);
-});
 
 
 //you can enter 2 locations under the wp.0 and wp.1 parameters below. Acceptable location type are available at: 
@@ -54,7 +46,6 @@ function fetchDrivingData() {
         })
         .then(function (drivingData) {
                 drivingDataArray = [drivingData];
-                localStorage.setItem("drivingDataArray", JSON.stringify(drivingDataArray));
                 renderDirections();
         })
         };
@@ -90,14 +81,6 @@ drivingOptionsListener = addEventListener("change", function() {
 
 
 
-// let logButton2 = document.querySelector("#log-button-two");
-// logButton2.addEventListener("click", function() {
-//     let loggedData2 = JSON.parse(localStorage.getItem("drivingDataArray"))
-//     console.log(loggedData2);
-// });
-
-
-
 ///array for driving data
 
 //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
@@ -128,18 +111,28 @@ function renderDirections() {
         
         //create element
         let newListItem = document.createElement("li");
+        let newSubheading = document.createElement("div");
         //add text value
         newListItem.className = "list-class"
         newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
+        newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
         //append to page
+        
+        console.log(test);
+        if ((drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined)) {
+            console.log('yes');
+            let newHintItem = document.createElement("p");
+            newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
+            newSubheading.appendChild(newHintItem);
+        };
+        newListItem.appendChild(newSubheading); 
         drivingList.appendChild(newListItem); 
         
+        //add 
+        
+//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]
     }
 }
-
-
-
-//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
 
 
 // input field variables
