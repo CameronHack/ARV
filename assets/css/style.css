@@ -2,12 +2,13 @@
     --globalTransition: 100ms ease-out;
 }
 
-/* body {
-    background-image: url('../images/backgroundplaceholder.JPG');
+/* background */
+#bg-img {
     background-color: #eeeeee;
     background-size: cover;
     background-position: center;
-} */
+    width: 100vw; height: 100vh;
+}
 
 /* used to hide elements */
 .hidden {
