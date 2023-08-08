@@ -1,7 +1,67 @@
-body {
-    background-color: #eeeeee;
+:root {
+    --globalTransition: 100ms ease-out;
 }
 
+/* body {
+    background-image: url('../images/backgroundplaceholder.JPG');
+    background-color: #eeeeee;
+    background-size: cover;
+    background-position: center;
+} */
+
+/* used to hide elements */
 .hidden {
     display: none;
+}
+
+/* header */
+header {
+    background-color: #292933;
+}
+
+/* logo */
+header img {
+    display: block;
+    margin: 0 auto;
+}
+
+#input-area {
+    display: flex;
+    align-items: center;
+}
+
+/* address and flight ID user input */
+#input-area input,
+#input-area button {
+    padding: 8px;
+    margin: 20px;
+    font-size: 1.6rem;
+    border-radius: 5px;
+    border: 0;
+    text-align: center;
+    transition: var(--globalTransition);
+    background-color: #00000044;
+    backdrop-filter: blur(3px);
+}
+
+#input-area input:focus,
+#input-area button:hover {
+    outline: 0;
+    background-color: #ffffff6e;
+    scale: 104%;
+    /* fake depth */
+    box-shadow: 
+        inset 5px 5px 5px #ffffff36,
+        inset -5px -5px 5px #0000000e;
+}
+
+@media screen and (max-width: 992px) {
+    #input-area {
+        flex-direction: column;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
 }
