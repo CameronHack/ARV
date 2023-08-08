@@ -10,9 +10,11 @@ let flightIdInput = document.querySelector('#flight-id');
 let userAddress;
 let userFlightId;
 
+let drivingOptions = '';
+
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
-//click any plain to be taken to the flight specific info and use the icao # in the parameter below. ICAO # is 3 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
+//click any plane to be taken to the flight specific info and use the icao # in the parameter below. IATA # is 2 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
 
 // airline name, iata number, status, dep city, dep airport code, dep terminal, dep gate, dep time, arr city, arr airport code, arr terminal, arr gate, arr time
 
@@ -23,6 +25,7 @@ function fetchFlightData() {
         })
         .then(function (flightData) {
                 flightDataArray = [flightData];
+
                 localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
                 console.log(flightDataArray)
                 console.log(flightDataArray[0].response.airline_name)
@@ -70,6 +73,7 @@ function fetchFlightData() {
             flightInfo.appendChild(arrLi)
 
 
+
         })
         };
 
@@ -81,24 +85,28 @@ submitButton.addEventListener("click", function() {
 
 
 
-let logButton = document.querySelector("#log-button");
-logButton.addEventListener("click", function() {
-    let loggedData = JSON.parse(localStorage.getItem("flightDataArray"))
-    console.log(loggedData);
-});
-
-
 //you can enter 2 locations under the wp.0 and wp.1 parameters below. Acceptable location type are available at: 
 //https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/location-and-area-types
 
 function fetchDrivingData() {
-    fetch('http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=1407_Edgewood_Ave,Roslyn,PA19001&optmz=timeWithTraffic&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2') 
+    let drivingListObjs = document.getElementsByClassName("list-class");
+    
+    if (drivingListObjs.length > 0) {
+        drivingListObjs[0].parentElement().remove();
+        for (let i = 0; i < drivingListObjs.length; i++) {
+            drivingListObjs[i].remove();
+        }
+    }
+
+
+
+    fetch('http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=OceanCity,MD&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2' + drivingOptions) 
         .then(function (response) {
             return response.json();
         })
         .then(function (drivingData) {
                 drivingDataArray = [drivingData];
-                localStorage.setItem("drivingDataArray", JSON.stringify(drivingDataArray));
+                renderDirections();
         })
         };
 
@@ -106,21 +114,80 @@ function fetchDrivingData() {
 let submitButton2 = document.querySelector("#submit-button-two");
 submitButton2.addEventListener("click", function() {
     fetchDrivingData();
-    
-    
 });
 
 
+drivingOptionsListener = addEventListener("change", function() {
 
-let logButton2 = document.querySelector("#log-button-two");
-logButton2.addEventListener("click", function() {
-    let loggedData2 = JSON.parse(localStorage.getItem("drivingDataArray"));
-    console.log(loggedData2);
-});
+    if ((document.getElementById('avoid-tolls').checked) && !(document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=tolls';
+    } else if (!(document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=highways';
+    } else if ((document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=tolls,highways';
+    } else {
+        drivingOptions = '';
+    }
+    if (document.getElementsByClassName("list-class").length != 0) {
+        fetchDrivingData(); 
+    }
+} );
 
 
 
-///array for driving data
+//pull in input for user's home address
+
+//options for driving directions
+
+
+function renderDirections() {
+    let directionsContainer = document.querySelector(".driving-directions");
+    //create element
+    let drivingList = document.createElement("ol");     //ordered list needs styling with numbers
+    drivingList.className = "container-class"
+    //add text value
+    drivingList.value = 'test';
+    //append to page
+    directionsContainer.appendChild(drivingList); 
+    let test = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
+
+    for (let i = 0; i < test; i++) {
+        
+        //create element
+        let newListItem = document.createElement("li");
+        let newSubheading = document.createElement("div");
+        //add text value
+        newListItem.className = "list-class"
+        newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
+        newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
+        //append to page
+        if ((drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined)) {
+            let newHintItem = document.createElement("p");
+            newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
+            newSubheading.appendChild(newHintItem);
+        };
+        newListItem.appendChild(newSubheading); 
+        drivingList.appendChild(newListItem); 
+    }
+
+    //calculate the amount of time it takes to drive to airport
+    let drivingSeconds = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].travelDuration
+    let drivingHours = Math.round(drivingSeconds / 3600);
+    let drivingMinutes = Math.round(drivingSeconds - drivingHours * 3600);
+    drivingMinutes = Math.round(drivingMinutes / 60);
+
+    //display time spent driving
+    let drivingDuration = document.createElement("p");
+    drivingDuration.textContent = "Total Driving Time: " + drivingHours + " hours, " + drivingMinutes + " minutes"
+    directionsContainer.appendChild(drivingDuration);
+
+
+    //add departure and arrival time and beginning and end of list
+
+
+//drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]
+}
+
 
 
 // input field variables
