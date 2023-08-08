@@ -1,6 +1,8 @@
 let flightDataArray = [];
 let drivingDataArray = [];
 
+let drivingOptions = '';
+
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
 //click any plain to be taken to the flight specific info and use the icao # in the parameter below. ICAO # is 3 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
@@ -35,7 +37,18 @@ logButton.addEventListener("click", function() {
 //https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/location-and-area-types
 
 function fetchDrivingData() {
-    fetch('http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=1407_Edgewood_Ave,Roslyn,PA19001&optmz=timeWithTraffic&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2') 
+    let drivingListObjs = document.getElementsByClassName("list-class");
+    
+    if (drivingListObjs.length > 0) {
+        drivingListObjs[0].parentElement().remove();
+        for (let i = 0; i < drivingListObjs.length; i++) {
+            drivingListObjs[i].remove();
+        }
+    }
+
+
+
+    fetch('http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=1407_Edgewood_Ave,Roslyn,PA19001&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2' + drivingOptions) 
         .then(function (response) {
             return response.json();
         })
@@ -50,17 +63,38 @@ function fetchDrivingData() {
 let submitButton2 = document.querySelector("#submit-button-two");
 submitButton2.addEventListener("click", function() {
     fetchDrivingData();
-    
-    
-})
-
-
-
-let logButton2 = document.querySelector("#log-button-two");
-logButton2.addEventListener("click", function() {
-    let loggedData2 = JSON.parse(localStorage.getItem("drivingDataArray"))
-    console.log(loggedData2);
 });
+
+
+drivingOptionsListener = addEventListener("change", function() {
+
+    if ((document.getElementById('avoid-tolls').checked) && !(document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=tolls';
+    } else if (!(document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=highways';
+    } else if ((document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=tolls,highways';
+    } else {
+        drivingOptions = '';
+    }
+    if (document.getElementsByClassName("list-class").length != 0) {
+        fetchDrivingData(); 
+    }
+} );
+
+
+
+
+// 'http://dev.virtualearth.net/REST/V1/Routes?wp.0=1086_Church_St,Abington,PA19001&wp.1=1407_Edgewood_Ave,Roslyn,PA19001&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2'
+
+
+
+
+// let logButton2 = document.querySelector("#log-button-two");
+// logButton2.addEventListener("click", function() {
+//     let loggedData2 = JSON.parse(localStorage.getItem("drivingDataArray"))
+//     console.log(loggedData2);
+// });
 
 
 
@@ -74,9 +108,13 @@ logButton2.addEventListener("click", function() {
 
 //pull in input for airport based on user's flight ICAO #
 
+//options for driving directions
+
+
+
 
 function renderDirections() {
-    let directionsContainer = document.querySelector("#directions");
+    let directionsContainer = document.querySelector(".driving-directions");
     //create element
     let drivingList = document.createElement("ol");     //ordered list needs styling with numbers
     drivingList.className = "container-class"
@@ -98,6 +136,8 @@ function renderDirections() {
         
     }
 }
+
+
 
 //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text
 
