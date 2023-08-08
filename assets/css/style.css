@@ -72,9 +72,15 @@ input::placeholder {
 
 #flight-id-dropdown {
     width: 93%;
+    /* background-color: #00000000; */
     text-align: center;
     background-color: aqua;
 }
+
+/* #flight-id-dropdown li {
+    text-align: center;
+    background-color: aqua;
+} */
 
 @media screen and (max-width: 992px) {
     #input-area {

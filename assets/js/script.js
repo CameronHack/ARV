@@ -224,20 +224,20 @@ function inputToLocal() {
         previousUserFlightId.push(userFlightId)
         localStorage.setItem('previousUserFlightId', JSON.stringify(previousUserFlightId))
         updatePreviousSearch()
-    }
+    };
 
-    // if (previousSearch.every(e => e !== userAddress)){
-    //     previousSearch.push('userAddress', userAddress)
-    //     localStorage.setItem('previousSearch', JSON.stringify(previousSearch))
-    //     updatePreviousSearch()
-    // }
+    if (previousUserAddress.every(e => e !== userAddress)){
+        previousUserAddress.push(userAddress)
+        localStorage.setItem('previousUserAddress', JSON.stringify(previousUserAddress))
+        updatePreviousSearch()
+    };
 }
 
 updatePreviousSearch()
 
 function updatePreviousSearch() {
 
-    flightIdDropdown.innerHTML = ''
+    flightIdDropdown.innerHTML = '';
 
     for (let i = 0; i < previousUserFlightId.length; i++) {
     
@@ -248,5 +248,16 @@ function updatePreviousSearch() {
     
         flightIdDropdown.append(previousSearchLi)
     
-    }
+    };
+
+    // for (let i = 0; i < previousUserFlightId.length; i++) {
+    
+    //     const previousSearchLi = document.createElement('li')
+    
+    //     previousSearchLi.textContent = previousUserFlightId[i]
+    //     previousSearchLi.setAttribute('class', "dropdown-item")
+    
+    //     flightIdDropdown.append(previousSearchLi)
+    
+    // };
 }
