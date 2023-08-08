@@ -71,3 +71,7 @@ header img {
 .hidden-text {
     visibility: hidden;
 }
+
+#hide-button {
+    cursor: pointer;
+}

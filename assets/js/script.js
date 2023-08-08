@@ -187,6 +187,7 @@ function renderDirections() {
     }
 
     let newHideButton = document.createElement("p");
+    newHideButton.id = "hide-button";
     newHideButton.textContent = "Click Here to Expand";
     drivingList.appendChild(newHideButton); 
 
