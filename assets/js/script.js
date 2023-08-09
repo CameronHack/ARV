@@ -12,14 +12,38 @@ let userFlightId;
 let arrivalAirport = '';
 let drivingOptions = '';
 let drivingArrayLength = '';
+let drivingDuration = '';
+let drivingListObjs = [];
 const previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || []
 const previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || []
 const flightIdDropdown = document.querySelector('#flight-id-dropdown')
 const yourAddressDropdown = document.querySelector('#your-address-dropdown')
 
 
+//live flights for experimentation are available at :
+//https://flightaware.com/live/
+//click any plane to be taken to the flight specific info and use the icao # in the parameter below. IATA # is 2 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
 
-// input field variables
+//Init Scripts
+// for appending on page start
+updatePreviousSearch();
+
+//Event Listeners
+drivingOptionsListener = addEventListener("change", function() {
+
+    if ((document.getElementById('avoid-tolls').checked) && !(document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=tolls';
+    } else if (!(document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=highways';
+    } else if ((document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=tolls,highways';
+    } else {
+        drivingOptions = '';
+    }
+    if (document.getElementsByClassName("list-class").length != 0) {
+        fetchFlightData(); 
+    }
+} );
 
 // input area event listener to grab address and flight id values
 inputArea.addEventListener("click", function(e){
@@ -30,16 +54,46 @@ inputArea.addEventListener("click", function(e){
         userFlightId = flightIdInput.value;
 
         fetchFlightData();
+
+        inputToLocal();
+        
+    }
+    
+});
+
+// dropdown listeners for the li text
+flightIdDropdown.addEventListener("click", function(e){
+
+    if(e.target.matches("li")) {
+        flightIdInput.value = e.target.textContent
     }
 
 })
 
+yourAddressDropdown.addEventListener("click", function(e){
 
-//live flights for experimentation are available at :
-//https://flightaware.com/live/
-//click any plane to be taken to the flight specific info and use the icao # in the parameter below. IATA # is 2 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
+    if(e.target.matches("li")) {
+        yourAddressInput.value = e.target.textContent
+    }
 
-// airline name, iata number, status, dep city, dep airport code, dep terminal, dep gate, dep time, arr city, arr airport code, arr terminal, arr gate, arr time
+})
+
+//Functions
+// push user inout to local storage
+function inputToLocal() {
+    
+    if (previousUserFlightId.every(e => e !== userFlightId) && userFlightId !== ''){
+        previousUserFlightId.push(userFlightId);
+        localStorage.setItem('previousUserFlightId', JSON.stringify(previousUserFlightId));
+        updatePreviousSearch();
+    };
+
+    if (previousUserAddress.every(e => e !== userAddress) && userAddress !== ''){
+        previousUserAddress.push(userAddress);
+        localStorage.setItem('previousUserAddress', JSON.stringify(previousUserAddress));
+        updatePreviousSearch();
+    };
+}
 
 function fetchFlightData() {
     fetch(`https://airlabs.co/api/v9/flight?flight_iata=${userFlightId}&api_key=d8da3920-43a6-4206-b47b-26ea2c037a69`) 
@@ -51,24 +105,11 @@ function fetchFlightData() {
 
 
                 localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
-            //     console.log(flightDataArray)
-            //     console.log(flightDataArray[0].response.airline_name)
-            // console.log(flightDataArray[0].response.flight_iata)
-            // console.log(flightDataArray[0].response.status)
-            // console.log(flightDataArray[0].response.dep_city)
-            // console.log(flightDataArray[0].response.dep_iata)
-            // console.log(flightDataArray[0].response.dep_terminal)
-            // console.log(flightDataArray[0].response.dep_gate)
-            // console.log(flightDataArray[0].response.dep_time)
-            // console.log(flightDataArray[0].response.arr_city)
-            // console.log(flightDataArray[0].response.arr_iata)
-            // console.log(flightDataArray[0].response.arr_terminal)
-            // console.log(flightDataArray[0].response.arr_gate)
-            // console.log(flightDataArray[0].response.arr_time)
             arrivalAirport = flightDataArray[0].response.arr_name;
 
             flightNumber.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
             flightStatus.textContent = `Status: ${flightDataArray[0].response.status}`
+            
             let depLi = document.createElement('li')
             if (flightDataArray[0].response.dep_terminal === null) {
                 flightDataArray[0].response.dep_terminal = 'Not available'
@@ -95,68 +136,47 @@ function fetchFlightData() {
             arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
             at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
             `
-
-            // let driverDepLi = document.createElement('li')
-            // driverDepLi.innerHTML = `Leave at: ${moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()-(10*60)-drivingSeconds}`
-
+            flightInfo.innerHTML = ''
             flightInfo.appendChild(depLi)
             flightInfo.appendChild(arrLi)
-            // flightInfo.appendChild(driverDepLi)
 
             let mapImageUrl = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wp.0=${userAddress}&wp.1=${flightDataArray[0].response.arr_name}&key=AgNEk5oYYzQYl6k6bvwoGLzdqkug8ktcmPJ-7bd6iL91pXD4jYGm7Ai0omus7BET`;
-            console.log(mapImageUrl)
             mapImg.setAttribute('src', mapImageUrl)
 
 
-    
-            let drivingListObjs = document.getElementsByClassName("list-class");
-            let drivingListContainer = document.querySelector("#list-container");
-            if (drivingListObjs.length > 0) {
-                drivingListContainer.remove();
-                for (let i = 0; i < drivingListObjs.length; i++) {
-                    drivingListObjs[i].remove();
-                }
-            }
             
+            //add loading message
             fetch(`http://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
             .then(function (response) {
                 return response.json();
             })
             .then(function (drivingData) {
-                drivingDataArray = [drivingData];
-                renderDirections();
+            drivingDataArray = [drivingData];
+            drivingListObjs = document.getElementsByClassName("list-class");
+            let drivingListContainer = document.querySelector("#list-container");
+            if (drivingListObjs.length > 0) {                
+                for (let i = 0; i < drivingListObjs.length; i++) {
+                    drivingListObjs[0].remove();
+                }
+                if (typeof drivingDuration !== null) { 
+                    drivingDuration.remove();
+                }
+                drivingListContainer.remove();
+            }
+                if (drivingDataArray[0].resourceSets.length > 0) {
+                    renderDirections();
+                } else {
+                    renderErrorMessage();
+                }
             })
 
         })
-        };
-
-drivingOptionsListener = addEventListener("change", function() {
-
-    if ((document.getElementById('avoid-tolls').checked) && !(document.getElementById('avoid-highways').checked)) {
-        drivingOptions = '&avoid=tolls';
-    } else if (!(document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
-        drivingOptions = '&avoid=highways';
-    } else if ((document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
-        drivingOptions = '&avoid=tolls,highways';
-    } else {
-        drivingOptions = '';
-    }
-    if (document.getElementsByClassName("list-class").length != 0) {
-        fetchFlightData(); 
-    }
-} );
-
-
-
-//pull in input for user's home address
-
-//options for driving directions
-
+};
 
 function renderDirections() {
     let directionsContainer = document.querySelector(".driving-directions");
     //create element
-    let drivingList = document.createElement("ol");     //ordered list needs styling with numbers
+    let drivingList = document.createElement("ol");   
     drivingList.className = "container-class";
     drivingList.id = "list-container";
     //add text value
@@ -164,7 +184,6 @@ function renderDirections() {
     //append to page
     directionsContainer.appendChild(drivingList); 
     let drivingArrayLength = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length;
-
     for (let i = 0; i < 3; i++) {
         
         //create element
@@ -175,11 +194,22 @@ function renderDirections() {
         newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
         newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
         //append to page
-        if ((drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined)) {
+        if ("hints" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
             let newHintItem = document.createElement("p");
-            newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
+            console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+            newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints[0].text;
             newSubheading.appendChild(newHintItem);
         };
+
+        //check for warnings
+        // drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text
+        if ("warnings" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
+            let newWarningItem = document.createElement("p");
+            console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+            newWarningItem.textContent = "Heads Up: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text;
+            newSubheading.appendChild(newWarningItem);
+        };
+
         newListItem.appendChild(newSubheading); 
         drivingList.appendChild(newListItem); 
     }
@@ -190,33 +220,40 @@ function renderDirections() {
     drivingList.appendChild(newHideButton); 
 
 
-    for (let i = 3; i < drivingArrayLength; i++) {
-        
-        //create element
-        let newListItem = document.createElement("li");
-        let newSubheading = document.createElement("div");
-        //add text value
-        newListItem.className = "list-class hidden-text"
-        newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
-        newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
-        //append to page
-        if ((drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints !== undefined)) {
-            let newHintItem = document.createElement("p");
-            newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length-1].hints[0].text;
-            newSubheading.appendChild(newHintItem);
-        };
-        newListItem.appendChild(newSubheading); 
-        drivingList.appendChild(newListItem); 
+    
 
-        newHideButton.addEventListener("click", function() {
-            let unhideText = document.getElementsByClassName("hidden-text")
-            for (let i = 0; i < unhideText.length; i++) {
-                unhideText[i].style.visibility = "visible";
-            }
-            newHideButton.remove();
-        
-        });
-    }
+    newHideButton.addEventListener("click", function() {
+
+        newHideButton.remove();
+        for (let i = 3; i < drivingArrayLength; i++) {
+            
+            //create element
+            let newListItem = document.createElement("li");
+            let newSubheading = document.createElement("div");
+            //add text value
+            newListItem.className = "list-class hidden-text"
+            newListItem.textContent = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].instruction.text;
+            newSubheading.textContent = (drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].travelDistance).toFixed(2) + 'mi';
+            //append to page
+            if ("hints" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
+                let newHintItem = document.createElement("p");
+                newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints[0].text;
+                newSubheading.appendChild(newHintItem);
+            };
+            if ("warnings" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
+                let newWarningItem = document.createElement("p");
+                console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+                newWarningItem.textContent = "Alert: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text;
+                newSubheading.appendChild(newWarningItem);
+            };
+
+            //check for warnings
+            //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text
+
+            newListItem.appendChild(newSubheading); 
+            drivingList.appendChild(newListItem); 
+        }
+    });
 
     //calculate the amount of time it takes to drive to airport
     let drivingSeconds = drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].travelDuration
@@ -230,68 +267,32 @@ function renderDirections() {
             Arriving at ${moment((moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()+(10*60))*1000).format('hh:mma')} (~10 minutes after flight lands)`              
     flightInfo.appendChild(driverDepLi)
 
-    //display time spent driving
-    let drivingDuration = document.createElement("p");
+    // display time spent driving
+    drivingDuration = document.createElement("p");
     drivingDuration.textContent = "Total Driving Time: " + drivingHours + " hours, " + drivingMinutes + " minutes"
     directionsContainer.appendChild(drivingDuration);
 
-
-    //add departure and arrival time and beginning and end of list
 
 
 //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]
 }
 
-
-
-
-
-//click on link to set css visibility
-
-// input field variables
-
-// input area event listener to grab address and flight id values
-inputArea.addEventListener("click", function(e){
-
-    if(e.target.matches("button")) {
-
-        console.log(yourAddressInput.value)
-        console.log(flightIdInput.value)
-
-        userAddress = yourAddressInput.value
-        userFlightId = flightIdInput.value
-
-        fetchFlightData()
-
-        inputToLocal()
-        
-    }
-    
-})
-
-
-
-
-
-
-// push user inout to local storage
-function inputToLocal() {
-    
-    if (previousUserFlightId.every(e => e !== userFlightId) && userFlightId !== ''){
-        previousUserFlightId.push(userFlightId)
-        localStorage.setItem('previousUserFlightId', JSON.stringify(previousUserFlightId))
-        updatePreviousSearch()
-    };
-
-    if (previousUserAddress.every(e => e !== userAddress) && userAddress !== ''){
-        previousUserAddress.push(userAddress)
-        localStorage.setItem('previousUserAddress', JSON.stringify(previousUserAddress))
-        updatePreviousSearch()
-    };
+function renderErrorMessage() {
+    let directionsContainer = document.querySelector(".driving-directions");
+    //create element
+    let drivingList = document.createElement("p");     //ordered list needs styling with numbers
+    drivingList.className = "container-class";
+    drivingList.id = "list-container";
+    //add text value
+    drivingList.textContent = 'Sorry! We are currently unable to search with parameters due to a server error!';
+    //append to page
+    directionsContainer.appendChild(drivingList); 
+    drivingOptions = '';
+    document.getElementById('avoid-tolls').checked = false;
+    document.getElementById('avoid-highways').checked = false;
+    console.log(drivingDataArray);
+    fetchFlightData();
 }
-
-// for appending on page start
-updatePreviousSearch()
 
 // appends li from local storage
 function updatePreviousSearch() {
@@ -300,12 +301,12 @@ function updatePreviousSearch() {
 
     for (let i = 0; i < previousUserAddress.length; i++) {
     
-        const previousSearchLi = document.createElement('li')
+        const previousSearchLi = document.createElement('li');
     
-        previousSearchLi.textContent = previousUserAddress[i]
-        previousSearchLi.setAttribute('class', "dropdown-item")
+        previousSearchLi.textContent = previousUserAddress[i];
+        previousSearchLi.setAttribute('class', "dropdown-item");
     
-        yourAddressDropdown.append(previousSearchLi)
+        yourAddressDropdown.append(previousSearchLi);
     
     }
 
@@ -313,29 +314,14 @@ function updatePreviousSearch() {
 
     for (let i = 0; i < previousUserFlightId.length; i++) {
     
-        const previousSearchLi = document.createElement('li')
+        const previousSearchLi = document.createElement('li');
     
-        previousSearchLi.textContent = previousUserFlightId[i]
-        previousSearchLi.setAttribute('class', "dropdown-item")
+        previousSearchLi.textContent = previousUserFlightId[i];
+        previousSearchLi.setAttribute('class', "dropdown-item");
     
-        flightIdDropdown.append(previousSearchLi)
+        flightIdDropdown.append(previousSearchLi);
     
     }
 
 }
 
-// dropdown listeners for the li text
-flightIdDropdown.addEventListener("click", function(e){
-
-    if(e.target.matches("li")) {
-        flightIdInput.value = e.target.textContent
-    }
-
-})
-yourAddressDropdown.addEventListener("click", function(e){
-
-    if(e.target.matches("li")) {
-        yourAddressInput.value = e.target.textContent
-    }
-
-})
