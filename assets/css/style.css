@@ -1,8 +1,11 @@
 :root {
+    /* color palette */
     --mainColor: hwb(216 44% 0%);
     --secondColor: hwb(216 9% 78%);
     --thirdColor: hwb(216 6% 88%);
     --complementaryColor: hwb(54 19% 25%);
+    --fontColor: #fff;
+    /* transitions */
     --globalTransition: 100ms ease-out;
 }
 
@@ -22,7 +25,7 @@
 
 /* background */
 #bg-img {
-    background-color: #ffffff;
+    background-color: #111111;
     background-size: cover;
     background-position: center;
     width: 100vw;
@@ -43,21 +46,22 @@ header img {
 #input-area {
     display: flex;
     align-items: center;
-    padding: 40px
+    padding: 10px;
+    background-color: #0f0f0f;
 }
 
 /* address and flight ID user input & search button */
 #input-area input,
 #input-area button {
-    padding: 10px;
-    margin: 20px;
+    padding: 10px 30px;
+    margin: 0 20px;
     font-size: 1.2rem;
     border-radius: 50px;
     border: 0;
     text-align: center;
     transition: var(--globalTransition);
     background-color: var(--secondColor);
-    color: white;
+    color: var(--fontColor);
 }
 
 #input-area input:focus,
@@ -77,6 +81,7 @@ input::placeholder {
     color: hwb(224 75% 10%);
 }
 
+/* input dropdown */
 #your-address-dropdown,
 #flight-id-dropdown {
     width: 93%;
@@ -88,7 +93,7 @@ input::placeholder {
 #your-address-dropdown li,
 #flight-id-dropdown li {
     text-align: center;
-    color: #e7e7e7;
+    color: var(--fontColor);
     overflow: hidden;
     background: radial-gradient(circle, var(--thirdColor), #00000000);
     padding: 10px;
@@ -102,6 +107,27 @@ input::placeholder {
     background: var(--mainColor);
 }
 
+.flight-info {
+    backdrop-filter: blur(3px) brightness(0.8);
+    padding: 0 80px;
+}
+
+
+/* bing map */
+.flight-info img {
+    /* sharpenish filter without ruining major details */
+    filter: saturate(1.4) contrast(1.2) grayscale(0.2);
+    border: 10px solid var(--complementaryColor);
+}
+
+/* flight info text */
+#flight-info {
+    color: var(--fontColor);
+    /* font-size: 1.2rem; */
+    padding: 40px 0;
+}
+
+/* mobile */
 @media screen and (max-width: 992px) {
     #input-area {
         flex-direction: column;
@@ -110,6 +136,16 @@ input::placeholder {
     #input-area input,
     #input-area button {
     font-size: 1.8rem;
+    margin: 20px;
+}
+
+.flight-info {
+    padding: 0 8%;
+}
+
+.row img {
+    width: 100%;
+    height: 100%;
 }
 
 }
