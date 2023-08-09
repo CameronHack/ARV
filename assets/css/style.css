@@ -98,11 +98,6 @@ input::placeholder {
 }
 
 
-
-.hidden-text {
-    visibility: hidden;
-}
-
 #hide-button {
     cursor: pointer;
 }
