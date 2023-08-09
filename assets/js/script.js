@@ -20,6 +20,9 @@ const flightIdDropdown = document.querySelector('#flight-id-dropdown')
 const yourAddressDropdown = document.querySelector('#your-address-dropdown')
 
 
+let dataTempArray = 'temp';
+
+
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
 //click any plane to be taken to the flight specific info and use the icao # in the parameter below. IATA # is 2 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
@@ -65,21 +68,23 @@ inputArea.addEventListener("click", function(e){
 flightIdDropdown.addEventListener("click", function(e){
 
     if(e.target.matches("li")) {
-        flightIdInput.value = e.target.textContent
-    }
+        flightIdInput.value = e.target.textContent;
+    };
 
 })
 
 yourAddressDropdown.addEventListener("click", function(e){
 
     if(e.target.matches("li")) {
-        yourAddressInput.value = e.target.textContent
-    }
+        yourAddressInput.value = e.target.textContent;
+    };
 
 })
 
+
 //Functions
-// push user inout to local storage
+
+// push user input to local storage
 function inputToLocal() {
     
     if (previousUserFlightId.every(e => e !== userFlightId) && userFlightId !== ''){
@@ -140,11 +145,8 @@ function fetchFlightData() {
             flightInfo.appendChild(depLi)
             flightInfo.appendChild(arrLi)
 
-            let mapImageUrl = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wp.0=${userAddress}&wp.1=${flightDataArray[0].response.arr_name}&key=AgNEk5oYYzQYl6k6bvwoGLzdqkug8ktcmPJ-7bd6iL91pXD4jYGm7Ai0omus7BET`;
-            mapImg.setAttribute('src', mapImageUrl)
 
-
-            
+          
             //add loading message
             fetch(`http://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
             .then(function (response) {
@@ -168,10 +170,53 @@ function fetchFlightData() {
                 } else {
                     renderErrorMessage();
                 }
+
+            let mapScript = document.createElement('script');
+            mapScript.setAttribute('type', 'text/javascript');
+            mapScript.setAttribute('src', 'http://www.bing.com/api/maps/mapcontrol?callback=GetMap');
+            mapScript.setAttribute('async', "");
+            mapScript.setAttribute('defer', "");
+            document.head.appendChild(mapScript);
+
             })
 
         })
 };
+
+function GetMap()
+    {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: 'AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2',
+            center: new Microsoft.Maps.Location(51.50632, -0.12714),
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+            disableMapTypeSelectorMouseOver:true,
+            disableKeyboardInput:true,
+            showDashboard:false,
+            liteMode:true,
+            zoom: 10
+        });
+
+        //Load the directions module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+            //Create an instance of the directions manager.
+            directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+            directionsManager.setRequestOptions({maxRoutes:1, routeDraggable: false})
+            directionsManager.setRenderOptions({autoDisplayDisambiguation: false, 
+                autoUpdateMapView: true, displayManeuverIcons: false, displayRouteSelector: false, displayStepWarnings: false
+            });
+            //Create waypoints to route between.
+            var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: userAddress });
+            directionsManager.addWaypoint(seattleWaypoint);
+
+            var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: flightDataArray[0].response.arr_name});
+            directionsManager.addWaypoint(workWaypoint);
+            
+            //Calculate directions.
+            directionsManager.calculateDirections();
+
+            dataTempArray = directionsManager.getCurrentRoute();
+        });
+    };
 
 function renderDirections() {
     let directionsContainer = document.querySelector(".driving-directions");
