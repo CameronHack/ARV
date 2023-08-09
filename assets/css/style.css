@@ -83,15 +83,19 @@ header img {
     font-weight: 600;
 }
 
+
 #input-area input:focus,
 #input-area button:hover {
     outline: 0;
-    background-color: var(--thirdColor);
     scale: 104%;
+}
 
-    box-shadow: 
-        inset 5px 5px 30px #ffffff1a,
-        inset -5px -5px 30px #ffffff1a;
+#input-area input:focus {
+    background-color: var(--thirdColor);
+}
+
+#input-area button:hover {
+    background-color: var(--mainColor);
 }
 
 /* input placeholder text */
@@ -120,16 +124,15 @@ input::placeholder {
     text-align: center;
     color: var(--fontColor);
     overflow: hidden;
-    background: radial-gradient(circle, var(--secondColor), #00000000);
+    background: radial-gradient(circle, var(--secondColor) 40%, #00000000);
     padding: 10px;
     margin: 3px -2px;
-    backdrop-filter: blur(5px);
 }
 
 #your-address-dropdown li:hover,
 #flight-id-dropdown li:hover {
     cursor: pointer;
-    background: var(--mainColor);
+    background: radial-gradient(circle, var(--mainColor) 40%, #00000000);
 }
 
 .flight {
@@ -140,7 +143,7 @@ input::placeholder {
 
 /* bing map */
 #myMap {
-    border: 4px solid var(--complementaryColor);
+    border: 2px solid var(--complementaryColor);
 }
 
 /* flight info text */
@@ -149,6 +152,19 @@ input::placeholder {
     color: var(--fontColor);
     font-size: 1.2rem;
     padding: 40px 0;
+}
+
+/* fixes padding issues */
+.d-flex {
+    padding: 0;
+}
+
+/* Directions */
+#driving-directions {
+    background-color: var(--thirdColor);
+    border-top: 2px solid var(--complementaryColor);
+    padding: 20px;
+    color: var(--fontColor);
 }
 
 /* mobile */
@@ -164,6 +180,17 @@ input::placeholder {
         margin: 20px;
     }
 
+    /* input dropdown */
+    #your-address-dropdown,
+    #flight-id-dropdown {
+        transition: 0ms;
+    }
+
+    /* fixes dropdown displaying about input */
+    .dropdown-menu {
+        z-index: 1;
+    }
+    
     .flight {
         padding: 0 20px;
         margin: 20px 0;
