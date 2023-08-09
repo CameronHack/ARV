@@ -12,26 +12,88 @@ let userFlightId;
 let arrivalAirport = '';
 let drivingOptions = '';
 let drivingArrayLength = '';
-
 let drivingDuration = '';
 let drivingListObjs = [];
-
 const previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || []
 const previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || []
 const flightIdDropdown = document.querySelector('#flight-id-dropdown')
 const yourAddressDropdown = document.querySelector('#your-address-dropdown')
 
 
-
-// input field variables
-
-// input area event listener to grab address and flight id values
-
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
 //click any plane to be taken to the flight specific info and use the icao # in the parameter below. IATA # is 2 letter airline code + 3-5 digit flight code. Usually first thing that pops up under the name of the aircraft at the top of the page. 
 
-// airline name, iata number, status, dep city, dep airport code, dep terminal, dep gate, dep time, arr city, arr airport code, arr terminal, arr gate, arr time
+//Init Scripts
+// for appending on page start
+updatePreviousSearch();
+
+//Event Listeners
+drivingOptionsListener = addEventListener("change", function() {
+
+    if ((document.getElementById('avoid-tolls').checked) && !(document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=tolls';
+    } else if (!(document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=highways';
+    } else if ((document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
+        drivingOptions = '&avoid=tolls,highways';
+    } else {
+        drivingOptions = '';
+    }
+    if (document.getElementsByClassName("list-class").length != 0) {
+        fetchFlightData(); 
+    }
+} );
+
+// input area event listener to grab address and flight id values
+inputArea.addEventListener("click", function(e){
+
+    if(e.target.matches("button")) {
+
+        userAddress = yourAddressInput.value;
+        userFlightId = flightIdInput.value;
+
+        fetchFlightData();
+
+        inputToLocal();
+        
+    }
+    
+});
+
+// dropdown listeners for the li text
+flightIdDropdown.addEventListener("click", function(e){
+
+    if(e.target.matches("li")) {
+        flightIdInput.value = e.target.textContent
+    }
+
+})
+
+yourAddressDropdown.addEventListener("click", function(e){
+
+    if(e.target.matches("li")) {
+        yourAddressInput.value = e.target.textContent
+    }
+
+})
+
+//Functions
+// push user inout to local storage
+function inputToLocal() {
+    
+    if (previousUserFlightId.every(e => e !== userFlightId) && userFlightId !== ''){
+        previousUserFlightId.push(userFlightId);
+        localStorage.setItem('previousUserFlightId', JSON.stringify(previousUserFlightId));
+        updatePreviousSearch();
+    };
+
+    if (previousUserAddress.every(e => e !== userAddress) && userAddress !== ''){
+        previousUserAddress.push(userAddress);
+        localStorage.setItem('previousUserAddress', JSON.stringify(previousUserAddress));
+        updatePreviousSearch();
+    };
+}
 
 function fetchFlightData() {
     fetch(`https://airlabs.co/api/v9/flight?flight_iata=${userFlightId}&api_key=d8da3920-43a6-4206-b47b-26ea2c037a69`) 
@@ -89,8 +151,8 @@ function fetchFlightData() {
                 return response.json();
             })
             .then(function (drivingData) {
-                drivingDataArray = [drivingData];
-                drivingListObjs = document.getElementsByClassName("list-class");
+            drivingDataArray = [drivingData];
+            drivingListObjs = document.getElementsByClassName("list-class");
             let drivingListContainer = document.querySelector("#list-container");
             if (drivingListObjs.length > 0) {                
                 for (let i = 0; i < drivingListObjs.length; i++) {
@@ -110,24 +172,6 @@ function fetchFlightData() {
 
         })
 };
-
-drivingOptionsListener = addEventListener("change", function() {
-
-    if ((document.getElementById('avoid-tolls').checked) && !(document.getElementById('avoid-highways').checked)) {
-        drivingOptions = '&avoid=tolls';
-    } else if (!(document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
-        drivingOptions = '&avoid=highways';
-    } else if ((document.getElementById('avoid-tolls').checked) && (document.getElementById('avoid-highways').checked)) {
-        drivingOptions = '&avoid=tolls,highways';
-    } else {
-        drivingOptions = '';
-    }
-    if (document.getElementsByClassName("list-class").length != 0) {
-        fetchFlightData(); 
-    }
-} );
-
-
 
 function renderDirections() {
     let directionsContainer = document.querySelector(".driving-directions");
@@ -158,7 +202,13 @@ function renderDirections() {
         };
 
         //check for warnings
-        //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text
+        // drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text
+        if ("warnings" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
+            let newWarningItem = document.createElement("p");
+            console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+            newWarningItem.textContent = "Heads Up: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text;
+            newSubheading.appendChild(newWarningItem);
+        };
 
         newListItem.appendChild(newSubheading); 
         drivingList.appendChild(newListItem); 
@@ -189,6 +239,12 @@ function renderDirections() {
                 let newHintItem = document.createElement("p");
                 newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints[0].text;
                 newSubheading.appendChild(newHintItem);
+            };
+            if ("warnings" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
+                let newWarningItem = document.createElement("p");
+                console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+                newWarningItem.textContent = "Alert: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text;
+                newSubheading.appendChild(newWarningItem);
             };
 
             //check for warnings
@@ -221,7 +277,6 @@ function renderDirections() {
 //drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]
 }
 
-
 function renderErrorMessage() {
     let directionsContainer = document.querySelector(".driving-directions");
     //create element
@@ -239,48 +294,6 @@ function renderErrorMessage() {
     fetchFlightData();
 }
 
-
-//click on link to set css visibility
-
-// input field variables
-
-// input area event listener to grab address and flight id values
-inputArea.addEventListener("click", function(e){
-
-    if(e.target.matches("button")) {
-
-        userAddress = yourAddressInput.value;
-        userFlightId = flightIdInput.value;
-
-        fetchFlightData();
-
-        inputToLocal();
-        
-    }
-    
-});
-
-
-// push user inout to local storage
-function inputToLocal() {
-    
-    if (previousUserFlightId.every(e => e !== userFlightId) && userFlightId !== ''){
-        previousUserFlightId.push(userFlightId)
-        localStorage.setItem('previousUserFlightId', JSON.stringify(previousUserFlightId))
-        updatePreviousSearch()
-    };
-
-    if (previousUserAddress.every(e => e !== userAddress) && userAddress !== ''){
-        previousUserAddress.push(userAddress)
-        localStorage.setItem('previousUserAddress', JSON.stringify(previousUserAddress))
-        updatePreviousSearch()
-    };
-}
-
-// for appending on page start
-updatePreviousSearch()
-
-
 // appends li from local storage
 function updatePreviousSearch() {
 
@@ -288,12 +301,12 @@ function updatePreviousSearch() {
 
     for (let i = 0; i < previousUserAddress.length; i++) {
     
-        const previousSearchLi = document.createElement('li')
+        const previousSearchLi = document.createElement('li');
     
-        previousSearchLi.textContent = previousUserAddress[i]
-        previousSearchLi.setAttribute('class', "dropdown-item")
+        previousSearchLi.textContent = previousUserAddress[i];
+        previousSearchLi.setAttribute('class', "dropdown-item");
     
-        yourAddressDropdown.append(previousSearchLi)
+        yourAddressDropdown.append(previousSearchLi);
     
     }
 
@@ -301,29 +314,14 @@ function updatePreviousSearch() {
 
     for (let i = 0; i < previousUserFlightId.length; i++) {
     
-        const previousSearchLi = document.createElement('li')
+        const previousSearchLi = document.createElement('li');
     
-        previousSearchLi.textContent = previousUserFlightId[i]
-        previousSearchLi.setAttribute('class', "dropdown-item")
+        previousSearchLi.textContent = previousUserFlightId[i];
+        previousSearchLi.setAttribute('class', "dropdown-item");
     
-        flightIdDropdown.append(previousSearchLi)
+        flightIdDropdown.append(previousSearchLi);
     
     }
 
 }
 
-// dropdown listeners for the li text
-flightIdDropdown.addEventListener("click", function(e){
-
-    if(e.target.matches("li")) {
-        flightIdInput.value = e.target.textContent
-    }
-
-})
-yourAddressDropdown.addEventListener("click", function(e){
-
-    if(e.target.matches("li")) {
-        yourAddressInput.value = e.target.textContent
-    }
-
-})
