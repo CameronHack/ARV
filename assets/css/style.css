@@ -1,4 +1,8 @@
 :root {
+    --mainColor: hwb(216 44% 0%);
+    --secondColor: hwb(216 9% 78%);
+    --thirdColor: hwb(216 6% 88%);
+    --complementaryColor: hwb(54 19% 25%);
     --globalTransition: 100ms ease-out;
 }
 
@@ -10,15 +14,15 @@
 /* background filter */
 .bg-filter {
     position: absolute;
-    /* background-color: #00000069; */
-    backdrop-filter: blur(3px) grayscale() brightness(20%);
+    background-color: #000000d3;
+    backdrop-filter: blur(0px) grayscale();
     width: 100vw;
     height: 100vh;
 }
 
 /* background */
 #bg-img {
-    background-color: #1d1d1d;
+    background-color: #ffffff;
     background-size: cover;
     background-position: center;
     width: 100vw;
@@ -27,7 +31,7 @@
 
 /* header */
 header {
-    background-color: #1b1b25;
+    background-color: var(--thirdColor);
 }
 
 /* logo */
@@ -39,35 +43,38 @@ header img {
 #input-area {
     display: flex;
     align-items: center;
+    padding: 40px
 }
 
 /* address and flight ID user input & search button */
 #input-area input,
 #input-area button {
-    padding: 8px;
+    padding: 10px;
     margin: 20px;
-    font-size: 1.6rem;
-    border-radius: 5px;
+    font-size: 1.2rem;
+    border-radius: 50px;
     border: 0;
     text-align: center;
     transition: var(--globalTransition);
-    background-color: #00000080;
-    color: #eeeeee;
+    background-color: var(--secondColor);
+    color: white;
 }
 
 #input-area input:focus,
 #input-area button:hover {
     outline: 0;
-    background-color: #0000003f;
+    background-color: var(--thirdColor);
     scale: 104%;
     /* fake depth */
-    box-shadow: 
+    /* box-shadow: 
         inset 5px 5px 5px #ffffff0e,
-        inset -5px -5px 5px #0000000e;
+        inset -5px -5px 5px #0000000e; */
 }
 
+/* input placeholder text */
 input::placeholder {
-    color: #d2d9f0;
+    /* CHANGE!!!!!!!!! */
+    color: hwb(224 75% 10%);
 }
 
 #your-address-dropdown,
@@ -83,21 +90,27 @@ input::placeholder {
     text-align: center;
     color: #e7e7e7;
     overflow: hidden;
-    background: radial-gradient(circle, #0000009a, #00000000);
+    background: radial-gradient(circle, var(--thirdColor), #00000000);
     padding: 10px;
     margin: 3px -2px;
+    backdrop-filter: blur(5px);
 }
 
 #your-address-dropdown li:hover,
 #flight-id-dropdown li:hover {
     cursor: pointer;
-    background: radial-gradient(circle, #1b1b259a, #00000000);
+    background: var(--mainColor);
 }
 
 @media screen and (max-width: 992px) {
     #input-area {
         flex-direction: column;
     }
+
+    #input-area input,
+    #input-area button {
+    font-size: 1.8rem;
+}
 
 }
 
