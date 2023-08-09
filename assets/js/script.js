@@ -122,7 +122,7 @@ function fetchFlightData() {
             if (flightDataArray[0].response.dep_gate === null) {
                 flightDataArray[0].response.dep_gate = 'Not available'
             }
-            depLi.innerHTML = `${flightDataArray[0].response.dep_iata} <br>
+            depLi.innerHTML = `Departure Airport: ${flightDataArray[0].response.dep_iata} <br>
             ${flightDataArray[0].response.dep_name} <br>
             Terminal: ${flightDataArray[0].response.dep_terminal} <br>
             left from gate: ${flightDataArray[0].response.dep_gate} <br>
@@ -135,7 +135,7 @@ function fetchFlightData() {
             if (flightDataArray[0].response.arr_gate === null) {
                 flightDataArray[0].response.arr_gate = 'Not available'
             }
-            arrLi.innerHTML = `${flightDataArray[0].response.arr_iata}<br>
+            arrLi.innerHTML = `Arrival Airport: ${flightDataArray[0].response.arr_iata}<br>
             ${flightDataArray[0].response.arr_name}<br>
             Terminal: ${flightDataArray[0].response.arr_terminal}<br>
             arrives at gate: ${flightDataArray[0].response.arr_gate}<br>

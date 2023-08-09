@@ -1,5 +1,25 @@
 :root {
+    /* color palette */
+    --mainColor: hwb(216 44% 0%);
+    --secondColor: hwb(216 9% 78%);
+    --thirdColor: hwb(216 6% 88%);
+    --complementaryColor: hwb(54 19% 25%);
+    --fontColor: #fff;
+    /* transitions */
     --globalTransition: 100ms ease-out;
+    /* fonts */
+    --mainFont: 'Montserrat', sans-serif;
+    --secondaryFont: 'Lato', sans-serif;
+}
+
+h2 {
+    font-family: var(--mainFont);
+    font-weight: 600;
+}
+
+h3 {
+    font-family: var(--mainFont);
+    font-weight: 500;
 }
 
 /* used to hide elements */
@@ -10,15 +30,15 @@
 /* background filter */
 .bg-filter {
     position: absolute;
-    /* background-color: #00000069; */
-    backdrop-filter: blur(3px) grayscale() brightness(20%);
+    background-color: #000000d3;
+    backdrop-filter: blur(0px) grayscale();
     width: 100vw;
     height: 100vh;
 }
 
 /* background */
 #bg-img {
-    background-color: #eeeeee;
+    background-color: #111111;
     background-size: cover;
     background-position: center;
     width: 100vw;
@@ -27,7 +47,7 @@
 
 /* header */
 header {
-    background-color: #1b1b25;
+    background-color: var(--thirdColor);
 }
 
 /* logo */
@@ -39,37 +59,44 @@ header img {
 #input-area {
     display: flex;
     align-items: center;
+    padding: 10px;
+    backdrop-filter: blur(3px) brightness(0.8);
 }
 
-/* address and flight ID user input */
+/* address and flight ID user input & search button */
 #input-area input,
 #input-area button {
-    padding: 8px;
-    margin: 20px;
-    font-size: 1.6rem;
-    border-radius: 5px;
+    padding: 10px 30px;
+    margin: 0 20px;
+    font-size: 1.2rem;
+    border-radius: 50px;
     border: 0;
     text-align: center;
     transition: var(--globalTransition);
-    background-color: #00000080;
-    color: #eeeeee;
+    background-color: var(--secondColor);
+    color: var(--fontColor);
+    font-family: var(--mainFont);
+    font-weight: 600;
 }
 
 #input-area input:focus,
 #input-area button:hover {
     outline: 0;
-    background-color: #0000003f;
+    background-color: var(--thirdColor);
     scale: 104%;
     /* fake depth */
-    box-shadow: 
+    /* box-shadow: 
         inset 5px 5px 5px #ffffff0e,
-        inset -5px -5px 5px #0000000e;
+        inset -5px -5px 5px #0000000e; */
 }
 
+/* input placeholder text */
 input::placeholder {
-    color: #d2d9f0;
+    color: hwb(216 60% 20%);
+    font-family: var(--secondaryFont);
 }
 
+/* input dropdown */
 #your-address-dropdown,
 #flight-id-dropdown {
     width: 93%;
@@ -80,16 +107,60 @@ input::placeholder {
 
 #your-address-dropdown li,
 #flight-id-dropdown li {
+    font-family: var(--secondaryFont);
     text-align: center;
-    color: aqua;
+    color: var(--fontColor);
     overflow: hidden;
-    background: radial-gradient(circle, #0000009a, #00000000);
+    background: radial-gradient(circle, var(--thirdColor), #00000000);
+    padding: 10px;
+    margin: 3px -2px;
+    backdrop-filter: blur(5px);
 }
 
+#your-address-dropdown li:hover,
+#flight-id-dropdown li:hover {
+    cursor: pointer;
+    background: var(--mainColor);
+}
+
+.flight {
+    backdrop-filter: blur(3px) brightness(0.8);
+    padding: 0 80px;
+    margin: 40px 0;
+}
+
+/* bing map */
+.flight img {
+    /* sharpenish filter without ruining major details */
+    filter: saturate(1.4) contrast(1.2) grayscale(0.2);
+    border: 10px solid var(--complementaryColor);
+}
+
+/* flight info text */
+#flight-info {
+    font-family: var(--secondaryFont);
+    color: var(--fontColor);
+    font-size: 1.2rem;
+    padding: 40px 0;
+}
+
+/* mobile */
 @media screen and (max-width: 992px) {
     #input-area {
+        padding: 0;
         flex-direction: column;
     }
+
+    #input-area input,
+    #input-area button {
+    font-size: 1.4rem;
+    margin: 20px;
+}
+
+.row img {
+    width: 100%;
+    height: 100%;
+}
 
 }
 
