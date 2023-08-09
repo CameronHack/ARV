@@ -16,7 +16,6 @@
 
 <body>
 
-
     <header>
         <nav class="navbar d-flex justify-content-center">
               <a class="navbar-brand" href="./index.html">
@@ -26,8 +25,12 @@
     </header>
 
     <section id="input-area">
-        <input type="text" placeholder="Address" id="your-address">
 
+        <div class="dropdown">
+            <input type="text" placeholder="Address" id="your-address" data-bs-toggle="dropdown" aria-expanded="false">
+            <ul id="your-address-dropdown" class="dropdown-menu"></ul>
+        </div>
+        
         <div class="dropdown">
             <input type="text" placeholder="Flight ID ex. aa1234" id="flight-id" data-bs-toggle="dropdown" aria-expanded="false">
             <ul id="flight-id-dropdown" class="dropdown-menu"></ul>
