@@ -22,18 +22,6 @@ const yourAddressDropdown = document.querySelector('#your-address-dropdown')
 // input field variables
 
 // input area event listener to grab address and flight id values
-inputArea.addEventListener("click", function(e){
-
-    if(e.target.matches("button")) {
-
-        userAddress = yourAddressInput.value;
-        userFlightId = flightIdInput.value;
-
-        fetchFlightData();
-    }
-
-})
-
 
 //live flights for experimentation are available at :
 //https://flightaware.com/live/
@@ -69,6 +57,7 @@ function fetchFlightData() {
 
             flightNumber.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
             flightStatus.textContent = `Status: ${flightDataArray[0].response.status}`
+            
             let depLi = document.createElement('li')
             if (flightDataArray[0].response.dep_terminal === null) {
                 flightDataArray[0].response.dep_terminal = 'Not available'
@@ -95,13 +84,9 @@ function fetchFlightData() {
             arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
             at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
             `
-
-            // let driverDepLi = document.createElement('li')
-            // driverDepLi.innerHTML = `Leave at: ${moment(flightDataArray[0].response.arr_time, 'YYYY-MM-DD HH:mm').unix()-(10*60)-drivingSeconds}`
-
+            flightInfo.innerHTML = ''
             flightInfo.appendChild(depLi)
             flightInfo.appendChild(arrLi)
-            // flightInfo.appendChild(driverDepLi)
 
             let mapImageUrl = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes?wp.0=${userAddress}&wp.1=${flightDataArray[0].response.arr_name}&key=AgNEk5oYYzQYl6k6bvwoGLzdqkug8ktcmPJ-7bd6iL91pXD4jYGm7Ai0omus7BET`;
             console.log(mapImageUrl)
