@@ -107,7 +107,7 @@ function inputToLocal() {
 }
 
 function fetchFlightData() {
-    fetch(`https://airlabs.co/api/v9/flight?flight_iata=${userFlightId}&api_key=d8da3920-43a6-4206-b47b-26ea2c037a69`) 
+    fetch(`https://airlabs.co/api/v9/flight?flight_iata=${userFlightId}&api_key=dbe4e249-ef48-4be4-8830-807c12e0b8a7`) 
         .then(function (response) {
             return response.json();
         })
