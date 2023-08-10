@@ -44,22 +44,23 @@
         <button id="Search">Search</button>
     </section>
 
-    <section id="arv-info" class="hidden">
-        <h1>Welcome to ARV!</h1>
+    <section id="arv-info" class="arv-info container col-12 col-lg-6">
+        <h1 id="welcome">Welcome to ARV!</h1>
         <p> Have you ever struggled to figure out when to leave your house to pick up someone from the airport? Well, struggle no more. Simply type in your home address and the flight number of the person you need to pick up, and ARV will tell you everything you need to know. Updated flight information, recommended departure time from your home, driving directions, and estimated travel time with current traffic conditions are all at your fingertips. Go ahead, give it a shot.
         </p>
     </section>
 
 
-    <section class="container">
+    <section class="container hidden" id="flight-container">
         <section class="row flight">
             <section class="col-12 col-lg-6" id="flight-info">
-                <h2 id="flight-number"></h2>
+                <h2>Flight Information</h2>
+                <h3 id="flight-number"></h3>
                 <h3 id="flight-status"></h3>
                 <ul id="flight-info-items"></ul>
             </section>
 
-            <section class="col-12 col-lg-6 d-flex justify-content-end align-items-center">
+            <section class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
                 <!-- <img src="" alt="" id="map" class="max-width-100 h-auto"> -->
                 <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
             </section>
@@ -69,7 +70,8 @@
     <!-- dynamic Bing map -->
     
 
-    <section class="driving-directions container" id="driving-directions">
+    <section class="driving-directions container hidden" id="driving-directions">
+        <h2>Driving Directions</h2>
 
         <div class="checkboxes">
             <input type="checkbox" id="avoid-tolls" name="avoid-tolls" />
@@ -92,7 +94,48 @@
     <script type = "text/JavaScript" src = " https://MomentJS.com/downloads/moment.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="./assets/js/script.js"></script>
-</body>
 
+    <footer>
+        <p>
+        &#169 2023 Cameron Hack, Brian Myer & Brian Wastle
+        </p>
+    </footer>
+
+  
+  <!-- Modal -->
+
+<div class="modal fade" id="syntax-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Flight Number is not valid!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Hint: Your Flight Number should be 2 letters followed by some numbers. Please enter a valid Flight Number.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="no-flight-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Flight Number is not valid!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Hint: No flight has been found with that Flight Number! Please make sure you have the correct number and try again.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </html>
