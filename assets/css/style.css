@@ -27,6 +27,10 @@ h3 {
     margin: 0;
 }
 
+.container {
+    padding: 0;
+}
+
 /* used to hide elements */
 .hidden {
     display: none;
@@ -199,35 +203,43 @@ input::placeholder {
 #driving-directions {
     background-color: var(--thirdColor);
     border-top: 2px solid var(--complementaryColor);
-    padding: 20px;
     color: var(--fontColor);
+    padding: 20px;
 }
 
 /* avoid tolls & avoid highways */
 .checkboxes {
-    margin: 20px;
+    padding: 20px;
 }
 
 #driving-directions label {
     font-family: var(--mainFont);
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     margin-left: 20px;
+    padding: 10px;
+}
+
+.driving-directions {
+    color: var(--fontColor);
 }
 
 input[type="checkbox"] {
     background-color: var(--secondColor);
     appearance: none;
     width: 36px;
-    height: 36px;
-    border-radius: 5px;
+    height: 22px;
+    border-radius: 55px;
     cursor: pointer;
+    scale: 160%;
 }
 
 input[type="checkbox"]:checked {
-    border: 5px solid var(--complementaryColor);
-    scale: 80%;
+    border: 3px solid var(--complementaryColor);
+    scale: 140%;
 }
+
+
 
 /* mobile */
 @media screen and (max-width: 992px) {
@@ -280,23 +292,5 @@ input[type="checkbox"]:checked {
 #driver-details {
     grid-area:driver;
 }
-
-}
-
-
-    .container {
-        padding: 0;
-    }
-
-@media screen and (max-width: 768px) {}
-
-
-#hide-button {
-    cursor: pointer;
-
-}
-
-.driving-directions {
-    color: var(--fontColor);
 
 }
