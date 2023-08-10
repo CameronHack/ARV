@@ -22,6 +22,11 @@ h3 {
     font-weight: 500;
 }
 
+/* fixes logo off center */
+.navbar-brand {
+    margin: 0;
+}
+
 /* used to hide elements */
 .hidden {
     display: none;
@@ -137,8 +142,8 @@ input::placeholder {
 
 .flight {
     background-color: #0000002a;
-    padding: 0 80px;
-    margin: 40px 0;
+    padding: 40px;
+    margin: 60px 0;
 }
 
 /* bing map */
@@ -159,12 +164,10 @@ input::placeholder {
     padding: 0;
 }
 
-/* Directions */
-#driving-directions {
-    background-color: var(--thirdColor);
-    border-top: 2px solid var(--complementaryColor);
-    padding: 20px;
-    color: var(--fontColor);
+#flight-number,
+#flight-status {
+    margin: 0;
+    padding: 10px 0;
 }
 
 #flight-info-items {
@@ -172,6 +175,12 @@ input::placeholder {
     grid-template-columns:  1fr 1fr 1fr;
     grid-template-areas: 
     "departure arrival driver" ;
+    list-style: none;
+    margin: 0;
+    padding: 20px 0;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+
 }
 
 #departure-details {
@@ -190,6 +199,40 @@ input::placeholder {
     position:relative;
     width:350px;
     height:350px;
+}
+
+/* Directions */
+#driving-directions {
+    background-color: var(--thirdColor);
+    border-top: 2px solid var(--complementaryColor);
+    padding: 20px;
+    color: var(--fontColor);
+}
+
+/* avoid tolls & avoid highways */
+.checkboxes {
+    margin: 20px;
+}
+
+#driving-directions label {
+    font-family: var(--mainFont);
+    font-weight: 600;
+    font-size: 1.4rem;
+    margin-left: 20px;
+}
+
+input[type="checkbox"] {
+    background-color: var(--secondColor);
+    appearance: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    border: 5px solid var(--complementaryColor);
+    scale: 80%;
 }
 
 /* mobile */
@@ -250,8 +293,6 @@ input::placeholder {
     .container {
         padding: 0;
     }
-
-}
 
 @media screen and (max-width: 768px) {}
 
