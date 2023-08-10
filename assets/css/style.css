@@ -144,6 +144,32 @@ input::placeholder {
     padding: 40px 0;
 }
 
+#flight-info-items {
+    display:grid;
+    grid-template-columns:  1fr 1fr 1fr;
+    grid-template-areas: 
+    "departure arrival driver" ;
+}
+
+#departure-details {
+    grid-area:departure;
+}
+
+#arrival-details {
+    grid-area:arrival;
+}
+
+#driver-details {
+    grid-area:driver;
+}
+
+#myMap {
+    position:relative;
+    width:350px;
+    height:350px;
+}
+
+
 /* mobile */
 @media screen and (max-width: 992px) {
     #input-area {
@@ -162,6 +188,28 @@ input::placeholder {
     height: 100%;
 }
 
+#flight-info-items {
+    display:grid;
+    grid-template-columns:  1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+    "departure" 
+    "arrival"
+    "driver";
+}
+
+#departure-details {
+    grid-area:departure;
+}
+
+#arrival-details {
+    grid-area:arrival;
+}
+
+#driver-details {
+    grid-area:driver;
+}
+
 }
 
 @media screen and (max-width: 768px) {
@@ -171,4 +219,8 @@ input::placeholder {
 
 #hide-button {
     cursor: pointer;
+}
+
+.driving-directions {
+    color: var(--fontColor);
 }
