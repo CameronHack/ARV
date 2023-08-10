@@ -36,7 +36,7 @@ h3 {
 .bg-filter {
     position: absolute;
     background-color: #000000d3;
-    backdrop-filter: blur(0px) grayscale();
+    backdrop-filter: grayscale();
     width: 100vw;
     height: 100vh;
 }
@@ -62,14 +62,14 @@ header {
 /* logo */
 header img {
     display: block;
-    margin: 0 auto;
+    margin: 5px auto;
 }
 
 #input-area {
     display: flex;
     align-items: center;
     padding: 10px;
-    backdrop-filter: blur(3px) brightness(0.8);
+    backdrop-filter: brightness(0.8);
 }
 
 /* address and flight ID user input & search button */
@@ -193,12 +193,6 @@ input::placeholder {
 
 #driver-details {
     grid-area:driver;
-}
-
-#myMap {
-    position:relative;
-    width:350px;
-    height:350px;
 }
 
 /* Directions */
