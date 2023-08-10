@@ -52,15 +52,15 @@
 
     <section class="container">
         <section class="row flight">
-            <section class="col-12 col-lg-8" id="flight-info">
+            <section class="col-12 col-lg-6" id="flight-info">
                 <h2 id="flight-number"></h2>
                 <h3 id="flight-status"></h3>
                 <ul id="flight-info-items"></ul>
             </section>
 
-            <section class="col-12 col-lg-4 d-flex justify-content-center align-items-center">
-<!--                 <img src="" alt="" id="map" class="max-width-100 h-auto"> -->
-                <div id="myMap" style="position:relative;width:350px;height:350px;"></div>
+            <section class="col-12 col-lg-6 d-flex justify-content-end align-items-center">
+                <!-- <img src="" alt="" id="map" class="max-width-100 h-auto"> -->
+                <div id="myMap" style="position:relative;width:500px;height:500px;"></div>
             </section>
         </section>
     </section>
@@ -68,7 +68,7 @@
     <!-- dynamic Bing map -->
     
 
-    <section class="driving-directions" id="driving-directions">
+    <section class="driving-directions container" id="driving-directions">
 
         <input type="checkbox" id="avoid-tolls" name="avoid-tolls" />
         <label for="avoid-tolls">Avoid Tolls</label>
@@ -78,7 +78,7 @@
     </section>
 
     <!-- dynamic map background -->
-    <div style="position: absolute; z-index: -1; top: 0;">
+    <div style="position: fixed; z-index: -1; top: 0;">
         <div class="bg-filter"></div>
         <div id="bg-img" style="background-image: url('./assets/images/backgroundplaceholder.JPG');"></div>
     </div>
