@@ -263,3 +263,8 @@ input::placeholder {
     color: var(--fontColor);
 
 }
+
+footer {
+    color: var(--fontColor);
+    text-align: center;
+}
