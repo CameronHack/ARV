@@ -59,7 +59,7 @@
                 <ul id="flight-info-items"></ul>
             </section>
 
-            <section class="col-12 col-lg-6 d-flex justify-content-end align-items-center">
+            <section class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
                 <!-- <img src="" alt="" id="map" class="max-width-100 h-auto"> -->
                 <div id="myMap" style="position:relative;width:500px;height:500px;"></div>
             </section>
@@ -95,8 +95,42 @@
         &#169 2023 Cameron Hack, Brian Myer & Brian Wastle
         </p>
     </footer>
-</body>
 
+  
+  <!-- Modal -->
 
+<div class="modal fade" id="syntax-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Flight Number is not valid!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Hint: Your Flight Number should be 2 letters followed by some numbers. Please enter a valid Flight Number.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="no-flight-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Flight Number is not valid!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Hint: No flight has been found with that Flight Number! Please make sure you have the correct number and try again.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </html>
