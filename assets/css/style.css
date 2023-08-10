@@ -239,8 +239,6 @@ input[type="checkbox"]:checked {
     scale: 140%;
 }
 
-
-
 /* mobile */
 @media screen and (max-width: 992px) {
     #input-area {
@@ -295,13 +293,7 @@ input[type="checkbox"]:checked {
 
 }
 
-
-    .container {
-        padding: 0;
-    }
-
 @media screen and (max-width: 768px) {}
-
 
 #hide-button {
     cursor: pointer;
@@ -313,15 +305,14 @@ input[type="checkbox"]:checked {
     color: var(--fontColor);
 
 }
+
 .arv-info {
     color: var(--fontColor);
     background-color: #0000002a;
     padding: 5vh 3vw;
     margin: 15vh auto;
-    box-shadow: 1em 1em .5em #0000002a, -1em -1em .5em #0000002a, 1em -1em .5em #0000002a, -1em 1em .5em #0000002a;
-    font-size: 25px;
+    font-size: 1.6rem;
     text-align: center;
-    border-radius: 50px;
 }
 
 #welcome {
