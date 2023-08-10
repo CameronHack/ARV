@@ -259,10 +259,26 @@ input::placeholder {
 
 }
 
-.driving-directions {
+.driving-directions
+ {
     color: var(--fontColor);
 
 }
+.arv-info {
+    color: var(--fontColor);
+    background-color: #0000002a;
+    padding: 5vh 3vw;
+    margin: 15vh auto;
+    box-shadow: 1em 1em .5em #0000002a, -1em -1em .5em #0000002a, 1em -1em .5em #0000002a, -1em 1em .5em #0000002a;
+    font-size: 25px;
+    text-align: center;
+    border-radius: 50px;
+}
+
+#welcome {
+    margin-bottom: 5vh;
+}
+
 
 footer {
     color: var(--fontColor);

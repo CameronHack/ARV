@@ -19,6 +19,9 @@ const previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress
 const flightIdDropdown = document.querySelector('#flight-id-dropdown');
 const yourAddressDropdown = document.querySelector('#your-address-dropdown');
 
+let arvInfo = document.querySelector('#arv-info');
+let flightContainer = document.querySelector('#flight-container');
+let drivingDirections = document.querySelector('#driving-directions');
 
 
 let dataTempArray = 'temp';
@@ -64,6 +67,9 @@ inputArea.addEventListener("click", function(e){
             fetchFlightData();
 
             inputToLocal();
+        arvInfo.classList.add('hidden')
+        flightContainer.classList.remove('hidden')
+        drivingDirections.classList.remove('hidden')
         } else {
             syntaxErrorModal();
         }

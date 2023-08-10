@@ -43,14 +43,14 @@
         <button id="Search">Search</button>
     </section>
 
-    <section id="arv-info" class="hidden">
-        <h1>Welcome to ARV!</h1>
+    <section id="arv-info" class="arv-info container col-12 col-lg-6">
+        <h1 id="welcome">Welcome to ARV!</h1>
         <p> Have you ever struggled to figure out when to leave your house to pick up someone from the airport? Well, struggle no more. Simply type in your home address and the flight number of the person you need to pick up, and ARV will tell you everything you need to know. Updated flight information, recommended departure time from your home, driving directions, and estimated travel time with current traffic conditions are all at your fingertips. Go ahead, give it a shot.
         </p>
     </section>
 
 
-    <section class="container">
+    <section class="container hidden" id="flight-container">
         <section class="row flight">
             <section class="col-12 col-lg-6" id="flight-info">
                 <h2>Flight Information</h2>
@@ -69,7 +69,7 @@
     <!-- dynamic Bing map -->
     
 
-    <section class="driving-directions container" id="driving-directions">
+    <section class="driving-directions container hidden" id="driving-directions">
         <h2>Driving Directions</h2>
         <input type="checkbox" id="avoid-tolls" name="avoid-tolls" />
         <label for="avoid-tolls">Avoid Tolls</label>
