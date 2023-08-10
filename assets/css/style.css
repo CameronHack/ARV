@@ -264,7 +264,6 @@ input::placeholder {
     color: var(--fontColor);
 
 }
-
 .arv-info {
     color: var(--fontColor);
     background-color: #0000002a;
@@ -278,4 +277,10 @@ input::placeholder {
 
 #welcome {
     margin-bottom: 5vh;
+}
+
+
+footer {
+    color: var(--fontColor);
+    text-align: center;
 }
