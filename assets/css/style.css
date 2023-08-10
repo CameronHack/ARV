@@ -1,7 +1,7 @@
 :root {
     /* color palette */
     --mainColor: hwb(216 44% 0%);
-    --secondColor: hwb(216 9% 78%);
+    --secondColor: hwb(216 12% 68%);
     --thirdColor: hwb(216 6% 88%);
     --complementaryColor: hwb(54 19% 25%);
     --fontColor: #fff;
@@ -126,7 +126,7 @@ input::placeholder {
     overflow: hidden;
     background: radial-gradient(circle, var(--secondColor) 40%, #00000000);
     padding: 10px;
-    margin: 3px -2px;
+    margin: 0 -3px;
 }
 
 #your-address-dropdown li:hover,
@@ -192,7 +192,7 @@ input::placeholder {
     }
     
     .flight {
-        padding: 0 20px;
+        padding: 20px;
         margin: 20px 0;
     }
 
