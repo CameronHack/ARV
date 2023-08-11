@@ -17,7 +17,7 @@ N/A
 
 ## Usage
 
-(insert screenshot/s)
+![Alt text](<assets/images/Screenshot 2023-08-11 at 9.49.52 AM.png>)
 
 Fill in the sections with your address and your passenger's flight number, and click the search button to see: 
 
@@ -30,6 +30,9 @@ Fill in the sections with your address and your passenger's flight number, and c
 - Options to avoid tolls and/or highways
 
 Previous searches are saved for easy reference and updated flight tracking and traffic information.
+
+![Alt text](<assets/images/Screenshot 2023-08-11 at 9.56.07 AM.png>)
+![Alt text](<assets/images/Screenshot 2023-08-11 at 9.53.32 AM.png>)
 
 ## Credits
 
@@ -52,6 +55,10 @@ Third-Party APIs:
 CSS Framework:
 
 [Bootstrap v5.0](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+
+Fonts:
+
+[Skyfont](https://www.1001fonts.com/skyfont-font.html)
 
 
 ## License
@@ -78,4 +85,4 @@ SOFTWARE.
 
 Choose a flight from the [FlightAware Live](https://flightaware.com/live/) page and enter an address to test the application!
 
-(link to deployed page)
+[Link to deployed page (ARV)](https://cameronhack.github.io/ARV/)
