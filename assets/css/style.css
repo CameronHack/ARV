@@ -427,6 +427,12 @@ footer p {
     .flight {
         padding: 20px;
         margin: 20px 0;
+        border-left: 0;
+    }
+
+    /* flight info text */
+    #flight-info {
+        padding-right: 0;
     }
 
     #flight-info-items {
@@ -442,6 +448,7 @@ footer p {
     /* Directions */
     #driving-directions {
         padding: 20px;
+        border-left: 0;
     }
 
     #driving-directions label {
