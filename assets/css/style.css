@@ -231,9 +231,9 @@ input::placeholder {
 }
 
 /* bing map */
-#myMap {
+/* #myMap {
     border: 2px solid hwb(var(--complementaryColor));
-}
+} */
 
 /* flight info text */
 #flight-info {
@@ -265,7 +265,7 @@ input::placeholder {
 }
 
 #flight-info-items li {
-    border-top: 2px solid hwb(var(--secondColor));
+    border-top: 4px solid hwb(var(--secondColor));
 }
 
 #departure-details {
