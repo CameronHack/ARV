@@ -365,7 +365,6 @@ function renderErrorMessage() {
     drivingOptions = '';
     document.getElementById('avoid-tolls').checked = false;
     document.getElementById('avoid-highways').checked = false;
-    console.log(drivingDataArray);
     fetchFlightData();
 }
 
