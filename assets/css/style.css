@@ -264,10 +264,6 @@ input::placeholder {
     grid-row-gap: 20px;
 }
 
-#flight-info-items li {
-    border-top: 4px solid hwb(var(--secondColor));
-}
-
 #departure-details {
     grid-area:departure;
 }
