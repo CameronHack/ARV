@@ -14,10 +14,11 @@ let drivingOptions = '';
 let drivingArrayLength = '';
 let drivingDuration = '';
 let drivingListObjs = [];
-const previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || []
-const previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || []
-const flightIdDropdown = document.querySelector('#flight-id-dropdown')
-const yourAddressDropdown = document.querySelector('#your-address-dropdown')
+const previousUserFlightId = JSON.parse(localStorage.getItem('previousUserFlightId')) || [];
+const previousUserAddress = JSON.parse(localStorage.getItem('previousUserAddress')) || [];
+const flightIdDropdown = document.querySelector('#flight-id-dropdown');
+const yourAddressDropdown = document.querySelector('#your-address-dropdown');
+
 let arvInfo = document.querySelector('#arv-info');
 let flightContainer = document.querySelector('#flight-container');
 let drivingDirections = document.querySelector('#driving-directions');
@@ -59,16 +60,32 @@ inputArea.addEventListener("click", function(e){
         userAddress = yourAddressInput.value;
         userFlightId = flightIdInput.value;
 
-        fetchFlightData();
 
-        inputToLocal();
+    const regex = /^[A-Z]{2}[0-9]{1,9}/i;
+        if (regex.test(userFlightId) == true)  {
+
+            fetchFlightData();
+
+            inputToLocal();
         arvInfo.classList.add('hidden')
         flightContainer.classList.remove('hidden')
         drivingDirections.classList.remove('hidden')
-        
+        } else {
+            syntaxErrorModal();
+        }
     }
     
 });
+
+function syntaxErrorModal() {
+    let syntaxModal = new bootstrap.Modal(document.getElementById('syntax-modal'));
+    syntaxModal.toggle();
+}
+
+function noFlightErrorModal() {
+    let noFlightModal = new bootstrap.Modal(document.getElementById('no-flight-modal'));
+    noFlightModal.toggle();
+}
 
 // dropdown listeners for the li text
 flightIdDropdown.addEventListener("click", function(e){
@@ -115,77 +132,83 @@ function fetchFlightData() {
                 flightDataArray = [flightData];
 
 
+            if ("error" in flightDataArray[0]) {
+                noFlightErrorModal();
+            } else {
+
+
+
                 localStorage.setItem("flightDataArray", JSON.stringify(flightDataArray));
-            arrivalAirport = flightDataArray[0].response.arr_name;
+                arrivalAirport = flightDataArray[0].response.arr_name;
 
-            flightNumber.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
-            flightStatus.textContent = `Status: ${flightDataArray[0].response.status}`
+                flightNumber.textContent = `${flightDataArray[0].response.airline_name} Flight ${flightDataArray[0].response.flight_iata}` 
+                flightStatus.textContent = `Status: ${flightDataArray[0].response.status}`
+                
+                let depLi = document.createElement('li')
+                if (flightDataArray[0].response.dep_terminal === null) {
+                    flightDataArray[0].response.dep_terminal = 'Not available'
+                }
+                if (flightDataArray[0].response.dep_gate === null) {
+                    flightDataArray[0].response.dep_gate = 'Not available'
+                }
+                depLi.innerHTML = `Departure Airport: ${flightDataArray[0].response.dep_iata} <br>
+                ${flightDataArray[0].response.dep_name} <br>
+                Terminal: ${flightDataArray[0].response.dep_terminal} <br>
+                left from gate: ${flightDataArray[0].response.dep_gate} <br>
+                at ${moment(flightDataArray[0].response.dep_time).format('hh:mma')}
+                `
+                let arrLi = document.createElement('li')
+                if (flightDataArray[0].response.arr_terminal === null) {
+                    flightDataArray[0].response.arr_terminal = 'Not available'
+                }
+                if (flightDataArray[0].response.arr_gate === null) {
+                    flightDataArray[0].response.arr_gate = 'Not available'
+                }
+                arrLi.innerHTML = `Arrival Airport: ${flightDataArray[0].response.arr_iata}<br>
+                ${flightDataArray[0].response.arr_name}<br>
+                Terminal: ${flightDataArray[0].response.arr_terminal}<br>
+                arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
+                at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
+                `
+                flightInfo.innerHTML = ''
+                flightInfo.appendChild(depLi)
+                flightInfo.appendChild(arrLi)
+
+
             
-            let depLi = document.createElement('li')
-            if (flightDataArray[0].response.dep_terminal === null) {
-                flightDataArray[0].response.dep_terminal = 'Not available'
-            }
-            if (flightDataArray[0].response.dep_gate === null) {
-                flightDataArray[0].response.dep_gate = 'Not available'
-            }
-            depLi.innerHTML = `Departure Airport: ${flightDataArray[0].response.dep_iata} <br>
-            ${flightDataArray[0].response.dep_name} <br>
-            Terminal: ${flightDataArray[0].response.dep_terminal} <br>
-            left from gate: ${flightDataArray[0].response.dep_gate} <br>
-            at ${moment(flightDataArray[0].response.dep_time).format('hh:mma')}
-            `
-            let arrLi = document.createElement('li')
-            if (flightDataArray[0].response.arr_terminal === null) {
-                flightDataArray[0].response.arr_terminal = 'Not available'
-            }
-            if (flightDataArray[0].response.arr_gate === null) {
-                flightDataArray[0].response.arr_gate = 'Not available'
-            }
-            arrLi.innerHTML = `Arrival Airport: ${flightDataArray[0].response.arr_iata}<br>
-            ${flightDataArray[0].response.arr_name}<br>
-            Terminal: ${flightDataArray[0].response.arr_terminal}<br>
-            arrives at gate: ${flightDataArray[0].response.arr_gate}<br>
-            at ${moment(flightDataArray[0].response.arr_time).format('hh:mma')}
-            `
-            flightInfo.innerHTML = ''
-            flightInfo.appendChild(depLi)
-            flightInfo.appendChild(arrLi)
-
-
-          
-            //add loading message
-            fetch(`http://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (drivingData) {
-            drivingDataArray = [drivingData];
-            drivingListObjs = document.getElementsByClassName("list-class");
-            let drivingListContainer = document.querySelector("#list-container");
-            if (drivingListObjs.length > 0) {                
-                for (let i = 0; i < drivingListObjs.length; i++) {
-                    drivingListObjs[0].remove();
+                //add loading message
+                fetch(`http://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (drivingData) {
+                drivingDataArray = [drivingData];
+                drivingListObjs = document.getElementsByClassName("list-class");
+                let drivingListContainer = document.querySelector("#list-container");
+                if (drivingListObjs.length > 0) {                
+                    for (let i = 0; i < drivingListObjs.length; i++) {
+                        drivingListObjs[0].remove();
+                    }
+                    if (typeof drivingDuration !== null) { 
+                        drivingDuration.remove();
+                    }
+                    drivingListContainer.remove();
                 }
-                if (typeof drivingDuration !== null) { 
-                    drivingDuration.remove();
-                }
-                drivingListContainer.remove();
+                    if (drivingDataArray[0].resourceSets.length > 0) {
+                        renderDirections();
+                    } else {
+                        renderErrorMessage();
+                    }
+
+                let mapScript = document.createElement('script');
+                mapScript.setAttribute('type', 'text/javascript');
+                mapScript.setAttribute('src', 'http://www.bing.com/api/maps/mapcontrol?callback=GetMap');
+                mapScript.setAttribute('async', "");
+                mapScript.setAttribute('defer', "");
+                document.head.appendChild(mapScript);
+
+                })
             }
-                if (drivingDataArray[0].resourceSets.length > 0) {
-                    renderDirections();
-                } else {
-                    renderErrorMessage();
-                }
-
-            let mapScript = document.createElement('script');
-            mapScript.setAttribute('type', 'text/javascript');
-            mapScript.setAttribute('src', 'http://www.bing.com/api/maps/mapcontrol?callback=GetMap');
-            mapScript.setAttribute('async', "");
-            mapScript.setAttribute('defer', "");
-            document.head.appendChild(mapScript);
-
-            })
-
         })
 };
 

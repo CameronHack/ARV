@@ -78,4 +78,4 @@ SOFTWARE.
 
 Choose a flight from the [FlightAware Live](https://flightaware.com/live/) page and enter an address to test the application!
 
-(link to deployed page)
+[Link to deployed page (ARV)](https://cameronhack.github.io/ARV/)
