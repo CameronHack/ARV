@@ -177,7 +177,7 @@ function fetchFlightData() {
 
             
                 //add loading message
-                fetch(`http://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
+                fetch(`https://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
                 .then(function (response) {
                     return response.json();
                 })
@@ -202,7 +202,7 @@ function fetchFlightData() {
 
                 let mapScript = document.createElement('script');
                 mapScript.setAttribute('type', 'text/javascript');
-                mapScript.setAttribute('src', 'http://www.bing.com/api/maps/mapcontrol?callback=GetMap');
+                mapScript.setAttribute('src', 'https://www.bing.com/api/maps/mapcontrol?callback=GetMap');
                 mapScript.setAttribute('async', "");
                 mapScript.setAttribute('defer', "");
                 document.head.appendChild(mapScript);
