@@ -270,7 +270,7 @@ function renderDirections() {
         //append to page
         if ("hints" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
             let newHintItem = document.createElement("p");
-            console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+            newHintItem.className = "hint-item";
             newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints[0].text;
             newSubheading.appendChild(newHintItem);
         };
@@ -279,7 +279,7 @@ function renderDirections() {
         // drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text
         if ("warnings" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
             let newWarningItem = document.createElement("p");
-            console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+            newWarningItem.className = "warning-item";
             newWarningItem.textContent = "Heads Up: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text;
             newSubheading.appendChild(newWarningItem);
         };
@@ -317,7 +317,7 @@ function renderDirections() {
             };
             if ("warnings" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
                 let newWarningItem = document.createElement("p");
-                console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+                newWarningItem.className = "warning-item";
                 newWarningItem.textContent = "Alert: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text;
                 newSubheading.appendChild(newWarningItem);
             };
