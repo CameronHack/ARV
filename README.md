@@ -56,6 +56,10 @@ CSS Framework:
 
 [Bootstrap v5.0](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
 
+Fonts:
+
+[Skyfont](https://www.1001fonts.com/skyfont-font.html)
+
 
 ## License
 
