@@ -347,6 +347,16 @@ input[type="checkbox"]:checked {
     font-size: 1.2rem;
 }
 
+.hint-item {
+    color:hwb(var(--complementaryColor));
+    padding-left: 1vw;
+}
+
+.warning-item {
+    color:#b33636;
+    padding-left: 1vw;
+}
+
 /* expand driving directions */
 #hide-button {
     cursor: pointer;
