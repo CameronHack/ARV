@@ -64,6 +64,49 @@ body {
     overflow-x: hidden;
 }
 
+/* modal */
+.modal-content {
+    background-color: hwb(var(--thirdColor));
+    color: var(--fontColor);
+}
+
+.modal-header h5 {
+    font-family: var(--mainFont);
+    font-weight: 600;
+}
+
+.modal-body,
+.modal-footer button {
+    font-family: var(--secondaryFont);
+}
+
+.modal-footer button {
+    background-color: hwb(var(--secondColor));
+    border-radius: 100px;
+    border: 0;
+    transition: var(--globalTransition);
+    /* fake depth v2 */
+    box-shadow:
+    inset 6px 11px 3px #ffffff05,
+    inset 5px 9px 3px #ffffff05,
+    inset 4px 7px 3px #ffffff05,
+    inset 3px 5px 3px #ffffff05,
+    inset 2px 3px 3px #ffffff05,
+    inset 1px 1px 3px #ffffff05;
+}
+
+.modal-footer button:hover {
+    background-color: hwb(var(--mainColor));
+    /* fake depth v2 */
+    box-shadow:
+    inset -11px -26px 3px #00000010,
+    inset -9px -21px 3px #00000010,
+    inset -7px -16px 3px #00000010,
+    inset -5px -11px 3px #00000010,
+    inset -3px -6px 3px #00000010,
+    inset -1px -1px 3px #00000010;
+}
+
 /* header */
 header {
     background-color: hwb(var(--thirdColor));
@@ -318,7 +361,7 @@ input[type="checkbox"]:checked {
     padding-left: 20px;
     color: hwb(var(--secondColor));
     transition: var(--globalTransition);
-    border-left: 6px solid hwb(var(--complementaryColor));
+    border-left: 0px solid hwb(var(--complementaryColor));
     border-radius: 100px;
 }
 
