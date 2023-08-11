@@ -234,11 +234,11 @@ function GetMap()
                 autoUpdateMapView: true, displayManeuverIcons: false, displayRouteSelector: false, displayStepWarnings: false
             });
             //Create waypoints to route between.
-            var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: userAddress });
-            directionsManager.addWaypoint(seattleWaypoint);
+            var firstWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: userAddress });
+            directionsManager.addWaypoint(firstWaypoint);
 
-            var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: flightDataArray[0].response.arr_name});
-            directionsManager.addWaypoint(workWaypoint);
+            var secondWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: flightDataArray[0].response.arr_name});
+            directionsManager.addWaypoint(secondWaypoint);
             
             //Calculate directions.
             directionsManager.calculateDirections();
@@ -270,7 +270,7 @@ function renderDirections() {
         //append to page
         if ("hints" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
             let newHintItem = document.createElement("p");
-            console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+            newHintItem.className = "hint-item";
             newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints[0].text;
             newSubheading.appendChild(newHintItem);
         };
@@ -279,7 +279,7 @@ function renderDirections() {
         // drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text
         if ("warnings" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
             let newWarningItem = document.createElement("p");
-            console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+            newWarningItem.className = "warning-item";
             newWarningItem.textContent = "Heads Up: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text;
             newSubheading.appendChild(newWarningItem);
         };
@@ -311,12 +311,13 @@ function renderDirections() {
             //append to page
             if ("hints" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
                 let newHintItem = document.createElement("p");
+                newHintItem.className = "hint-item";
                 newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints[0].text;
                 newSubheading.appendChild(newHintItem);
             };
             if ("warnings" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
                 let newWarningItem = document.createElement("p");
-                console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
+                newWarningItem.className = "warning-item";
                 newWarningItem.textContent = "Alert: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text;
                 newSubheading.appendChild(newWarningItem);
             };
