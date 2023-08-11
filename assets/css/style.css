@@ -1,9 +1,9 @@
 :root {
-    /* color palette */
-    --mainColor: hwb(216 44% 0%);
-    --secondColor: hwb(216 12% 68%);
-    --thirdColor: hwb(216 6% 88%);
-    --complementaryColor: hwb(54 19% 25%);
+    /* color palette hwb format */
+    --mainColor: 216 44% 0%;
+    --secondColor: 216 12% 68%;
+    --thirdColor: 216 6% 88%;
+    --complementaryColor: 54 19% 25%;
     --fontColor: #fff;
     /* transitions */
     --globalTransition: 100ms ease-out;
@@ -15,6 +15,7 @@
 h2 {
     font-family: var(--mainFont);
     font-weight: 600;
+    font-size: 3rem;
 }
 
 h3 {
@@ -65,7 +66,7 @@ body {
 
 /* header */
 header {
-    background-color: var(--thirdColor);
+    background-color: hwb(var(--thirdColor));
 }
 
 /* logo */
@@ -78,8 +79,8 @@ header img {
 #input-area {
     display: flex;
     align-items: center;
-    padding: 10px;
-    backdrop-filter: brightness(0.8);
+    padding: 20px;
+    backdrop-filter: brightness(1);
 }
 
 /* address and flight ID user input & search button */
@@ -92,25 +93,25 @@ header img {
     border: 0;
     text-align: center;
     transition: var(--globalTransition);
-    background-color: var(--secondColor);
+    background-color: hwb(var(--secondColor));
     color: var(--fontColor);
     font-family: var(--mainFont);
     font-weight: 600;
     /* fake depth v2 */
     box-shadow:
-    inset 11px 26px 3px #ffffff05,
-    inset 9px 21px 3px #ffffff05,
-    inset 7px 16px 3px #ffffff05,
-    inset 5px 11px 3px #ffffff05,
-    inset 3px 6px 3px #ffffff05,
-    inset 1px 1px 3px #ffffff05;
+    inset 11px 26px 3px #ffffff04,
+    inset 9px 21px 3px #ffffff04,
+    inset 7px 16px 3px #ffffff04,
+    inset 5px 11px 3px #ffffff04,
+    inset 3px 6px 3px #ffffff04,
+    inset 1px 1px 3px #ffffff04;
 }
 
 #input-area input:focus,
 #input-area button:hover {
     outline: 0;
     scale: 104%;
-    background-color: var(--mainColor);
+    background-color: hwb(var(--mainColor));
     /* fake depth v2 */
     box-shadow:
     inset -11px -26px 3px #00000010,
@@ -147,7 +148,7 @@ input::placeholder {
     text-align: center;
     color: var(--fontColor);
     overflow: hidden;
-    background: radial-gradient(circle, var(--secondColor) 40%, #00000000);
+    background: radial-gradient(circle, hwb(var(--secondColor)) 80%, #00000000);
     padding: 10px;
     margin: 0 -3px;
 }
@@ -155,17 +156,18 @@ input::placeholder {
 #your-address-dropdown li:hover,
 #flight-id-dropdown li:hover {
     cursor: pointer;
-    background: radial-gradient(circle, var(--mainColor) 40%, #00000000);
+    background: radial-gradient(circle, hwb(var(--mainColor)) 80%, #00000000);
 }
 
 /* welcome container */
 .arv-info {
     color: var(--fontColor);
-    background-color: #0000002a;
-    padding: 5vw;
+    background-color: #00000050;
+    padding: 80px;
     margin: 60px auto;
     font-size: 1.6rem;
     text-align: center;
+    border: 2px solid hwb(var(--complementaryColor));
 }
 
 #welcome {
@@ -179,14 +181,15 @@ input::placeholder {
 }
 
 .flight {
-    background-color: #0000002a;
+    background-color: #00000050;
     padding: 40px;
     margin: 60px 0;
+    border-left: 2px solid hwb(var(--complementaryColor));
 }
 
 /* bing map */
 #myMap {
-    border: 2px solid var(--complementaryColor);
+    border: 2px solid hwb(var(--complementaryColor));
 }
 
 /* flight info text */
@@ -194,12 +197,14 @@ input::placeholder {
     font-family: var(--secondaryFont);
     color: var(--fontColor);
     font-size: 1.2rem;
-    padding: 20px;
+    padding-right: 40px;
+    padding-left: 0;
 }
 
 #flight-info h2,
 #flight-number,
-#flight-status {
+#flight-status,
+#driving-directions h2 {
     margin: 0;
     padding: 10px 0;
 }
@@ -214,7 +219,10 @@ input::placeholder {
     padding: 20px 0;
     grid-column-gap: 20px;
     grid-row-gap: 20px;
+}
 
+#flight-info-items li {
+    border-top: 2px solid hwb(var(--secondColor));
 }
 
 #departure-details {
@@ -231,20 +239,15 @@ input::placeholder {
 
 /* Directions */
 #driving-directions {
-    background-color: var(--thirdColor);
-    border-left: 2px solid var(--complementaryColor);
+    background-color: #00000050;
+    border-left: 2px solid hwb(var(--complementaryColor));
     color: var(--fontColor);
-    padding: 60px;
+    padding: 40px;
 }
 
 /* avoid tolls & avoid highways */
 .checkboxes {
     padding: 20px;
-}
-
-/* driving directions title */
-#driving-directions h2 {
-    font-size: 2rem;
 }
 
 /* driving directions labels */
@@ -257,13 +260,13 @@ input::placeholder {
 }
 
 input[type="checkbox"] {
-    background-color: var(--secondColor);
+    background-color: hwb(var(--secondColor));
     appearance: none;
     width: 18px;
     height: 18px;
     border-radius: 100px;
     cursor: pointer;
-    scale: 220%;
+    scale: 160%;
     transition: var(--globalTransition);
     /* fake depth v2 */
     box-shadow:
@@ -275,10 +278,21 @@ input[type="checkbox"] {
     inset 1px 1px 3px #ffffff05;
 }
 
+input[type="checkbox"]:hover {
+    background-color: hwb(var(--mainColor));
+    /* fake depth v2 */
+    box-shadow:
+    inset -6px -11px 3px #00000010,
+    inset -5px -9px 3px #00000010,
+    inset -4px -7px 3px #00000010,
+    inset -3px -5px 3px #00000010,
+    inset -2px -3px 3px #00000010,
+    inset -1px -1px 3px #00000010;
+}
+
 input[type="checkbox"]:checked {
-    background-color: var(--mainColor);
+    background-color: hwb(var(--mainColor));
     width: 36px;
-    scale: 160%;
     /* fake depth v2 */
     box-shadow:
     inset -6px -11px 3px #00000010,
@@ -302,15 +316,15 @@ input[type="checkbox"]:checked {
     font-size: 1.4rem;
     margin: 30px 0;
     padding-left: 20px;
-    color: var(--secondColor);
+    color: hwb(var(--secondColor));
     transition: var(--globalTransition);
-    border-left: 6px solid var(--complementaryColor);
+    border-left: 6px solid hwb(var(--complementaryColor));
     border-radius: 100px;
 }
 
 #hide-button:hover {
-    color: var(--mainColor);
-    border-left: 20px solid var(--complementaryColor);
+    color: hwb(var(--mainColor));
+    border-left: 20px solid hwb(var(--complementaryColor));
     border-radius: 100px;
 }
 
@@ -332,6 +346,11 @@ footer p {
 
 /* mobile */
 @media screen and (max-width: 992px) {
+
+    h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
 
     #input-area {
         padding: 0;
@@ -380,11 +399,6 @@ footer p {
     /* Directions */
     #driving-directions {
         padding: 20px;
-    }
-
-    /* driving directions title */
-    #driving-directions h2 {
-        text-align: center;
     }
 
     #driving-directions label {
