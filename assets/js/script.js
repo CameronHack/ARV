@@ -177,7 +177,7 @@ function fetchFlightData() {
 
             
                 //add loading message
-                fetch(`http://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
+                fetch(`https://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
                 .then(function (response) {
                     return response.json();
                 })
@@ -270,7 +270,6 @@ function renderDirections() {
         //append to page
         if ("hints" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
             let newHintItem = document.createElement("p");
-            console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
             newHintItem.textContent = "Hint: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].hints[0].text;
             newSubheading.appendChild(newHintItem);
         };
@@ -279,7 +278,6 @@ function renderDirections() {
         // drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text
         if ("warnings" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
             let newWarningItem = document.createElement("p");
-            console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
             newWarningItem.textContent = "Heads Up: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text;
             newSubheading.appendChild(newWarningItem);
         };
@@ -316,7 +314,6 @@ function renderDirections() {
             };
             if ("warnings" in drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i]) {
                 let newWarningItem = document.createElement("p");
-                console.log(drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems.length);
                 newWarningItem.textContent = "Alert: " + drivingDataArray[0].resourceSets[0].resources[0].routeLegs[0].itineraryItems[i].warnings[0].text;
                 newSubheading.appendChild(newWarningItem);
             };
@@ -364,7 +361,6 @@ function renderErrorMessage() {
     drivingOptions = '';
     document.getElementById('avoid-tolls').checked = false;
     document.getElementById('avoid-highways').checked = false;
-    console.log(drivingDataArray);
     fetchFlightData();
 }
 
