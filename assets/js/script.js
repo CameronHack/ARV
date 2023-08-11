@@ -61,7 +61,7 @@ inputArea.addEventListener("click", function(e){
         userFlightId = flightIdInput.value;
 
 
-    const regex = /^[A-Z]{2}[0-9]{1,9}/i;
+    const regex = /^[A-Z][A-Z,0-9][0-9]{1,4}/i;
         if (regex.test(userFlightId) == true)  {
 
             fetchFlightData();
