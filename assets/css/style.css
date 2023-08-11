@@ -27,7 +27,12 @@ h3 {
     margin: 0;
 }
 
+/* fixes padding issues with bootstrap */
 .container {
+    padding: 0;
+}
+
+.d-flex {
     padding: 0;
 }
 
@@ -39,7 +44,7 @@ h3 {
 /* background filter */
 .bg-filter {
     position: absolute;
-    background-color: #000000d3;
+    background-color: #000000d8;
     backdrop-filter: grayscale();
     width: 100vw;
     height: 100vh;
@@ -66,7 +71,8 @@ header {
 /* logo */
 header img {
     display: block;
-    margin: 5px auto;
+    margin: 6px auto;
+    width: 180px;
 }
 
 #input-area {
@@ -81,7 +87,7 @@ header img {
 #input-area button {
     padding: 10px 30px;
     margin: 0 20px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border-radius: 50px;
     border: 0;
     text-align: center;
@@ -90,21 +96,29 @@ header img {
     color: var(--fontColor);
     font-family: var(--mainFont);
     font-weight: 600;
+    /* fake depth v2 */
+    box-shadow:
+    inset 11px 26px 3px #ffffff05,
+    inset 9px 21px 3px #ffffff05,
+    inset 7px 16px 3px #ffffff05,
+    inset 5px 11px 3px #ffffff05,
+    inset 3px 6px 3px #ffffff05,
+    inset 1px 1px 3px #ffffff05;
 }
-
 
 #input-area input:focus,
 #input-area button:hover {
     outline: 0;
     scale: 104%;
-}
-
-#input-area input:focus {
-    background-color: var(--thirdColor);
-}
-
-#input-area button:hover {
     background-color: var(--mainColor);
+    /* fake depth v2 */
+    box-shadow:
+    inset -11px -26px 3px #00000010,
+    inset -9px -21px 3px #00000010,
+    inset -7px -16px 3px #00000010,
+    inset -5px -11px 3px #00000010,
+    inset -3px -6px 3px #00000010,
+    inset -1px -1px 3px #00000010;
 }
 
 /* input placeholder text */
@@ -144,6 +158,26 @@ input::placeholder {
     background: radial-gradient(circle, var(--mainColor) 40%, #00000000);
 }
 
+/* welcome container */
+.arv-info {
+    color: var(--fontColor);
+    background-color: #0000002a;
+    padding: 5vw;
+    margin: 60px auto;
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+#welcome {
+    font-family: var(--mainFont);
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+#arv-info p {
+    font-family: var(--secondaryFont);
+}
+
 .flight {
     background-color: #0000002a;
     padding: 40px;
@@ -160,14 +194,10 @@ input::placeholder {
     font-family: var(--secondaryFont);
     color: var(--fontColor);
     font-size: 1.2rem;
-    padding: 40px 0;
+    padding: 20px;
 }
 
-/* fixes padding issues */
-.d-flex {
-    padding: 0;
-}
-
+#flight-info h2,
 #flight-number,
 #flight-status {
     margin: 0;
@@ -202,9 +232,9 @@ input::placeholder {
 /* Directions */
 #driving-directions {
     background-color: var(--thirdColor);
-    border-top: 2px solid var(--complementaryColor);
+    border-left: 2px solid var(--complementaryColor);
     color: var(--fontColor);
-    padding: 20px;
+    padding: 60px;
 }
 
 /* avoid tolls & avoid highways */
@@ -212,35 +242,97 @@ input::placeholder {
     padding: 20px;
 }
 
-#driving-directions label {
-    font-family: var(--mainFont);
-    font-weight: 600;
-    font-size: 1.6rem;
-    margin-left: 20px;
-    padding: 10px;
+/* driving directions title */
+#driving-directions h2 {
+    font-size: 2rem;
 }
 
-.driving-directions {
-    color: var(--fontColor);
+/* driving directions labels */
+#driving-directions label {
+    font-family: var(--mainFont);
+    font-weight: 500;
+    font-size: 1.6rem;
+    margin-left: 20px;
+    padding: 20px 0;
 }
 
 input[type="checkbox"] {
     background-color: var(--secondColor);
     appearance: none;
-    width: 36px;
-    height: 22px;
-    border-radius: 55px;
+    width: 18px;
+    height: 18px;
+    border-radius: 100px;
     cursor: pointer;
-    scale: 160%;
+    scale: 220%;
+    transition: var(--globalTransition);
+    /* fake depth v2 */
+    box-shadow:
+    inset 6px 11px 3px #ffffff05,
+    inset 5px 9px 3px #ffffff05,
+    inset 4px 7px 3px #ffffff05,
+    inset 3px 5px 3px #ffffff05,
+    inset 2px 3px 3px #ffffff05,
+    inset 1px 1px 3px #ffffff05;
 }
 
 input[type="checkbox"]:checked {
-    border: 3px solid var(--complementaryColor);
-    scale: 140%;
+    background-color: var(--mainColor);
+    width: 36px;
+    scale: 160%;
+    /* fake depth v2 */
+    box-shadow:
+    inset -6px -11px 3px #00000010,
+    inset -5px -9px 3px #00000010,
+    inset -4px -7px 3px #00000010,
+    inset -3px -5px 3px #00000010,
+    inset -2px -3px 3px #00000010,
+    inset -1px -1px 3px #00000010;
+}
+
+#driving-directions ol {
+    font-family: var(--secondaryFont);
+    font-size: 1.2rem;
+}
+
+/* expand driving directions */
+#hide-button {
+    cursor: pointer;
+    font-family: var(--mainFont);
+    font-weight: 500;
+    font-size: 1.4rem;
+    margin: 30px 0;
+    padding-left: 20px;
+    color: var(--secondColor);
+    transition: var(--globalTransition);
+    border-left: 6px solid var(--complementaryColor);
+    border-radius: 100px;
+}
+
+#hide-button:hover {
+    color: var(--mainColor);
+    border-left: 20px solid var(--complementaryColor);
+    border-radius: 100px;
+}
+
+/* total driving time */
+#driving-directions > p {
+    font-family: var(--secondaryFont);
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+/* Footer Credit */
+footer p {
+    font-family: var(--secondaryFont);
+    color: var(--fontColor);
+    text-align: center;
+    margin: 0;
+    padding: 20px;
 }
 
 /* mobile */
 @media screen and (max-width: 992px) {
+
     #input-area {
         padding: 0;
         flex-direction: column;
@@ -258,10 +350,16 @@ input[type="checkbox"]:checked {
         transition: 0ms;
     }
 
-
     /* fixes dropdown displaying about input */
     .dropdown-menu {
         z-index: 1;
+    }
+
+    /* welcome container */
+    .arv-info {
+        padding: 20px;
+        margin: 20px auto;
+        font-size: 1.4rem;
     }
     
     .flight {
@@ -269,58 +367,38 @@ input[type="checkbox"]:checked {
         margin: 20px 0;
     }
 
-#flight-info-items {
-    display:grid;
-    grid-template-columns:  1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-areas: 
-    "departure" 
-    "arrival"
-    "driver";
-}
+    #flight-info-items {
+        display:grid;
+        grid-template-columns:  1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas: 
+        "departure" 
+        "arrival"
+        "driver";
+    }
 
-#departure-details {
-    grid-area:departure;
-}
+    /* Directions */
+    #driving-directions {
+        padding: 20px;
+    }
 
-#arrival-details {
-    grid-area:arrival;
-}
+    /* driving directions title */
+    #driving-directions h2 {
+        text-align: center;
+    }
 
-#driver-details {
-    grid-area:driver;
-}
+    #driving-directions label {
+        font-size: 1.4rem;
+    }
 
-}
-
-@media screen and (max-width: 768px) {}
-
-#hide-button {
-    cursor: pointer;
-
-}
-
-.driving-directions
- {
-    color: var(--fontColor);
+    /* total driving time */
+    #driving-directions > p {
+        font-size: 1.2rem;
+    }
 
 }
 
-.arv-info {
-    color: var(--fontColor);
-    background-color: #0000002a;
-    padding: 5vh 3vw;
-    margin: 15vh auto;
-    font-size: 1.6rem;
-    text-align: center;
-}
-
-#welcome {
-    margin-bottom: 5vh;
-}
-
-
-footer {
-    color: var(--fontColor);
-    text-align: center;
+/* delete scrollbar */
+::-webkit-scrollbar {
+    display: none;
 }
