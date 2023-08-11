@@ -1,9 +1,9 @@
 :root {
-    /* color palette */
-    --mainColor: hwb(216 44% 0%);
-    --secondColor: hwb(216 12% 68%);
-    --thirdColor: hwb(216 6% 88%);
-    --complementaryColor: hwb(54 19% 25%);
+    /* color palette hwb format */
+    --mainColor: 216 44% 0%;
+    --secondColor: 216 12% 68%;
+    --thirdColor: 216 6% 88%;
+    --complementaryColor: 54 19% 25%;
     --fontColor: #fff;
     /* transitions */
     --globalTransition: 100ms ease-out;
@@ -15,11 +15,26 @@
 h2 {
     font-family: var(--mainFont);
     font-weight: 600;
+    font-size: 3rem;
 }
 
 h3 {
     font-family: var(--mainFont);
     font-weight: 500;
+}
+
+/* fixes logo off center */
+.navbar-brand {
+    margin: 0;
+}
+
+/* fixes padding issues with bootstrap */
+.container {
+    padding: 0;
+}
+
+.d-flex {
+    padding: 0;
 }
 
 /* used to hide elements */
@@ -30,8 +45,8 @@ h3 {
 /* background filter */
 .bg-filter {
     position: absolute;
-    background-color: #000000d3;
-    backdrop-filter: blur(0px) grayscale();
+    background-color: #000000d8;
+    backdrop-filter: grayscale();
     width: 100vw;
     height: 100vh;
 }
@@ -49,22 +64,66 @@ body {
     overflow-x: hidden;
 }
 
+/* modal */
+.modal-content {
+    background-color: hwb(var(--thirdColor));
+    color: var(--fontColor);
+}
+
+.modal-header h5 {
+    font-family: var(--mainFont);
+    font-weight: 600;
+}
+
+.modal-body,
+.modal-footer button {
+    font-family: var(--secondaryFont);
+}
+
+.modal-footer button {
+    background-color: hwb(var(--secondColor));
+    border-radius: 100px;
+    border: 0;
+    transition: var(--globalTransition);
+    /* fake depth v2 */
+    box-shadow:
+    inset 6px 11px 3px #ffffff05,
+    inset 5px 9px 3px #ffffff05,
+    inset 4px 7px 3px #ffffff05,
+    inset 3px 5px 3px #ffffff05,
+    inset 2px 3px 3px #ffffff05,
+    inset 1px 1px 3px #ffffff05;
+}
+
+.modal-footer button:hover {
+    background-color: hwb(var(--mainColor));
+    /* fake depth v2 */
+    box-shadow:
+    inset -11px -26px 3px #00000010,
+    inset -9px -21px 3px #00000010,
+    inset -7px -16px 3px #00000010,
+    inset -5px -11px 3px #00000010,
+    inset -3px -6px 3px #00000010,
+    inset -1px -1px 3px #00000010;
+}
+
 /* header */
 header {
-    background-color: var(--thirdColor);
+    background-color: hwb(var(--thirdColor));
 }
 
 /* logo */
 header img {
     display: block;
-    margin: 0 auto;
+    margin: 6px auto;
+    width: 180px;
 }
 
 #input-area {
     display: flex;
     align-items: center;
-    padding: 10px;
-    backdrop-filter: blur(3px) brightness(0.8);
+    padding: 20px;
+    backdrop-filter: brightness(1);
 }
 
 /* address and flight ID user input & search button */
@@ -72,30 +131,38 @@ header img {
 #input-area button {
     padding: 10px 30px;
     margin: 0 20px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border-radius: 50px;
     border: 0;
     text-align: center;
     transition: var(--globalTransition);
-    background-color: var(--secondColor);
+    background-color: hwb(var(--secondColor));
     color: var(--fontColor);
     font-family: var(--mainFont);
     font-weight: 600;
+    /* fake depth v2 */
+    box-shadow:
+    inset 11px 26px 3px #ffffff04,
+    inset 9px 21px 3px #ffffff04,
+    inset 7px 16px 3px #ffffff04,
+    inset 5px 11px 3px #ffffff04,
+    inset 3px 6px 3px #ffffff04,
+    inset 1px 1px 3px #ffffff04;
 }
-
 
 #input-area input:focus,
 #input-area button:hover {
     outline: 0;
     scale: 104%;
-}
-
-#input-area input:focus {
-    background-color: var(--thirdColor);
-}
-
-#input-area button:hover {
-    background-color: var(--mainColor);
+    background-color: hwb(var(--mainColor));
+    /* fake depth v2 */
+    box-shadow:
+    inset -11px -26px 3px #00000010,
+    inset -9px -21px 3px #00000010,
+    inset -7px -16px 3px #00000010,
+    inset -5px -11px 3px #00000010,
+    inset -3px -6px 3px #00000010,
+    inset -1px -1px 3px #00000010;
 }
 
 /* input placeholder text */
@@ -124,7 +191,7 @@ input::placeholder {
     text-align: center;
     color: var(--fontColor);
     overflow: hidden;
-    background: radial-gradient(circle, var(--secondColor) 40%, #00000000);
+    background: radial-gradient(circle, hwb(var(--secondColor)) 80%, #00000000);
     padding: 10px;
     margin: 0 -3px;
 }
@@ -132,18 +199,40 @@ input::placeholder {
 #your-address-dropdown li:hover,
 #flight-id-dropdown li:hover {
     cursor: pointer;
-    background: radial-gradient(circle, var(--mainColor) 40%, #00000000);
+    background: radial-gradient(circle, hwb(var(--mainColor)) 80%, #00000000);
+}
+
+/* welcome container */
+.arv-info {
+    color: var(--fontColor);
+    background-color: #00000050;
+    padding: 80px;
+    margin: 60px auto;
+    font-size: 1.6rem;
+    text-align: center;
+    border: 2px solid hwb(var(--complementaryColor));
+}
+
+#welcome {
+    font-family: var(--mainFont);
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+#arv-info p {
+    font-family: var(--secondaryFont);
 }
 
 .flight {
-    background-color: #0000002a;
-    padding: 0 80px;
-    margin: 40px 0;
+    background-color: #00000050;
+    padding: 40px;
+    margin: 60px 0;
+    border-left: 2px solid hwb(var(--complementaryColor));
 }
 
 /* bing map */
 #myMap {
-    border: 2px solid var(--complementaryColor);
+    border: 2px solid hwb(var(--complementaryColor));
 }
 
 /* flight info text */
@@ -151,20 +240,16 @@ input::placeholder {
     font-family: var(--secondaryFont);
     color: var(--fontColor);
     font-size: 1.2rem;
-    padding: 40px 0;
+    padding-right: 40px;
+    padding-left: 0;
 }
 
-/* fixes padding issues */
-.d-flex {
-    padding: 0;
-}
-
-/* Directions */
-#driving-directions {
-    background-color: var(--thirdColor);
-    border-top: 2px solid var(--complementaryColor);
-    padding: 20px;
-    color: var(--fontColor);
+#flight-info h2,
+#flight-number,
+#flight-status,
+#driving-directions h2 {
+    margin: 0;
+    padding: 10px 0;
 }
 
 #flight-info-items {
@@ -172,6 +257,15 @@ input::placeholder {
     grid-template-columns:  1fr 1fr 1fr;
     grid-template-areas: 
     "departure arrival driver" ;
+    list-style: none;
+    margin: 0;
+    padding: 20px 0;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}
+
+#flight-info-items li {
+    border-top: 2px solid hwb(var(--secondColor));
 }
 
 #departure-details {
@@ -186,14 +280,121 @@ input::placeholder {
     grid-area:driver;
 }
 
-#myMap {
-    position:relative;
-    width:350px;
-    height:350px;
+/* Directions */
+#driving-directions {
+    background-color: #00000050;
+    border-left: 2px solid hwb(var(--complementaryColor));
+    color: var(--fontColor);
+    padding: 40px;
+}
+
+/* avoid tolls & avoid highways */
+.checkboxes {
+    padding: 20px;
+}
+
+/* driving directions labels */
+#driving-directions label {
+    font-family: var(--mainFont);
+    font-weight: 500;
+    font-size: 1.6rem;
+    margin-left: 20px;
+    padding: 20px 0;
+}
+
+input[type="checkbox"] {
+    background-color: hwb(var(--secondColor));
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 100px;
+    cursor: pointer;
+    scale: 160%;
+    transition: var(--globalTransition);
+    /* fake depth v2 */
+    box-shadow:
+    inset 6px 11px 3px #ffffff05,
+    inset 5px 9px 3px #ffffff05,
+    inset 4px 7px 3px #ffffff05,
+    inset 3px 5px 3px #ffffff05,
+    inset 2px 3px 3px #ffffff05,
+    inset 1px 1px 3px #ffffff05;
+}
+
+input[type="checkbox"]:hover {
+    background-color: hwb(var(--mainColor));
+    /* fake depth v2 */
+    box-shadow:
+    inset -6px -11px 3px #00000010,
+    inset -5px -9px 3px #00000010,
+    inset -4px -7px 3px #00000010,
+    inset -3px -5px 3px #00000010,
+    inset -2px -3px 3px #00000010,
+    inset -1px -1px 3px #00000010;
+}
+
+input[type="checkbox"]:checked {
+    background-color: hwb(var(--mainColor));
+    width: 36px;
+    /* fake depth v2 */
+    box-shadow:
+    inset -6px -11px 3px #00000010,
+    inset -5px -9px 3px #00000010,
+    inset -4px -7px 3px #00000010,
+    inset -3px -5px 3px #00000010,
+    inset -2px -3px 3px #00000010,
+    inset -1px -1px 3px #00000010;
+}
+
+#driving-directions ol {
+    font-family: var(--secondaryFont);
+    font-size: 1.2rem;
+}
+
+/* expand driving directions */
+#hide-button {
+    cursor: pointer;
+    font-family: var(--mainFont);
+    font-weight: 500;
+    font-size: 1.4rem;
+    margin: 30px 0;
+    padding-left: 20px;
+    color: hwb(var(--secondColor));
+    transition: var(--globalTransition);
+    border-left: 0px solid hwb(var(--complementaryColor));
+    border-radius: 100px;
+}
+
+#hide-button:hover {
+    color: hwb(var(--mainColor));
+    border-left: 20px solid hwb(var(--complementaryColor));
+    border-radius: 100px;
+}
+
+/* total driving time */
+#driving-directions > p {
+    font-family: var(--secondaryFont);
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+/* Footer Credit */
+footer p {
+    font-family: var(--secondaryFont);
+    color: var(--fontColor);
+    text-align: center;
+    margin: 0;
+    padding: 20px;
 }
 
 /* mobile */
 @media screen and (max-width: 992px) {
+
+    h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
     #input-area {
         padding: 0;
         flex-direction: column;
@@ -211,76 +412,57 @@ input::placeholder {
         transition: 0ms;
     }
 
-
     /* fixes dropdown displaying about input */
     .dropdown-menu {
         z-index: 1;
+    }
+
+    /* welcome container */
+    .arv-info {
+        padding: 20px;
+        margin: 20px auto;
+        font-size: 1.4rem;
     }
     
     .flight {
         padding: 20px;
         margin: 20px 0;
+        border-left: 0;
     }
 
-#flight-info-items {
-    display:grid;
-    grid-template-columns:  1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-areas: 
-    "departure" 
-    "arrival"
-    "driver";
-}
-
-#departure-details {
-    grid-area:departure;
-}
-
-#arrival-details {
-    grid-area:arrival;
-}
-
-#driver-details {
-    grid-area:driver;
-}
-
-}
-
-
-    .container {
-        padding: 0;
+    /* flight info text */
+    #flight-info {
+        padding-right: 0;
     }
 
-@media screen and (max-width: 768px) {}
+    #flight-info-items {
+        display:grid;
+        grid-template-columns:  1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas: 
+        "departure" 
+        "arrival"
+        "driver";
+    }
 
+    /* Directions */
+    #driving-directions {
+        padding: 20px;
+        border-left: 0;
+    }
 
-#hide-button {
-    cursor: pointer;
+    #driving-directions label {
+        font-size: 1.4rem;
+    }
+
+    /* total driving time */
+    #driving-directions > p {
+        font-size: 1.2rem;
+    }
 
 }
 
-.driving-directions
- {
-    color: var(--fontColor);
-
-}
-.arv-info {
-    color: var(--fontColor);
-    background-color: #0000002a;
-    padding: 5vh 3vw;
-    margin: 15vh auto;
-    box-shadow: 1em 1em .5em #0000002a, -1em -1em .5em #0000002a, 1em -1em .5em #0000002a, -1em 1em .5em #0000002a;
-    font-size: 25px;
-    text-align: center;
-    border-radius: 50px;
-}
-
-#welcome {
-    margin-bottom: 5vh;
-}
-
-
-footer {
-    color: var(--fontColor);
-    text-align: center;
+/* delete scrollbar */
+::-webkit-scrollbar {
+    display: none;
 }
