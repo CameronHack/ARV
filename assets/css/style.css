@@ -353,10 +353,12 @@ input[type="checkbox"]:checked {
 
 .hint-item {
     color:hwb(var(--complementaryColor));
+    padding-left: 1vw;
 }
 
 .warning-item {
-    color:#b33636
+    color:#b33636;
+    padding-left: 1vw;
 }
 
 /* expand driving directions */
