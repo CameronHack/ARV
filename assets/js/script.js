@@ -124,7 +124,7 @@ function inputToLocal() {
 }
 
 function fetchFlightData() {
-    fetch(`https://airlabs.co/api/v9/flight?flight_iata=${userFlightId}&api_key=dbe4e249-ef48-4be4-8830-807c12e0b8a7`) 
+    fetch(`https://airlabs.co/api/v9/flight?flight_iata=${userFlightId}&api_key=apikey`) 
         .then(function (response) {
             return response.json();
         })
@@ -177,7 +177,7 @@ function fetchFlightData() {
 
             
                 //add loading message
-                fetch(`https://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2` + drivingOptions) 
+                fetch(`https://dev.virtualearth.net/REST/V1/Routes?wp.0=${userAddress}&wp.1=${arrivalAirport}&optmz=timeWithTraffic&distanceUnit=mi&key=apikey` + drivingOptions) 
                 .then(function (response) {
                     return response.json();
                 })
@@ -215,7 +215,7 @@ function fetchFlightData() {
 function GetMap()
     {
         var map = new Microsoft.Maps.Map('#myMap', {
-            credentials: 'AuK56x9YJioKqH6RY_xyTqLk6mx6eSnlwDmhJObeAmjjPlXOszBeN6id5zaWKSd2',
+            credentials: 'apikey',
             center: new Microsoft.Maps.Location(51.50632, -0.12714),
             mapTypeId: Microsoft.Maps.MapTypeId.aerial,
             disableMapTypeSelectorMouseOver:true,
